@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,12 +16,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startActivity(new Intent(MainActivity.this, SplashScreen.class));
+
+        // Retrieve any currently logged in users on this device
+
+        // If there is no logged in user show intro screen
+
+        // If there is a logged in user
+
+            // If a user is marked as last user
+
+                // Go directly to choose math activity screen
+
+                // User can be redirected to select new account from that screen via a button
+
+        // Else
+
+            // show user select
+
+
     }
 
-    public void test(View view) {
-        // Write a message to the database
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("message");
 
-        Task t = myRef.setValue("test!");
-    }
 }

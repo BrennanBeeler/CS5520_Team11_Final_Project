@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ModernMath</string>
+    <string name="modern_math">Modern Math</string>
+    <string name="modern_math_logo">Modern Math Logo</string>
 </resources>
