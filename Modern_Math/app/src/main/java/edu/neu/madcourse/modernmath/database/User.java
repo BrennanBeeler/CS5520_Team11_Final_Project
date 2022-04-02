@@ -1,11 +1,13 @@
 package edu.neu.madcourse.modernmath.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
 public class User {
+    @NonNull
     @PrimaryKey
     public String userID;
 
@@ -21,7 +23,7 @@ public class User {
     @ColumnInfo(name = "active")
     public boolean active;
 
-    public User(String userID, String firstName, String lastName, int age, boolean active)
+    public User(@NonNull String userID, String firstName, String lastName, int age, boolean active)
     {
         this.userID = userID;
         this.firstName = firstName;
