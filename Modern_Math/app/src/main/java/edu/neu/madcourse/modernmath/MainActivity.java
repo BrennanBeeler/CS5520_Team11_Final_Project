@@ -42,11 +42,12 @@ public class MainActivity extends AppCompatActivity {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                userDao.insertUser(
-                        new User("test1", "Brennan", "Beeler" , 27, true));
+//                userDao.insertUser(
+//                        new User("test1", "Brennan", "Beeler" , 27, true));
                 List<User> users = userDao.getAll();
 
-                Log.v("HERE", (users.get(0).userID + users.get(0).firstName + users.get(0).lastName + users.get(0).age + users.get(0).active));
+                Log.v("HERE", (users.get(0).userID + users.get(0).firstName +
+                        users.get(0).lastName + users.get(0).age + users.get(0).active));
             }
         });
 
