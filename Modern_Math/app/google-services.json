@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "755778775094",
+    "project_id": "modernmath-e9cbc",
+    "storage_bucket": "modernmath-e9cbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755778775094:android:4593022454816d99031097",
+        "android_client_info": {
+          "package_name": "edu.neu.madcourse.modernmath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "755778775094-fu3u5hld0d32amgs7ad44bc7ljfcbpbi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZ7F-Qjhrt8pYB7SghvicA7X4DFSsSWac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "755778775094-fu3u5hld0d32amgs7ad44bc7ljfcbpbi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
