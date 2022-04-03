@@ -1,15 +1,12 @@
 package edu.neu.madcourse.modernmath;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.os.HandlerCompat;
 import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         startActivity(new Intent(MainActivity.this, SplashScreen.class));
+
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
 
         UserDatabase local_user_db = Room.databaseBuilder(
                 getApplicationContext(), UserDatabase.class, "users-database").build();
