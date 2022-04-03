@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
+            android:name=".teacher.TeacherListStudents"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.TeacherClassList"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
