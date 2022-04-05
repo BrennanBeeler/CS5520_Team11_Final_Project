@@ -37,23 +37,23 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
-//
-//        UserDatabase local_user_db = Room.databaseBuilder(
-//                getApplicationContext(), UserDatabase.class, "users-database").build();
-//
-//        UserDao userDao = local_user_db.userDao();
-//
-//        executorService.execute(new Runnable() {
-//            @Override
-//            public void run() {
-////                userDao.insertUser(
-////                        new User("test1", "Brennan", "Beeler" , 27, true));
-//                List<User> users = userDao.getAll();
-//
-//                Log.v("HERE", (users.get(0).userID + users.get(0).firstName +
-//                        users.get(0).lastName + users.get(0).age + users.get(0).active));
-//            }
-//        });
+
+        UserDatabase local_user_db = Room.databaseBuilder(
+                getApplicationContext(), UserDatabase.class, "users-database").build();
+
+        UserDao userDao = local_user_db.userDao();
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+//                userDao.insertUser(
+//                        new User("test1", "Brennan", "Beeler" , 27, true));
+                List<User> users = userDao.getAll();
+
+                Log.v("HERE", (users.get(0).userID + users.get(0).firstName +
+                        users.get(0).lastName + users.get(0).age + users.get(0).active));
+            }
+        });
 
 
 
