@@ -114,6 +114,15 @@ public class SplashActivity extends AppCompatActivity {
 
             }
 
+            try {
+                userDao.insertUser(new User("test2", "Mike",
+                        "Brown" , 19, false));
+            }
+            catch (Exception ignored)
+            {
+
+            }
+
             return new ArrayList<>(userDao.getAll());
         }
     }

@@ -71,4 +71,14 @@ public class User implements Parcelable {
         // Cannot use readBoolean with API level of 26
         this.active = in.readInt() == 1;
     }
+
+    @Override
+    public String toString()
+    {
+        return "UserID: " + this.userID +
+                "\nFirstName: " + this.firstName +
+                "\nLastName: " + this.lastName +
+                "\nAge: " + this.age +
+                "\nActive: " + this.active;
+    }
 }

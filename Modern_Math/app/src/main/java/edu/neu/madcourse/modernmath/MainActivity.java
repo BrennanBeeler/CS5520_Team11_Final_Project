@@ -14,15 +14,6 @@ import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
 import edu.neu.madcourse.modernmath.login.UserLoginCard;
 
 public class MainActivity extends AppCompatActivity {
-
-
-
-    private final ArrayList<UserLoginCard> userList = new ArrayList<>();
-
-    private RecyclerView recyclerView;
-    private LoginRVAdaptor loginRVAdaptor;
-    private RecyclerView.LayoutManager layoutManager;
-
     private User active_user;
     private ArrayList<User> inactive_users = new ArrayList<>();
 
@@ -60,49 +51,45 @@ public class MainActivity extends AppCompatActivity {
 
             if (this.active_user != null ) {
                 // There is an active user
-                // TODO: determine if this is desirable - should stop recreation if isnt needed
-                if (savedInstanceState == null)
-                {
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("active_user", this.active_user);
 
-                    getSupportFragmentManager().beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.main_fragment_container, LoginRVFragment.class, bundle)
-                            .commit();
+                // TODO: handle active user
+
+                Log.v("ActiveUser", this.active_user.toString());
+
+                // Create view of other users is present
+                if (this.inactive_users.size() > 0)
+                {
+                    // TODO: look into this line, as its functionality is unclear
+                    if (savedInstanceState == null)
+                    {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("inactive_users", this.inactive_users);
+
+                        getSupportFragmentManager().beginTransaction()
+                                .setReorderingAllowed(true)
+                                .add(R.id.main_fragment_container, LoginRVFragment.class, bundle)
+                                .commit();
+                    }
                 }
             }
             else
             {
                 // If no active user
+
+                // TODO: other users
             }
         }
         else
         {
             // No one has info stored in device
-            Log.v("HERE", "Extras == null");
+
+
+            // TODO: welcome screen
         }
 
 
-//        testData();
 
-
-//        this.layoutManager = new LinearLayoutManager(this);
-//        this.recyclerView = findViewById(R.id.login_recyclerview);
-//        this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
-//
-//
-////        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
-//        this.recyclerView.setAdapter(this.loginRVAdaptor);
-//        this.recyclerView.setLayoutManager(this.layoutManager);
 
     }
 
-    private void testData()
-    {
-        this.userList.add(new UserLoginCard("Ben"));
-        this.userList.add(new UserLoginCard("Jeff"));
-        this.userList.add(new UserLoginCard("Jon"));
-        this.userList.add(new UserLoginCard("Mike"));
-    }
 }
