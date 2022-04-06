@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private LoginRVAdaptor loginRVAdaptor;
     private RecyclerView.LayoutManager layoutManager;
 
+    private User active_user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,24 +45,51 @@ public class MainActivity extends AppCompatActivity {
         {
             ArrayList<User> current_users = extras.getParcelableArrayList("current_users");
             Log.v("NUM", String.valueOf(current_users.size()));
+
+            for (int i = 0; i < current_users.size(); i++)
+            {
+                if (current_users.get(i).active)
+                {
+                    this.active_user = current_users.get(i);
+                }
+            }
+
+            if (this.active_user != null) {
+                // There is an active user
+                // TODO: determine if this is desirable - should stop recreation if isnt needed
+                if (savedInstanceState == null)
+                {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("active_user", this.active_user);
+
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.main_fragment_container, LoginRVFragment.class, bundle)
+                            .commit();
+                }
+            }
+            else
+            {
+                // If no active user
+            }
         }
         else
         {
-            // This is where we will populate for no active users
+            // No one has info stored in device
         }
 
 
-        testData();
+//        testData();
 
 
-        this.layoutManager = new LinearLayoutManager(this);
-        this.recyclerView = findViewById(R.id.login_recyclerview);
-        this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
-
-
-//        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
-        this.recyclerView.setAdapter(this.loginRVAdaptor);
-        this.recyclerView.setLayoutManager(this.layoutManager);
+//        this.layoutManager = new LinearLayoutManager(this);
+//        this.recyclerView = findViewById(R.id.login_recyclerview);
+//        this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
+//
+//
+////        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
+//        this.recyclerView.setAdapter(this.loginRVAdaptor);
+//        this.recyclerView.setLayoutManager(this.layoutManager);
 
     }
 
