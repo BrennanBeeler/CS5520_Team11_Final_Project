@@ -75,9 +75,9 @@ public class User implements Parcelable {
     @Override
     public String toString()
     {
-        return "UserID: " + this.userID +
-                "\nFirstName: " + this.firstName +
-                "\nLastName: " + this.lastName +
+        return "\nUserID: " + this.userID +
+                "\nFirst Name: " + this.firstName +
+                "\nLast Name: " + this.lastName +
                 "\nAge: " + this.age +
                 "\nActive: " + this.active;
     }

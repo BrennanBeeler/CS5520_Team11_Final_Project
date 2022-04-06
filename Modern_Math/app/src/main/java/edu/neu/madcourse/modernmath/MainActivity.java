@@ -4,8 +4,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -92,4 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void addNewUser(View view)
+    {
+        startActivity(new Intent(MainActivity.this, AddNewUserActivity.class));
+    }
+
+    public void addExistingUser(View view)
+    {
+        startActivity(new Intent(MainActivity.this, AddExistingUserActivity.class));
+    }
 }

@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
+            android:name=".AddExistingUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddNewUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
@@ -24,8 +30,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" >
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

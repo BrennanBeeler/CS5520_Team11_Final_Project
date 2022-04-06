@@ -1,5 +1,6 @@
 package edu.neu.madcourse.modernmath;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -40,10 +41,7 @@ public class LoginRVFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        this.inactive_users = requireArguments().getParcelableArrayList("inactive_users");
-
-
-
+        // TODO: determine what if anything needs to occur here
     }
 
     @Override
@@ -56,10 +54,11 @@ public class LoginRVFragment extends Fragment {
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(view.getContext());
 
-        this.testData();
+        this.inactive_users = requireArguments().getParcelableArrayList("inactive_users");
+
+        this.populateRV();
 
         this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
-
 
 //        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
         this.recyclerView.setAdapter(this.loginRVAdaptor);
@@ -68,11 +67,12 @@ public class LoginRVFragment extends Fragment {
         return view;
     }
 
-    private void testData()
+    @SuppressLint("NotifyDataSetChanged")
+    private void populateRV()
     {
-        this.userList.add(new UserLoginCard("Ben"));
-        this.userList.add(new UserLoginCard("Jeff"));
-        this.userList.add(new UserLoginCard("Jon"));
-        this.userList.add(new UserLoginCard("Mike"));
+        for (User user : this.inactive_users)
+        {
+            this.userList.add(new UserLoginCard(user.firstName));
+        }
     }
 }
