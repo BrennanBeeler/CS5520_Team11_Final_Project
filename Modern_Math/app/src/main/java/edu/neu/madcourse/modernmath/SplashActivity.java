@@ -9,11 +9,12 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDao;
@@ -59,7 +60,9 @@ public class SplashActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
 
         try {
-            ArrayList<User> currentUsers = executorService.submit(new DatabaseQuery(userDao)).get();
+            // Try to get users, but if it takes more than 3 seconds, we assume no active users
+            ArrayList<User> currentUsers = executorService.submit(new GetUsers(userDao))
+                    .get(3, TimeUnit.SECONDS);
             if (currentUsers != null) {
                 if (currentUsers.size() > 1)
                 {
@@ -67,9 +70,15 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            Log.d("DATABASE", "Clearing local user cache due to execution failure.");
+
+            executorService.submit(userDao::deleteAllUsers);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (TimeoutException e) {
+            Log.d("DATABASE", "Clearing local user cache due to timeout.");
+
+            executorService.submit(userDao::deleteAllUsers);
         }
 
         startActivity(intent);
@@ -83,11 +92,11 @@ public class SplashActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public class DatabaseQuery implements Callable<ArrayList<User>>
+    public class GetUsers implements Callable<ArrayList<User>>
     {
         UserDao userDao;
 
-        public DatabaseQuery(UserDao userDao)
+        public GetUsers(UserDao userDao)
         {
             this.userDao = userDao;
         }

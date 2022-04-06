@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -52,14 +53,14 @@ public class MainActivity extends AppCompatActivity {
         testData();
 
 
-//        this.layoutManager = new LinearLayoutManager(this);
-//        this.recyclerView = findViewById(R.id.login_recyclerview);
-//        this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
-//
-//
-////        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
-//        this.recyclerView.setAdapter(this.loginRVAdaptor);
-//        this.recyclerView.setLayoutManager(this.layoutManager);
+        this.layoutManager = new LinearLayoutManager(this);
+        this.recyclerView = findViewById(R.id.login_recyclerview);
+        this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
+
+
+//        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
+        this.recyclerView.setAdapter(this.loginRVAdaptor);
+        this.recyclerView.setLayoutManager(this.layoutManager);
 
     }
 
