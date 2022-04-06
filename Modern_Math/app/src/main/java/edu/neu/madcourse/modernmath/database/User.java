@@ -31,4 +31,8 @@ public class User {
         this.age = age;
         this.active = active;
     }
+
+    public User() {
+
+    }
 }
