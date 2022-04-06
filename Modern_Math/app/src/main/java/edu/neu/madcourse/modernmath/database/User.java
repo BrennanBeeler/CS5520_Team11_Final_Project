@@ -1,12 +1,15 @@
 package edu.neu.madcourse.modernmath.database;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "users")
-public class User {
+public class User implements Parcelable {
     @NonNull
     @PrimaryKey
     public String userID;
@@ -34,5 +37,38 @@ public class User {
 
     public User() {
 
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(this.userID);
+        out.writeString(this.firstName);
+        out.writeString(this.lastName);
+        out.writeInt(this.age);
+        // Cannot use writeBoolean with API level of 26
+        out.writeInt(this.active ? 1 : 0);
+    }
+
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    private User(Parcel in) {
+        this.userID = in.readString();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.age = in.readInt();
+        // Cannot use readBoolean with API level of 26
+        this.active = in.readInt() == 1;
     }
 }

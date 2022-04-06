@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -55,16 +56,15 @@ public class SplashActivity extends AppCompatActivity {
 
         UserDao userDao = this.local_user_db.userDao();
 
+        Intent intent = new Intent(this, MainActivity.class);
+
         try {
-            User currentUser = executorService.submit(new DatabaseQuery(userDao)).get();
-            if (currentUser != null)
-            {
-                Log.v("TEST1", (currentUser.userID + currentUser.firstName +
-                        currentUser.lastName + currentUser.age + currentUser.active));
-            }
-            else
-            {
-                Log.v("TEST1", "is null");
+            ArrayList<User> currentUsers = executorService.submit(new DatabaseQuery(userDao)).get();
+            if (currentUsers != null) {
+                if (currentUsers.size() > 1)
+                {
+                    intent.putParcelableArrayListExtra("current_users", currentUsers);
+                }
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -72,10 +72,8 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
-
     }
 
     @Override
@@ -85,7 +83,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    public class DatabaseQuery implements Callable<User>
+    public class DatabaseQuery implements Callable<ArrayList<User>>
     {
         UserDao userDao;
 
@@ -95,7 +93,7 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         @Override
-        public User call()
+        public ArrayList<User> call()
         {
 
             try {
@@ -107,18 +105,7 @@ public class SplashActivity extends AppCompatActivity {
 
             }
 
-            List<User> users = userDao.getActiveUser();
-            Log.v("TEST2", String.valueOf(users));
-
-
-            if (users.size() < 1)
-            {
-                return null;
-            }
-            else
-            {
-                return users.get(0);
-            }
+            return new ArrayList<>(userDao.getAll());
         }
     }
 }

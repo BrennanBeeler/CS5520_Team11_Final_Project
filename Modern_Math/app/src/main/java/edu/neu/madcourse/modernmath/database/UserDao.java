@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Dao
@@ -13,7 +14,7 @@ public interface UserDao {
     @Query("SELECT * FROM users")
     List<User> getAll();
 
-    @Query("SELECT * FROM users WHERE active = 1")
+    @Query("SELECT * FROM users WHERE active = 1 LIMIT 1")
     List<User> getActiveUser();
 
     @Insert

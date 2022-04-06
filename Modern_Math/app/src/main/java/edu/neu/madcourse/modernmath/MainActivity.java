@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
 import edu.neu.madcourse.modernmath.login.UserLoginCard;
 
@@ -32,6 +34,18 @@ public class MainActivity extends AppCompatActivity {
         {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null)
+        {
+            ArrayList<User> current_users = extras.getParcelableArrayList("current_users");
+            Log.v("NUM", String.valueOf(current_users.size()));
+        }
+        else
+        {
+            // This is where we will populate for no active users
         }
 
 
