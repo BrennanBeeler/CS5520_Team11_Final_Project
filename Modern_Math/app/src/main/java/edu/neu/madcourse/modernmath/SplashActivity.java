@@ -47,10 +47,10 @@ public class SplashActivity extends AppCompatActivity {
         }
 
         // Remove once working
-        for (int i = 0; i < 20000; i++)
-        {
-            Log.v("HERE", String.valueOf(i));
-        }
+//        for (int i = 0; i < 20000; i++)
+//        {
+//            Log.v("HERE", String.valueOf(i));
+//        }
 
         this.local_user_db = Room.databaseBuilder(
                 getApplicationContext(), UserDatabase.class, "users-database").build();
@@ -64,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
             ArrayList<User> currentUsers = executorService.submit(new GetUsers(userDao))
                     .get(3, TimeUnit.SECONDS);
             if (currentUsers != null) {
-                if (currentUsers.size() > 1)
+                if (currentUsers.size() >= 1)
                 {
                     intent.putParcelableArrayListExtra("current_users", currentUsers);
                 }

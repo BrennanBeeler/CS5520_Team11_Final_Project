@@ -2,7 +2,6 @@ package edu.neu.madcourse.modernmath;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
 
     private User active_user;
+    private ArrayList<User> inactive_users = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +43,22 @@ public class MainActivity extends AppCompatActivity {
 
         if (extras != null)
         {
-            ArrayList<User> current_users = extras.getParcelableArrayList("current_users");
-            Log.v("NUM", String.valueOf(current_users.size()));
+            ArrayList<User> users = extras.getParcelableArrayList("current_users");
+            Log.v("NUM", String.valueOf(users.size()));
 
-            for (int i = 0; i < current_users.size(); i++)
+            for (int i = 0; i < users.size(); i++)
             {
-                if (current_users.get(i).active)
+                if (users.get(i).active)
                 {
-                    this.active_user = current_users.get(i);
+                    this.active_user = users.get(i);
+                }
+                else
+                {
+                    this.inactive_users.add(users.get(i));
                 }
             }
 
-            if (this.active_user != null) {
+            if (this.active_user != null ) {
                 // There is an active user
                 // TODO: determine if this is desirable - should stop recreation if isnt needed
                 if (savedInstanceState == null)
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         else
         {
             // No one has info stored in device
+            Log.v("HERE", "Extras == null");
         }
 
 
