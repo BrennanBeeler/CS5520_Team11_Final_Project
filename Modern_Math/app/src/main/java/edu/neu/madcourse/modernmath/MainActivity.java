@@ -2,7 +2,7 @@ package edu.neu.madcourse.modernmath;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,20 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
-import edu.neu.madcourse.modernmath.login.UserLoginCard;
+import edu.neu.madcourse.modernmath.database.UserDao;
+import edu.neu.madcourse.modernmath.database.UserDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private User active_user;
     private ArrayList<User> inactive_users = new ArrayList<>();
+    ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private UserDatabase local_user_db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
+
+        this.local_user_db = Room.databaseBuilder(
+                getApplicationContext(), UserDatabase.class, "users-database").build();
+
 
         Bundle extras = getIntent().getExtras();
 
@@ -56,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // TODO: handle active user
 
-                Log.v("ActiveUser", this.active_user.toString());
+                Log.v("HERE_MAIN", this.active_user.toString());
 
                 // Create view of other users is present
                 if (this.inactive_users.size() > 0)
@@ -88,10 +98,45 @@ public class MainActivity extends AppCompatActivity {
 
             // TODO: welcome screen
         }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        UserDao userDao = this.local_user_db.userDao();
+
+        try {
+            // Try to get users, but if it takes more than 3 seconds, we assume no active users
+            ArrayList<User> currentUsers = executorService.submit(new GetUsers(userDao)).get();
+
+            if (currentUsers != null) {
+                for (int i = 0; i < currentUsers.size(); i++)
+                {
+                    if (currentUsers.get(i).active)
+                    {
+                        this.active_user = currentUsers.get(i);
+                    }
+                    else
+                    {
+                        this.inactive_users.add(currentUsers.get(i));
+                    }
+                }
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
+    }
 
-
+    @Override
+    public void onDestroy()
+    {
+        this.local_user_db.close();
+        this.executorService.shutdown();
+        super.onDestroy();
     }
 
     public void addNewUser(View view)

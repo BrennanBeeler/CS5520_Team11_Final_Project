@@ -189,6 +189,14 @@ public class AddNewUserActivity extends AppCompatActivity {
                 // Finish activity
     }
 
+    @Override
+    public void onDestroy()
+    {
+        this.local_user_db.close();
+        this.executorService.shutdown();
+        super.onDestroy();
+    }
+
     public class CreateNewUser implements Runnable
     {
         UserDao userDao;

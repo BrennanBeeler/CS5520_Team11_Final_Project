@@ -9,7 +9,6 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,6 +29,9 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.v("HERE2", "TEST2");
+
 
         // Turn on strict mode only if we're debugging
         if (BuildConfig.DEBUG) {
@@ -94,23 +96,8 @@ public class SplashActivity extends AppCompatActivity {
     public void onDestroy()
     {
         this.local_user_db.close();
+        this.executorService.shutdown();
         super.onDestroy();
     }
 
-    public class GetUsers implements Callable<ArrayList<User>>
-    {
-        UserDao userDao;
-
-        public GetUsers(UserDao userDao)
-        {
-            this.userDao = userDao;
-        }
-
-        @Override
-        public ArrayList<User> call()
-        {
-            Log.v("HERE123", "Trying to get all");
-            return new ArrayList<>(userDao.getAll());
-        }
-    }
 }
