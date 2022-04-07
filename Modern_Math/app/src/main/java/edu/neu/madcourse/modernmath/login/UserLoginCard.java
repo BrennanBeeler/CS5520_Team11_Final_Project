@@ -6,17 +6,17 @@ import edu.neu.madcourse.modernmath.R;
 
 public class UserLoginCard extends AppCompatActivity {
 
-    private String username;
+    private String name;
 
     public UserLoginCard() {}
 
-    public UserLoginCard(String username)
+    public UserLoginCard(String name)
     {
-        this.username = username;
+        this.name = name;
     }
 
-    public String getUsername()
+    public String getName()
     {
-        return this.username;
+        return this.name;
     }
 }

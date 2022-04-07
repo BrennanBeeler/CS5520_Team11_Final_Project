@@ -17,7 +17,6 @@ public class GetUsers implements Callable<ArrayList<User>> {
 
     @Override
     public ArrayList<User> call() {
-        Log.v("HERE123", "Trying to get all");
         return new ArrayList<>(userDao.getAll());
     }
 }

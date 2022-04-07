@@ -173,20 +173,6 @@ public class AddNewUserActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Check firebase for if this email account already exists
-
-            // Yes = display toast?
-
-            // No
-
-                // Add to firebase
-
-                // Add to local sql db
-
-                // Set this to be new active user
-
-                // Finish activity
     }
 
     @Override

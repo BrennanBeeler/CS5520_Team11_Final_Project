@@ -2,8 +2,11 @@ package edu.neu.madcourse.modernmath;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,18 +21,28 @@ import java.util.concurrent.TimeoutException;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDao;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
+import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
+import edu.neu.madcourse.modernmath.login.UserLoginCard;
 
 public class MainActivity extends AppCompatActivity {
+    private final ArrayList<UserLoginCard> userList = new ArrayList<>();
+
+
     private User active_user;
     private ArrayList<User> inactive_users = new ArrayList<>();
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     private UserDatabase local_user_db;
+
+    private RecyclerView recyclerView;
+    private LoginRVAdaptor loginRVAdaptor;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set up action bar
         setSupportActionBar(findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -38,68 +51,23 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
+        // Set up local db for retrieving updates
         this.local_user_db = Room.databaseBuilder(
                 getApplicationContext(), UserDatabase.class, "users-database").build();
 
-
-        Bundle extras = getIntent().getExtras();
-
-        if (extras != null)
-        {
-            ArrayList<User> users = extras.getParcelableArrayList("current_users");
-            Log.v("NUM", String.valueOf(users.size()));
-
-            for (int i = 0; i < users.size(); i++)
-            {
-                if (users.get(i).active)
-                {
-                    this.active_user = users.get(i);
-                }
-                else
-                {
-                    this.inactive_users.add(users.get(i));
-                }
-            }
-
-            if (this.active_user != null ) {
-                // There is an active user
-
-                // TODO: handle active user
-
-                Log.v("HERE_MAIN", this.active_user.toString());
-
-                // Create view of other users is present
-                if (this.inactive_users.size() > 0)
-                {
-                    // TODO: look into this line, as its functionality is unclear
-                    if (savedInstanceState == null)
-                    {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("inactive_users", this.inactive_users);
-
-                        getSupportFragmentManager().beginTransaction()
-                                .setReorderingAllowed(true)
-                                .add(R.id.main_fragment_container, LoginRVFragment.class, bundle)
-                                .commit();
-                    }
-                }
-            }
-            else
-            {
-                // If no active user
-
-                // TODO: other users
-            }
-        }
-        else
-        {
-            // No one has info stored in device
+        this.recyclerView = findViewById(R.id.login_recyclerview);
+        this.recyclerView.setHasFixedSize(true);
+        this.layoutManager = new LinearLayoutManager(MainActivity.this);
 
 
-            // TODO: welcome screen
-        }
+        this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
+
+//        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
+        this.recyclerView.setAdapter(this.loginRVAdaptor);
+        this.recyclerView.setLayoutManager(this.layoutManager);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResume()
     {
@@ -108,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         UserDao userDao = this.local_user_db.userDao();
 
         try {
-            // Try to get users, but if it takes more than 3 seconds, we assume no active users
+            // Try to get users
             ArrayList<User> currentUsers = executorService.submit(new GetUsers(userDao)).get();
 
             if (currentUsers != null) {
@@ -123,12 +91,28 @@ public class MainActivity extends AppCompatActivity {
                         this.inactive_users.add(currentUsers.get(i));
                     }
                 }
+
+                this.userList.clear();
+
+                if (this.active_user != null)
+                {
+                    this.userList.add(new UserLoginCard(this.active_user.firstName
+                            + " " + this.active_user.lastName));
+                }
+
+                for (User user : this.inactive_users)
+                {
+                    Log.v("HERE88", user.toString());
+
+                    this.userList.add(new UserLoginCard(user.firstName
+                            + " " + user.lastName));
+                }
+
+                this.loginRVAdaptor.notifyDataSetChanged();
             }
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override

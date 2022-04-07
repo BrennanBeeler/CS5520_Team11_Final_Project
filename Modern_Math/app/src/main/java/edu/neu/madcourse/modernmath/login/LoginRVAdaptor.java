@@ -37,7 +37,7 @@ public class LoginRVAdaptor extends RecyclerView.Adapter<LoginRVHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull LoginRVHolder viewHolder, int position) {
-        viewHolder.username.setText(userList.get(position).getUsername());
+        viewHolder.username.setText(userList.get(position).getName());
     }
 
     @Override
