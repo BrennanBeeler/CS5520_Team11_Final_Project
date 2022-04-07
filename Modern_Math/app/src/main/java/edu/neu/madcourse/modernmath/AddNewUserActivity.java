@@ -6,6 +6,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -112,8 +114,9 @@ public class AddNewUserActivity extends AppCompatActivity {
         newUser.put("age", age);
         newUser.put("instructor", instructor_checked);
 
+        User new_user = new User(email, first_name, last_name, age, true, instructor_checked);
+
         // To make compiler happy but we know it won't change
-        int finalAge = age;
         myDatabase.child("users").child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -140,10 +143,13 @@ public class AddNewUserActivity extends AppCompatActivity {
                                                         userDao, prev_active_user));
                                     }
 
-                                    executorService.submit(
-                                            new AddNewUserActivity.CreateNewUser(userDao,
-                                                    new User(email, first_name, last_name, finalAge,
-                                                            true, instructor_checked)));
+                                    executorService.submit(new AddNewUserActivity
+                                            .CreateNewUser(userDao, new_user));
+
+                                    // Return data to main about new user
+                                    Intent data_intent = new Intent();
+                                    data_intent.putExtra("new_user", new_user);
+                                    setResult(Activity.RESULT_OK, data_intent);
 
                                     finish();
                                 }
