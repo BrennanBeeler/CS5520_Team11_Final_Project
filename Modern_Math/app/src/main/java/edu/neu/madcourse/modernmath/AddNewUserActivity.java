@@ -52,12 +52,6 @@ public class AddNewUserActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null)
         {
             this.prev_active_user = getIntent().getExtras().getParcelable("active_user");
-
-            Log.v("HERE343", this.prev_active_user.toString());
-        }
-        else
-        {
-            Log.v("HERE344", "no prev user");
         }
 
         setSupportActionBar(findViewById(R.id.main_toolbar));
