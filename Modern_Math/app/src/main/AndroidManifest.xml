@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
-            android:name=".AddExistingUserActivity"
+            android:name=".login.AddExistingUserActivity"
             android:exported="false" />
         <activity
-            android:name=".AddNewUserActivity"
+            android:name=".login.AddNewUserActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

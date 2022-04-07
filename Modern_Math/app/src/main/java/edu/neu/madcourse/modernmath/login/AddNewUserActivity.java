@@ -1,4 +1,4 @@
-package edu.neu.madcourse.modernmath;
+package edu.neu.madcourse.modernmath.login;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDao;
 import edu.neu.madcourse.modernmath.database.UserDatabase;

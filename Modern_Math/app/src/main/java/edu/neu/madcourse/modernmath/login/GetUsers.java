@@ -1,4 +1,4 @@
-package edu.neu.madcourse.modernmath;
+package edu.neu.madcourse.modernmath.login;
 
 import android.util.Log;
 

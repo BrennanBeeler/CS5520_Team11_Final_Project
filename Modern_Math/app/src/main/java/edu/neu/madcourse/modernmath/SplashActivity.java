@@ -18,6 +18,7 @@ import java.util.concurrent.TimeoutException;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDao;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
+import edu.neu.madcourse.modernmath.login.GetUsers;
 
 public class SplashActivity extends AppCompatActivity {
 

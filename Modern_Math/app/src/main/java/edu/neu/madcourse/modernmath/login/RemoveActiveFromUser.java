@@ -1,4 +1,4 @@
-package edu.neu.madcourse.modernmath;
+package edu.neu.madcourse.modernmath.login;
 
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDao;
