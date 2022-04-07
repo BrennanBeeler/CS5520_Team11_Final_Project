@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,6 +37,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
     private UserDatabase local_user_db;
 
     private User prev_active_user;
+    private ArrayList<User> inactive_users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null)
         {
             this.prev_active_user = getIntent().getExtras().getParcelable("active_user");
+            this.inactive_users = getIntent().getExtras().getParcelableArrayList("inactive_users");
         }
 
         setSupportActionBar(findViewById(R.id.main_toolbar));
@@ -74,12 +77,33 @@ public class AddExistingUserActivity extends AppCompatActivity {
             return;
         }
 
-        // To make compiler happy but we know it won't change
+        if (this.prev_active_user != null)
+        {
+            if (email.equals(this.prev_active_user.email))
+            {
+                Toast.makeText(AddExistingUserActivity.this, "That account is already " +
+                        "logged in on this device.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        if (this.inactive_users != null)
+        {
+            if (this.inactive_users.stream().map(user -> user.email).anyMatch(user_email -> user_email.equals(email)))
+            {
+                Toast.makeText(AddExistingUserActivity.this, "That account is already " +
+                        "logged in on this device.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        // Check is user is in firebase db
         myDatabase.child("users").child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful())
                 {
+                    // If user doesn't exist
                     if (task.getResult().getValue() == null)
                     {
                         Toast.makeText(AddExistingUserActivity.this,
@@ -89,7 +113,34 @@ public class AddExistingUserActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Log.v("EXISTING", String.valueOf(task.getResult().getValue()));
+                        // If user does exist, save user data to local db and make active
+                        String first_name = (String) task.getResult().child("first_name").getValue();
+                        String last_name = (String) task.getResult().child("last_name").getValue();
+                        int age = (int) (long) task.getResult().child("age").getValue();
+                        boolean is_instructor = (boolean) task.getResult().child("instructor").getValue();
+
+                        User existing_user = new User(email, first_name, last_name, age, true,
+                                is_instructor);
+
+                        UserDao userDao = local_user_db.userDao();
+
+                        // Set previously active user to not be active
+                        if (prev_active_user != null)
+                        {
+                            prev_active_user.active = false;
+
+                            executorService.submit(new RemoveActiveFromUser(userDao,
+                                    prev_active_user));
+                        }
+
+                        executorService.submit(new CreateNewUser(userDao, existing_user));
+
+                        // Return data to main about new user
+                        Intent data_intent = new Intent();
+                        data_intent.putExtra("new_user", existing_user);
+                        setResult(Activity.RESULT_OK, data_intent);
+
+                        finish();
                     }
                 }
                 else
@@ -102,5 +153,13 @@ public class AddExistingUserActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        this.local_user_db.close();
+        this.executorService.shutdown();
+        super.onDestroy();
     }
 }

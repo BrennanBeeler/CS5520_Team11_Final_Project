@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
                     // Add new active user to top of list
                     this.userList.add(0, new UserLoginCard(this.active_user.firstName
-                            + "" + this.active_user.lastName));
+                            + " " + this.active_user.lastName));
                     this.loginRVAdaptor.notifyItemInserted(0);
                     this.recyclerView.scrollToPosition(0);
                 }
@@ -150,6 +150,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void addExistingUser(View view)
     {
-        startActivity(new Intent(MainActivity.this, AddExistingUserActivity.class));
+        Intent intent = new Intent(MainActivity.this, AddExistingUserActivity.class);
+
+        if (this.active_user != null)
+        {
+            intent.putExtra("active_user", this.active_user);
+            intent.putParcelableArrayListExtra("inactive_users", this.inactive_users);
+        }
+
+        this.getNewUserIntentLauncher.launch(intent);
     }
 }

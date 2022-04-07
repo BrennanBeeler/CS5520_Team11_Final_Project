@@ -22,13 +22,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDao;
@@ -110,7 +107,6 @@ public class AddNewUserActivity extends AppCompatActivity {
 
         User new_user = new User(email, first_name, last_name, age, true, instructor_checked);
 
-        // To make compiler happy but we know it won't change
         myDatabase.child("users").child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -127,18 +123,16 @@ public class AddNewUserActivity extends AppCompatActivity {
                                     // We have successfully created the account
                                     UserDao userDao = local_user_db.userDao();
 
-                                    // TODO: remove other active user
+                                    // Set previously active user to not be active
                                     if (prev_active_user != null)
                                     {
                                         prev_active_user.active = false;
 
-                                        executorService.submit(
-                                                new AddNewUserActivity.RemoveActiveFromUser(
-                                                        userDao, prev_active_user));
+                                        executorService.submit(new RemoveActiveFromUser(userDao,
+                                                prev_active_user));
                                     }
 
-                                    executorService.submit(new AddNewUserActivity
-                                            .CreateNewUser(userDao, new_user));
+                                    executorService.submit(new CreateNewUser(userDao, new_user));
 
                                     // Return data to main about new user
                                     Intent data_intent = new Intent();
@@ -181,55 +175,5 @@ public class AddNewUserActivity extends AppCompatActivity {
         this.local_user_db.close();
         this.executorService.shutdown();
         super.onDestroy();
-    }
-
-    public class CreateNewUser implements Runnable
-    {
-        UserDao userDao;
-        User newUser;
-
-        public CreateNewUser(UserDao userDao, User newUser)
-        {
-            this.userDao = userDao;
-            this.newUser = newUser;
-        }
-
-        @Override
-        public void run()
-        {
-
-            try {
-                userDao.insertUser(this.newUser);
-            }
-            catch (Exception ignored)
-            {
-
-            }
-        }
-    }
-
-    public class RemoveActiveFromUser implements Runnable
-    {
-        UserDao userDao;
-        User updated_user;
-
-        public RemoveActiveFromUser(UserDao userDao, User updated_user)
-        {
-            this.userDao = userDao;
-            this.updated_user = updated_user;
-        }
-
-        @Override
-        public void run()
-        {
-
-            try {
-                userDao.updateUser(this.updated_user);
-            }
-            catch (Exception ignored)
-            {
-
-            }
-        }
     }
 }
