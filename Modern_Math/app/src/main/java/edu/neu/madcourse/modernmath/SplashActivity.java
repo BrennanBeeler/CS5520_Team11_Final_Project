@@ -59,10 +59,15 @@ public class SplashActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
 
+        Log.v("HERE", "TEST");
+
         try {
             // Try to get users, but if it takes more than 3 seconds, we assume no active users
             ArrayList<User> currentUsers = executorService.submit(new GetUsers(userDao))
                     .get(3, TimeUnit.SECONDS);
+
+            Log.v("HERE91", String.valueOf(currentUsers.size()));
+
             if (currentUsers != null) {
                 if (currentUsers.size() >= 1)
                 {
@@ -104,25 +109,7 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         public ArrayList<User> call()
         {
-
-            try {
-                userDao.insertUser(new User("test1", "Brennan",
-                        "Beeler" , 27, true));
-            }
-            catch (Exception ignored)
-            {
-
-            }
-
-            try {
-                userDao.insertUser(new User("test2", "Mike",
-                        "Brown" , 19, false));
-            }
-            catch (Exception ignored)
-            {
-
-            }
-
+            Log.v("HERE123", "Trying to get all");
             return new ArrayList<>(userDao.getAll());
         }
     }

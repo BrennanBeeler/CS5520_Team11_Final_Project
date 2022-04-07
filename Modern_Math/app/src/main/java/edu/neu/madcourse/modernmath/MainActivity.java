@@ -96,7 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void addNewUser(View view)
     {
-        startActivity(new Intent(MainActivity.this, AddNewUserActivity.class));
+        Intent intent = new Intent(MainActivity.this, AddNewUserActivity.class);
+
+        if (this.active_user != null)
+        {
+            intent.putExtra("active_user", this.active_user);
+        }
+
+        startActivity(intent);
     }
 
     public void addExistingUser(View view)
