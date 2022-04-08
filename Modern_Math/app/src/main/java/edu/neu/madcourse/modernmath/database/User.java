@@ -6,7 +6,10 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import edu.neu.madcourse.modernmath.login.UserLoginCard;
 
 @Entity(tableName = "users")
 public class User implements Parcelable {
@@ -42,6 +45,17 @@ public class User implements Parcelable {
 
     public User() {
 
+    }
+
+    @Ignore
+    public User(UserLoginCard userLoginCard)
+    {
+        this.email = userLoginCard.email;
+        this.firstName = userLoginCard.firstName;
+        this.lastName = userLoginCard.lastName;
+        this.age = userLoginCard.age;
+        this.active = userLoginCard.active;
+        this.is_teacher = userLoginCard.is_teacher;
     }
 
     public int describeContents() {

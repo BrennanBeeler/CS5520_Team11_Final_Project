@@ -1,22 +1,39 @@
 package edu.neu.madcourse.modernmath.login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.ColumnInfo;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.database.User;
 
 public class UserLoginCard extends AppCompatActivity {
 
-    private String name;
+    public String email;
+
+    public String firstName;
+
+    public String lastName;
+
+    public int age;
+
+    public boolean active;
+
+    public boolean is_teacher;
 
     public UserLoginCard() {}
 
-    public UserLoginCard(String name)
+    public UserLoginCard(User user)
     {
-        this.name = name;
+        this.email = user.email;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.age = user.age;
+        this.active = user.active;
+        this.is_teacher = user.is_teacher;
     }
 
     public String getName()
     {
-        return this.name;
+        return this.firstName + " " + this.lastName;
     }
 }

@@ -21,6 +21,7 @@ import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
+import edu.neu.madcourse.modernmath.login.LoginClickListener;
 import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
 import edu.neu.madcourse.modernmath.login.UserLoginCard;
 
@@ -80,7 +81,25 @@ public class MainActivity extends AppCompatActivity {
 
         this.loginRVAdaptor = new LoginRVAdaptor(this.userList);
 
-//        this.loginRecyclerViewAdaptor.setUsernameClickListener(loginClickListener);
+        LoginClickListener loginClickListener = position -> {
+            Intent intent;
+
+            if (userList.get(position).is_teacher)
+            {
+                // TODO: add actual teacher page as target
+                intent = new Intent(MainActivity.this, test.class);
+            }
+            else
+            {
+                // TODO: add actual student page as target
+                intent = new Intent(MainActivity.this, test.class);
+            }
+
+            intent.putExtra("active_user", new User(userList.get(position)));
+            startActivity(intent);
+        };
+
+        this.loginRVAdaptor.setUsernameClickListener(loginClickListener);
         this.recyclerView.setAdapter(this.loginRVAdaptor);
         this.recyclerView.setLayoutManager(this.layoutManager);
 
@@ -94,8 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     this.active_user = result.getData().getParcelableExtra("new_user");
 
                     // Add new active user to top of list
-                    this.userList.add(0, new UserLoginCard(this.active_user.firstName
-                            + " " + this.active_user.lastName));
+                    this.userList.add(0, new UserLoginCard(this.active_user));
                     this.loginRVAdaptor.notifyItemInserted(0);
                     this.recyclerView.scrollToPosition(0);
                 }
@@ -109,14 +127,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (this.active_user != null)
         {
-            this.userList.add(new UserLoginCard(this.active_user.firstName
-                    + " " + this.active_user.lastName));
+            this.userList.add(new UserLoginCard(this.active_user));
         }
 
         for (User user : this.inactive_users)
         {
-            this.userList.add(new UserLoginCard(user.firstName
-                    + " " + user.lastName));
+            this.userList.add(new UserLoginCard(user));
         }
     }
 

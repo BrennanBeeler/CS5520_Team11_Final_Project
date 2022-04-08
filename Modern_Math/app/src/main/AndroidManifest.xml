@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
+            android:name=".test"
+            android:exported="false" />
+        <activity
             android:name=".login.AddExistingUserActivity"
             android:exported="false" />
         <activity
