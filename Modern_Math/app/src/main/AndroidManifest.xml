@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
+            android:name=".problem_screen.ProblemScreenActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            >
+        </activity>
+        <activity
             android:name=".test"
             android:exported="false" />
         <activity
