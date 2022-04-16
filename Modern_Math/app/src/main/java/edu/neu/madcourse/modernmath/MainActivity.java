@@ -95,12 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (userList.get(position).is_teacher)
             {
-                // TODO: add actual teacher page as target
                 intent = new Intent(MainActivity.this, TeacherClassList.class);
-
-                // will probably need to fetch the email for this user instead of just the name
-                intent.putExtra("teacher_name", userList.get(position).getName());
-                startActivity(intent);
             }
             else
             {
@@ -155,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         this.local_user_db.close();
         this.executorService.shutdown();
         super.onDestroy();
+
     }
 
     public void addNewUser(View view)
