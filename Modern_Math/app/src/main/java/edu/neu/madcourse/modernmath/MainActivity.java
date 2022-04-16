@@ -32,6 +32,7 @@ import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 import edu.neu.madcourse.modernmath.login.LoginClickListener;
 import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
 import edu.neu.madcourse.modernmath.login.UserLoginCard;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class MainActivity extends AppCompatActivity {
     private final ArrayList<UserLoginCard> userList = new ArrayList<>();
@@ -95,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
             if (userList.get(position).is_teacher)
             {
                 // TODO: add actual teacher page as target
-                intent = new Intent(MainActivity.this, test.class);
+                intent = new Intent(MainActivity.this, TeacherClassList.class);
+
+                // will probably need to fetch the email for this user instead of just the name
+                intent.putExtra("teacher_name", userList.get(position).getName());
+                startActivity(intent);
             }
             else
             {

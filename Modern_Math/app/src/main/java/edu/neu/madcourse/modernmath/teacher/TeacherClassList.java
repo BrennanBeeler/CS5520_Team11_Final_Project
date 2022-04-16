@@ -64,6 +64,7 @@ public class TeacherClassList extends AppCompatActivity {
             public void onClassClick(int position) {
                 Intent intent = new Intent(TeacherClassList.this, TeacherListStudents.class );
                 intent.putExtra("class_code", classList.get(position).getClassCode());
+                intent.putExtra("teacher_name", teacher);
                 startActivity(intent);
             }
         };
