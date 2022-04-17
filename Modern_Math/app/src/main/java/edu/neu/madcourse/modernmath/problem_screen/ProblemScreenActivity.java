@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath.problem_screen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,17 +12,21 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.Random;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.assignments.Difficulty;
+import edu.neu.madcourse.modernmath.assignments.Operator;
 
 public class ProblemScreenActivity extends AppCompatActivity {
 
     private String userAnswer = "";
-    private int difficulty = 2;
+    private Difficulty difficulty = Difficulty.EASY;
     private int numOfQuestions;
-    private long time;
-    private char operator = '+';
+    private long time = 30000L;
     private int operand1;
     private int operand2;
     private int answer;
+    private String assignmentCode;
+    private String userId;
+    private Operator[] operators = {Operator.DIVISION};
     EditText answerField;
 
     @Override
@@ -30,44 +35,57 @@ public class ProblemScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_problem_screen);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            difficulty = extras.getInt("difficulty");
+            difficulty = (Difficulty) extras.getSerializable("difficulty");
             numOfQuestions = extras.getInt("numberOfQuestions");
             time = extras.getLong("time");
-            operator = extras.getChar("operator");
+            assignmentCode = extras.getString("assignmentCode");
+            userId = extras.getString("userId");
+            operators = (Operator[]) extras.getSerializable("operators");
         }
         answerField = findViewById(R.id.answerText);
         answerField.setShowSoftInputOnFocus(false);
         answerField.setCursorVisible(false);
-        if (operator ==	'\u0000' || difficulty == 0) {
+        TextView timer = findViewById(R.id.timer);
+        if (operators.length == 0) {
             //TO-DO: show snackBar
         } else {
-            TextView op = findViewById(R.id.operator);
-            op.setText("+");
             generateQuestion();
         }
+        new CountDownTimer(time, 1000) {
+            @Override
+            public void onTick(long l) {
+                String timeString = "Time Remaining: "+ l / 1000;
+                timer.setText(timeString);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
     }
 
     public void numberPressed(View view) {
         TextView textView = (TextView) view;
         String number = textView.getText().toString();
-        if(userAnswer.isEmpty()) {
+        if(getUserAnswer().isEmpty()) {
             setUserAnswer(number);
         } else {
             setUserAnswer(getUserAnswer() + number);
         }
-        answerField.setText(userAnswer);
+        answerField.setText(getUserAnswer());
     }
 
     public void clear(View view) {
-        if(!userAnswer.isEmpty()) {
+        if(!getUserAnswer().isEmpty()) {
             setUserAnswer(getUserAnswer().substring(0, getUserAnswer().length() - 1));
             answerField.setText(getUserAnswer());
         }
     }
 
     public void submit(View view) {
-        if (!userAnswer.isEmpty()) {
-            if (userAnswer.equals(String.valueOf(answer))) {
+        if (!getUserAnswer().isEmpty()) {
+            if (getUserAnswer().equals(String.valueOf(getAnswer()))) {
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen),"Correct Answer",Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint( getResources().getColor(R.color.purple_200));
                 snackbar.show();
@@ -83,37 +101,99 @@ public class ProblemScreenActivity extends AppCompatActivity {
     }
 
     private void generateQuestion() {
-        Random random = new Random();
-        switch (difficulty) {
-            case 1 :
-                setOperand1(random.nextInt(10));
-                setOperand2(random.nextInt(10));
+
+        int selectedOpIndex = generateRandom(operators.length, 0);
+        Operator selectedOp = operators[selectedOpIndex];
+
+        switch (selectedOp) {
+            case ADDITION: generateAdd();
                 break;
-            case 2 :
-                setOperand1(random.nextInt(90)+10);
-                setOperand2(random.nextInt(90)+10);
+            case SUBTRACTION: generateSub();
                 break;
-            default: setOperand1(random.nextInt(900) + 100);
-                setOperand2(random.nextInt(900) + 100);
+            case MULTIPLICATION: generateMulti();
+                break;
+            default: generateDiv();
         }
         TextView op1 = findViewById(R.id.operand_1);
         TextView op2 = findViewById(R.id.operand_2);
         op1.setText(String.valueOf(getOperand1()));
         op2.setText(String.valueOf(getOperand2()));
-        setAnswer();
+
+        TextView op = findViewById(R.id.operator);
+        op.setText(String.valueOf(selectedOp.getValue()));
+        setAnswer(selectedOp);
     }
 
-    private void setAnswer() {
+    private void generateAdd() {
+        switch (difficulty) {
+            case EASY: setOperand1(generateRandom(10,0));
+                setOperand2(generateRandom(10,0));
+                break;
+            case MEDIUM: setOperand1(generateRandom(90,10));
+                setOperand2(generateRandom(90, 10));
+                break;
+            default: setOperand1(generateRandom(900, 100));
+                setOperand2(generateRandom(900, 100));
+        }
+    }
+
+    private void generateSub() {
+        switch (difficulty) {
+            case EASY: setOperand1(generateRandom(10,0));
+                setOperand2(generateRandom(10,0));
+                break;
+            case MEDIUM: setOperand1(generateRandom(90,10));
+                setOperand2(generateRandom(90, 10));
+                break;
+            default: setOperand1(generateRandom(900, 100));
+                setOperand2(generateRandom(900, 100));
+        }
+        if(getOperand1() < getOperand2()) {
+            generateSub();
+        }
+    }
+
+    private void generateMulti() {
+        switch (difficulty) {
+            case EASY: setOperand1(generateRandom(10,0));
+                break;
+            case MEDIUM: setOperand1(generateRandom(20,10));
+                break;
+            default: setOperand1(generateRandom(30, 20));
+        }
+        setOperand2(generateRandom(10,1));
+    }
+
+    private void generateDiv() {
+        switch (difficulty) {
+            case EASY: setOperand1(generateRandom(100,0));
+                break;
+            case MEDIUM: setOperand1(generateRandom(500,100));
+                break;
+            default: setOperand1(generateRandom(1000, 500));
+        }
+        setOperand2(generateRandom(9,2));
+        if(getOperand1() % getOperand2() != 0 || getOperand1() < getOperand2()) {
+            generateDiv();
+        }
+    }
+
+    private void setAnswer(Operator operator) {
         switch (operator) {
-            case '+':
+            case ADDITION:
                 setAnswer(getOperand1() + getOperand2());
                 break;
-            case '-': setAnswer(getOperand1() - getOperand2());
+            case SUBTRACTION: setAnswer(getOperand1() - getOperand2());
                 break;
-            case '*': setAnswer(getOperand1() * getOperand2());
+            case MULTIPLICATION: setAnswer(getOperand1() * getOperand2());
                 break;
             default : setAnswer(getOperand1() / getOperand2());
         }
+    }
+
+    private int generateRandom(int bound, int offset) {
+        Random random = new Random();
+        return random.nextInt(bound) + offset;
     }
 
 
