@@ -19,6 +19,9 @@
             android:name=".assignments.Create_Assignment"
             android:exported="false" />
         <activity
+            android:name=".teacher.AddNewClass"
+            android:exported="false" />
+        <activity
             android:name=".teacher.TeacherListStudents"
             android:exported="false" />
         <activity
