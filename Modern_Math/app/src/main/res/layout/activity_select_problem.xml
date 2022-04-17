@@ -20,7 +20,7 @@
         android:id="@+id/levelSpinner"
         android:layout_width="262dp"
         android:layout_height="35dp"
-        android:background="@android:drawable/spinner_dropdown_background"
+        android:background="@android:drawable/spinner_background"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         app:layout_constraintVertical_bias="0.212" />
 
     <Button
-        android:id="@+id/practice"
+        android:id="@+id/practiceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Practice"
@@ -58,16 +58,39 @@
         android:onClick="startPracticeSession"/>
 
     <Button
-        android:id="@+id/challenge"
+        android:id="@+id/challengeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time Challenge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/practiceButton"
+        app:layout_constraintVertical_bias="0.098"
+        android:onClick="startTimeChallengeSession"/>
+
+    <TextView
+        android:id="@+id/activeUserTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome!"
+        app:layout_constraintBottom_toTopOf="@+id/modeSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/practice"
-        app:layout_constraintVertical_bias="0.211"
-        android:onClick="startTimeChallengeSession"/>
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+
+    <Button
+        android:id="@+id/assignmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assignments"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/challengeButton"
+        app:layout_constraintVertical_bias="0.177"
+        android:onClick="startAssignmentSession"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

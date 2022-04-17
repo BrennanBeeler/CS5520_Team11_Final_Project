@@ -19,70 +19,80 @@ import java.util.Collections;
 
 import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 
+/**
+ * Class that displays various input options to player to start the game.
+ */
 public class ProblemSelectionActivity extends AppCompatActivity {
 
     private String selectedPlayLevel;
     private String[] selectedPlayMode;
     private AlertDialog.Builder missingInputAlert;
+    private TextView activeUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_problem);
 
-        TextView textView = findViewById(R.id.modeSpinner);
-        ArrayList<Integer> langList = new ArrayList<>();
-        String[] langArray = getResources().getStringArray(R.array.mode_array);
-        boolean[] selectedPlay = new boolean[langArray.length];
-        selectedPlayMode = new String[langArray.length];
-        textView.setOnClickListener(new View.OnClickListener() {
+        // Welcome Message
+        activeUser = findViewById(R.id.activeUserTextView);
+        if (getIntent().getExtras() != null)
+        {
+            User user = getIntent().getExtras().getParcelable("active_user");
+            activeUser.setText("Welcome " + user.firstName);
+        }
+
+
+        // Mode Selection - Multiple Selection
+        TextView modeTextView = findViewById(R.id.modeSpinner);
+        ArrayList<Integer> modeList = new ArrayList<>();
+        String[] modeArray = getResources().getStringArray(R.array.mode_array);
+        boolean[] selectedPlay = new boolean[modeArray.length];
+        selectedPlayMode = new String[modeArray.length];
+
+        modeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProblemSelectionActivity.this);
                 builder.setTitle("Select Mode of Play");
                 //builder.setCancelable(false);
 
-                builder.setMultiChoiceItems(langArray, selectedPlay, new DialogInterface.OnMultiChoiceClickListener() {
+                builder.setMultiChoiceItems(modeArray, selectedPlay, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                        // check condition
+                        // if the mode was selected
                         if (b) {
-                            // when checkbox selected
-                            // Add position  in lang list
-                            langList.add(i);
-                            // Sort array list
-                            Collections.sort(langList);
+                            modeList.add(i);
+                            Collections.sort(modeList);
                         } else {
-                            // when checkbox unselected
-                            // Remove position from langList
-                            langList.remove(Integer.valueOf(i));
+                            modeList.remove(Integer.valueOf(i));
                         }
                     }
                 });
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         StringBuilder stringBuilder = new StringBuilder();
-                        for (int j = 0; j < langList.size(); j++) {
-                            stringBuilder.append(langArray[langList.get(j)]);
-                            selectedPlayMode[j] = langArray[langList.get(j)];
-                            if (j != langList.size() - 1) {
+                        for (int j = 0; j < modeList.size(); j++) {
+                            stringBuilder.append(modeArray[modeList.get(j)]);
+                            selectedPlayMode[j] = modeArray[modeList.get(j)];
+                            if (j != modeList.size() - 1) {
                                 stringBuilder.append(", ");
                             }
                         }
-                        textView.setText(stringBuilder.toString());
+                        modeTextView.setText(stringBuilder.toString());
                     }
                 });
-                // show dialog
                 builder.show();
             }
         });
 
-
+        // Level Selection - Default selection as easy
         Spinner levelSpinner = (Spinner) findViewById(R.id.levelSpinner);
         ArrayAdapter<CharSequence> levelAdapter = ArrayAdapter
                 .createFromResource(this, R.array.level_array,
@@ -121,11 +131,17 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     public void startTimeChallengeSession(View view) {
         if (!validateInputs()) {
             // To-do: Change of Destination
-            Intent challengeIntent = new Intent(ProblemSelectionActivity.this, MainActivity.class);
+            Intent challengeIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
             challengeIntent.putExtra("modeOfPlay", this.selectedPlayMode);
             challengeIntent.putExtra("levelOfPlay", this.selectedPlayLevel);
             startActivity(challengeIntent);
         }
+    }
+
+    public void startAssignmentSession(View view) {
+        // To-do: Change of Destination
+        Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
+        startActivity(assignmentIntent);
     }
 
     public boolean validateInputs() {

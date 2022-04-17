@@ -32,6 +32,7 @@ import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 import edu.neu.madcourse.modernmath.login.LoginClickListener;
 import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
 import edu.neu.madcourse.modernmath.login.UserLoginCard;
+import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class MainActivity extends AppCompatActivity {
@@ -99,8 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                // TODO: add actual student page as target
-                intent = new Intent(MainActivity.this, test.class);
+                intent = new Intent(MainActivity.this, ProblemSelectionActivity.class);
             }
 
             intent.putExtra("active_user", new User(userList.get(position)));
