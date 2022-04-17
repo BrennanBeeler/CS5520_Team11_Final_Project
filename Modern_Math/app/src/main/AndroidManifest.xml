@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.modernmath">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <queries>
-        <package android:name="com.google.android.googlequicksearchbox"/>
+        <package android:name="com.google.android.googlequicksearchbox" />
     </queries>
 
     <application
@@ -15,6 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_mm_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
+        <activity
+            android:name=".assignments.Create_Assignment"
+            android:exported="false" />
         <activity
             android:name=".teacher.TeacherListStudents"
             android:exported="false" />
