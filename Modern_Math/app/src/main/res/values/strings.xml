@@ -29,4 +29,18 @@
     <string name="multiply">X</string>
     <string name="divide">/</string>
     <string name="equals">=</string>
+    <string-array name="mode_array">
+        <item>Add</item>
+        <item>Subtract</item>
+        <item>Multiple</item>
+        <item>Divide</item>
+    </string-array>
+
+    <string-array name="level_array">
+        <item>Select Level</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Custom</item>
+    </string-array>
 </resources>
