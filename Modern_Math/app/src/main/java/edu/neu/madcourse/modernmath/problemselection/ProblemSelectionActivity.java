@@ -119,7 +119,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startPracticeSession(View view) {
         if (!validateInputs()) {
-            // To-do: Change of Destination
+            // TODO: Change of Destination
             Intent practiceIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
             practiceIntent.putExtra("modeOfPlay", this.selectedPlayMode);
             practiceIntent.putExtra("levelOfPlay", this.selectedPlayLevel);
@@ -129,7 +129,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startTimeChallengeSession(View view) {
         if (!validateInputs()) {
-            // To-do: Change of Destination
+            // TODO: Change of Destination
             Intent challengeIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
             challengeIntent.putExtra("modeOfPlay", this.selectedPlayMode);
             challengeIntent.putExtra("levelOfPlay", this.selectedPlayLevel);
@@ -138,7 +138,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     }
 
     public void startAssignmentSession(View view) {
-        // To-do: Change of Destination
+        // TODO: Change of Destination
         Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
         startActivity(assignmentIntent);
     }
