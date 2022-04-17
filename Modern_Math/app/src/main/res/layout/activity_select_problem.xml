@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".problemselection.ProblemSelectionActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/ic_launcher_mm_background"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <Spinner
+        android:id="@+id/levelSpinner"
+        android:layout_width="262dp"
+        android:layout_height="35dp"
+        android:background="@android:drawable/spinner_dropdown_background"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modeSpinner"
+        app:layout_constraintVertical_bias="0.17" />
+
+    <TextView
+        android:id="@+id/modeSpinner"
+        android:layout_width="262dp"
+        android:layout_height="35dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        android:drawableRight="@android:drawable/arrow_down_float"
+        android:hint="Select Mode"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
+        app:layout_constraintVertical_bias="0.212" />
+
+    <Button
+        android:id="@+id/practice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Practice"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelSpinner"
+        app:layout_constraintVertical_bias="0.272"
+        android:onClick="startPracticeSession"/>
+
+    <Button
+        android:id="@+id/challenge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time Challenge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/practice"
+        app:layout_constraintVertical_bias="0.211"
+        android:onClick="startTimeChallengeSession"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
