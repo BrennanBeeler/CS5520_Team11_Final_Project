@@ -72,8 +72,6 @@ public class AddNewClass extends AppCompatActivity {
             return;
         }
 
-        Log.d("AddClass", "setting up data ");
-
         Map<String, Object> newClass = new HashMap<>();
         newClass.put("class_title", classTitle);
         newClass.put("class_period", period);
@@ -87,8 +85,6 @@ public class AddNewClass extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     // If unsuccessful in retrieving this, the email is available
-                    Log.d("AddClass", "onComplete: adding data ");
-
                     if (task.getResult().getValue() == null) {
                         myDatabase.child("classes").child(joinCode).setValue(newClass, new DatabaseReference.CompletionListener() {
                             @Override
