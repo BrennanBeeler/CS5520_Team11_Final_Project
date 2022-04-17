@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startActivity(new Intent(MainActivity.this, Create_Assignment.class));
 
         // Set up action bar
         setSupportActionBar(findViewById(R.id.main_toolbar));
