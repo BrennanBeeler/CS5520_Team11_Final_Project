@@ -21,6 +21,7 @@
     </string-array>
 
     <string-array name="level_array">
+        <item>Select Level</item>
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>

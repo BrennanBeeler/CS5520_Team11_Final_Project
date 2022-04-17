@@ -150,7 +150,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        if (this.selectedPlayMode[0] == null) {
+        if (this.selectedPlayMode[0] == null || this.selectedPlayLevel.equals("Select")) {
             AlertDialog alert = missingInputAlert.create();
             alert.setTitle("Error");
             alert.setMessage("Inputs are missing!");
