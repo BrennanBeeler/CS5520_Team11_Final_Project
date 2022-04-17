@@ -6,4 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".test">
 
+    <TextView
+        android:id="@+id/test_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="test" />
+
+    <Button
+        android:id="@+id/test_btn"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="test"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="10dp"
+        android:onClick="testOnClick"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

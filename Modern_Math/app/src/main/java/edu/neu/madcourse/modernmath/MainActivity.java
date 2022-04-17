@@ -4,16 +4,24 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,6 +32,7 @@ import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 import edu.neu.madcourse.modernmath.login.LoginClickListener;
 import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
 import edu.neu.madcourse.modernmath.login.UserLoginCard;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class MainActivity extends AppCompatActivity {
     private final ArrayList<UserLoginCard> userList = new ArrayList<>();
@@ -86,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (userList.get(position).is_teacher)
             {
-                // TODO: add actual teacher page as target
-                intent = new Intent(MainActivity.this, test.class);
+                intent = new Intent(MainActivity.this, TeacherClassList.class);
             }
             else
             {
@@ -142,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         this.local_user_db.close();
         this.executorService.shutdown();
         super.onDestroy();
+
     }
 
     public void addNewUser(View view)
@@ -167,5 +176,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.getNewUserIntentLauncher.launch(intent);
+    }
+
+    public void testOnClick(View view)
+    {
+        startActivity(new Intent(MainActivity.this, test.class));
     }
 }

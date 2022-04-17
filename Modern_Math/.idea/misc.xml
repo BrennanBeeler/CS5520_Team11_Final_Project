@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_class_list.xml" value="0.1796875" />
+        <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_classes.xml" value="0.1796875" />
+        <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_list_students.xml" value="0.165625" />
+        <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/teacher_class_card.xml" value="0.21875" />
       </map>
     </option>
   </component>
