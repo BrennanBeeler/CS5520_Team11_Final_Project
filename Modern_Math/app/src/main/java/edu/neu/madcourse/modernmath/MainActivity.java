@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startActivity(new Intent(MainActivity.this, Create_Assignment.class));
-
         // Set up action bar
         setSupportActionBar(findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
@@ -184,5 +182,10 @@ public class MainActivity extends AppCompatActivity {
     public void testOnClick(View view)
     {
         startActivity(new Intent(MainActivity.this, test.class));
+    }
+
+    public void goToAssignmentCreation(View view)
+    {
+        startActivity(new Intent(MainActivity.this, Create_Assignment.class));
     }
 }
