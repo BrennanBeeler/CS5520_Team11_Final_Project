@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
