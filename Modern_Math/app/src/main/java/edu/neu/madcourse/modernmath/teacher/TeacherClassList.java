@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
 
@@ -94,18 +95,13 @@ public class TeacherClassList extends AppCompatActivity {
         classListRV.setAdapter(adapter);
         classListRV.setLayoutManager(layoutManager);
 
-        // listener for adding a class
+
         addClass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: open a new activity for this or something...
-                String className = "";
-                String classPeriod = "";
-                String classCode = "";
-                int logoID = 0;
-
-                classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
-                adapter.notifyItemInserted(classList.size()-1);
+                Intent intent = new Intent(TeacherClassList.this, AddNewClass.class);
+                intent.putExtra("active_user", teacher);
+                startActivity(intent);
             }
         });
     }
