@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,7 +42,9 @@ public class AddNewClass extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         User teacher = extras.getParcelable("active_user");
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
-
+        TextView teacherName = findViewById(R.id.teacher_name_add_class);
+        String teacher_name = teacher.firstName + " " + teacher.lastName;
+        teacherName.setText(teacher_name);
     }
 
     public void onNewClassSubmit(View view) {
@@ -78,12 +81,11 @@ public class AddNewClass extends AppCompatActivity {
                                 if (error == null) {
                                     // We have successfully created the account
 
-                                    // Return data to main about new user
-                                    /*
+                                    // Return data to main about teacher
                                     Intent data_intent = new Intent();
-                                    data_intent.putExtra("new_user", new_user);
                                     setResult(Activity.RESULT_OK, data_intent);
-*/
+                                    data_intent.putExtra("active_user", teacher);
+
                                     finish();
                                 }
                                 else {
