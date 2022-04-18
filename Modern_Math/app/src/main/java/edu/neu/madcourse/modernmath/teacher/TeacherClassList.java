@@ -1,6 +1,7 @@
 package edu.neu.madcourse.modernmath.teacher;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,14 @@ public class TeacherClassList extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_class_list);
         TextView teacherName = findViewById(R.id.teacher_name);
         addClass = findViewById(R.id.addClass);
+
+        setSupportActionBar(findViewById(R.id.class_list_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
 
         // set teacher name
         Bundle extras = getIntent().getExtras();
