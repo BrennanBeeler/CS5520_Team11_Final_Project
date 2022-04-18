@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 
 public class TeacherClassList extends AppCompatActivity {
     private FloatingActionButton addClass;

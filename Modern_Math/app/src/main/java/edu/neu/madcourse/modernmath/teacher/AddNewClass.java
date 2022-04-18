@@ -76,9 +76,6 @@ public class AddNewClass extends AppCompatActivity {
         newClass.put("class_title", classTitle);
         newClass.put("class_period", period);
         newClass.put("teacher_email", teacher.email);
-        newClass.put("assignments", null );
-
-        Log.d("AddClass", "starting DB access ");
 
         myDatabase.child("classes").child(joinCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -91,15 +88,15 @@ public class AddNewClass extends AppCompatActivity {
                             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                 if (error == null) {
                                     // We have successfully created the account
-                                    Log.d("AddClass", "onComplete: successful add");
+
                                     // Return data to main about teacher
                                     Intent data_intent = new Intent();
                                     setResult(Activity.RESULT_OK, data_intent);
                                     data_intent.putExtra("active_user", teacher);
+
                                     finish();
                                 }
                                 else {
-                                    Log.d("AddClass", "onComplete: unsuccessful add");
                                     Toast.makeText(AddNewClass.this,
                                             "There was a problem creating your class. Please try again.",
                                             Toast.LENGTH_SHORT).show();
