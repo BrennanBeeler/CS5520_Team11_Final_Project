@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath.teacher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -38,6 +39,14 @@ public class AddNewClass extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_class);
+
+        setSupportActionBar(findViewById(R.id.add_class_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
 
         Bundle extras = getIntent().getExtras();
         User teacher = extras.getParcelable("active_user");
