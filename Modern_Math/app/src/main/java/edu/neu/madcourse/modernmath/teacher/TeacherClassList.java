@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 
 public class TeacherClassList extends AppCompatActivity {
     private FloatingActionButton addClass;
@@ -42,6 +44,13 @@ public class TeacherClassList extends AppCompatActivity {
 
         // set teacher name
         Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            Toast.makeText(TeacherClassList.this,
+                    "No teacher specified.", Toast.LENGTH_SHORT)
+                    .show();
+
+            finish();
+        }
         User teacher = extras.getParcelable("active_user");
         String teacher_name = teacher.firstName + " " + teacher.lastName;
         teacherName.setText(teacher_name);
@@ -54,21 +63,23 @@ public class TeacherClassList extends AppCompatActivity {
         classListRV.setHasFixedSize(true);
         adapter = new ClassListRVAdapter(classList);
 
-        /*
+
         // TODO: move this recyclerview stuff to a different thread
         // TODO: make the database call actually work
-        this.myDatabase.child("users").child(teacher.email).addValueEventListener(new ValueEventListener() {
+        this.myDatabase.child("classes").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String className = dataSnapshot.child("className").getValue().toString();
-                    String classPeriod = dataSnapshot.child("classPeriod").getValue().toString();
-                    String classCode = dataSnapshot.child("classCode").getValue().toString();
-                    int logoID = (int) dataSnapshot.child("logoID").getValue();
+                    if (dataSnapshot.child("teacher_email").getValue().toString() == teacher.email) {
+                        String className = dataSnapshot.child("class_title").getValue().toString();
+                        String classPeriod = dataSnapshot.child("class_period").getValue().toString();
+                        String classCode = dataSnapshot.getValue().toString();
+                        int logoID = 1;
 
-                    classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
+                        classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
+                    }
                 }
 
                 adapter.notifyDataSetChanged();
@@ -80,7 +91,7 @@ public class TeacherClassList extends AppCompatActivity {
                 Log.d("Firebase Error", "Failed to get access ");
             }
         });
-*/
+
         ClassListClickListener i = new ClassListClickListener() {
             @Override
             public void onClassClick(int position) {
