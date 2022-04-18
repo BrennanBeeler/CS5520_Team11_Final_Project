@@ -83,7 +83,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
-
+                        showEndDialog("Times up!\n").show();
                     }
                 }.start();
             }
@@ -113,10 +113,13 @@ public class ProblemScreenActivity extends AppCompatActivity {
          return builder.create();
     }
 
-    private Dialog showEndDialog() {
+    private Dialog showEndDialog(String s) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        String text = String.format(getString(R.string.correct_answers), correctAnswers) + '\n' +
+        String text = "";
+        if(!s.isEmpty()) {
+            text = s;
+        }
+        text = text + String.format(getString(R.string.correct_answers), correctAnswers) + '\n' +
                 String.format(getString(R.string.incorrect_answers), incorrectAnswer);
 
         builder.setMessage(text)
@@ -164,7 +167,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         numOfQuestions);
                 numberOfQuestionsField.setText(text);
             } else if (numOfQuestions == 0) {
-                showEndDialog().show();
+                showEndDialog("").show();
             }
             setUserAnswer("");
             answerField.setText("");
