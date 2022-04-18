@@ -1,11 +1,16 @@
 package edu.neu.madcourse.modernmath.problem_screen;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -19,15 +24,18 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private String userAnswer = "";
     private Difficulty difficulty = Difficulty.EASY;
-    private int numOfQuestions;
-    private long time = 30000L;
+    private int numOfQuestions = 10;
+    private long time = 0;
     private int operand1;
     private int operand2;
     private int answer;
     private String assignmentCode;
-    private String userId;
-    private Operator[] operators = {Operator.DIVISION};
+    private String userId = "test2";
+    private Operator[] operators = {Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION, Operator.DIVISION};
+    private int correctAnswers = 0;
+    private int incorrectAnswer = 0;
     EditText answerField;
+    TextView numberOfQuestionsField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,27 +50,81 @@ public class ProblemScreenActivity extends AppCompatActivity {
             userId = extras.getString("userId");
             operators = (Operator[]) extras.getSerializable("operators");
         }
-        answerField = findViewById(R.id.answerText);
-        answerField.setShowSoftInputOnFocus(false);
-        answerField.setCursorVisible(false);
-        TextView timer = findViewById(R.id.timer);
-        if (operators.length == 0) {
-            //TO-DO: show snackBar
-        } else {
-            generateQuestion();
+        if (operators.length == 0 || userId.isEmpty()) {
+            Toast.makeText(getBaseContext(), getString(R.string.error),
+                    Toast.LENGTH_SHORT).show();
+            finish();
         }
-        new CountDownTimer(time, 1000) {
-            @Override
-            public void onTick(long l) {
-                String timeString = "Time Remaining: "+ l / 1000;
-                timer.setText(timeString);
-            }
+        Dialog dialog = showStartDialog();
+        dialog.show();
+    }
 
-            @Override
-            public void onFinish() {
+    private void init(){
+            answerField = findViewById(R.id.answerText);
+            answerField.setShowSoftInputOnFocus(false);
+            answerField.setCursorVisible(false);
 
+            if(numOfQuestions > 0) {
+                numberOfQuestionsField = findViewById(R.id.numberofQuestions);
+                String text = String.format(getString(R.string.number_of_Questions),
+                        numOfQuestions);
+                numberOfQuestionsField.setText(text);
             }
-        }.start();
+            TextView timer = findViewById(R.id.timer);
+
+            generateQuestion();
+            if (time > 0) {
+                new CountDownTimer(time, 1000) {
+                    @Override
+                    public void onTick(long l) {
+                        String timeString = "Time Remaining: " + l / 1000;
+                        timer.setText(timeString);
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                }.start();
+            }
+    }
+
+    private Dialog showStartDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        String message = getString(R.string.start_challenge) + '\n';
+        if(numOfQuestions > 0) {
+            message = message + '\n' + String.format(getString(R.string.number_of_Questions),
+                    numOfQuestions);
+        }
+        if (time > 0) {
+            message = message + '\n' + String.format(getString(R.string.time),
+                    String.valueOf(time / 1000));
+        }
+
+         builder.setMessage(message)
+                .setPositiveButton(R.string.start_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        init();
+                    }
+                });
+         builder.setCancelable(false);
+         return builder.create();
+    }
+
+    private Dialog showEndDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        String text = String.format(getString(R.string.correct_answers), correctAnswers) + '\n' +
+                String.format(getString(R.string.incorrect_answers), incorrectAnswer);
+
+        builder.setMessage(text)
+                .setPositiveButton(R.string.home, (dialogInterface, i) -> {
+                    finish();
+                });
+        builder.setCancelable(false);
+        return builder.create();
     }
 
     public void numberPressed(View view) {
@@ -86,13 +148,23 @@ public class ProblemScreenActivity extends AppCompatActivity {
     public void submit(View view) {
         if (!getUserAnswer().isEmpty()) {
             if (getUserAnswer().equals(String.valueOf(getAnswer()))) {
+                correctAnswers++;
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen),"Correct Answer",Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint( getResources().getColor(R.color.purple_200));
                 snackbar.show();
             } else {
+                incorrectAnswer++;
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen),"Incorrect Answer",Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint( getResources().getColor(R.color.cardview_dark_background));
                 snackbar.show();
+            }
+            --numOfQuestions;
+            if (numOfQuestions > 0) {
+                String text = String.format(getString(R.string.number_of_Questions),
+                        numOfQuestions);
+                numberOfQuestionsField.setText(text);
+            } else if (numOfQuestions == 0) {
+                showEndDialog().show();
             }
             setUserAnswer("");
             answerField.setText("");
@@ -155,7 +227,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private void generateMulti() {
         switch (difficulty) {
-            case EASY: setOperand1(generateRandom(10,0));
+            case EASY: setOperand1(generateRandom(10,1));
                 break;
             case MEDIUM: setOperand1(generateRandom(20,10));
                 break;

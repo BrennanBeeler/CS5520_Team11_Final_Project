@@ -15,6 +15,7 @@
         android:text="@string/number_1"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -26,6 +27,7 @@
         android:text="@string/number_2"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -37,6 +39,7 @@
         android:text="@string/number_3"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -48,6 +51,7 @@
         android:text="@string/number_4"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -60,6 +64,7 @@
         android:text="@string/number_5"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -72,6 +77,7 @@
         android:text="@string/number_6"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -83,6 +89,7 @@
         android:text="@string/number_7"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -95,6 +102,7 @@
         android:text="@string/number_8"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -107,15 +115,18 @@
         android:text="@string/number_9"
         android:gravity="center"
         android:onClick="numberPressed"
+        android:textSize="20sp"
         />
 
-    <TextView
+    <ImageView
         android:id="@+id/backspace"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_below="@id/number_7"
         android:layout_margin="5dp"
         android:onClick="clear"
+        android:scaleType="fitXY"
+        android:src="@drawable/backspace"
         />
 
     <TextView
@@ -128,15 +139,20 @@
         android:text="@string/number_0"
         android:onClick="numberPressed"
         android:gravity="center"
+        android:textSize="20sp"
         />
 
-    <TextView
+    <ImageView
         android:id="@+id/submit"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_below="@id/number_9"
-        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_toEndOf="@id/number_0"
         android:onClick="submit"
-        />
+        android:scaleType="fitXY"
+        android:src="@drawable/submit_button" />
 </RelativeLayout>

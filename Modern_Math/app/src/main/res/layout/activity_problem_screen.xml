@@ -76,18 +76,18 @@
       android:id="@+id/timer"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="12sp"
+      android:textSize="15sp"
       android:layout_marginStart="16dp"
       android:layout_marginBottom="18dp"
-      app:layout_constraintBottom_toTopOf="@+id/textView2"
+      app:layout_constraintBottom_toTopOf="@+id/numberofQuestions"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
   <TextView
-      android:id="@+id/textView2"
+      android:id="@+id/numberofQuestions"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="12sp"
+      android:textSize="15sp"
       android:layout_marginStart="16dp"
       android:layout_marginBottom="77dp"
       app:layout_constraintBottom_toBottomOf="parent"
