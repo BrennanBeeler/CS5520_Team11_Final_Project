@@ -49,7 +49,7 @@ public class AddNewClass extends AppCompatActivity {
         }
 
         Bundle extras = getIntent().getExtras();
-        User teacher = extras.getParcelable("active_user");
+        teacher = extras.getParcelable("active_user");
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
         TextView teacherName = findViewById(R.id.teacher_name_add_class);
         teacherName.setText(teacher.firstName + " " + teacher.lastName);
@@ -100,6 +100,7 @@ public class AddNewClass extends AppCompatActivity {
                                     Intent data_intent = new Intent();
                                     setResult(Activity.RESULT_OK, data_intent);
                                     data_intent.putExtra("active_user", teacher);
+                                    finish();
                                 }
                                 else {
                                     Log.d("AddClass", "onComplete: unsuccessful add");

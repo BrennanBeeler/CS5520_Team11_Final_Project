@@ -22,7 +22,7 @@
             android:name=".teacher.AddNewClass"
             android:exported="false" />
         <activity
-            android:name=".teacher.TeacherListStudents"
+            android:name=".teacher.TeacherViewClassDetails"
             android:exported="false" />
         <activity
             android:name=".teacher.TeacherClassList"
