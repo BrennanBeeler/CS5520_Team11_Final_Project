@@ -38,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/new_class_period"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/add_class_toolbar" />
 
 
     <EditText
