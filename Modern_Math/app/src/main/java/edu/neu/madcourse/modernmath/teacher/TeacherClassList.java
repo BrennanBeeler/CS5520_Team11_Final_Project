@@ -57,12 +57,12 @@ public class TeacherClassList extends AppCompatActivity {
             Toast.makeText(TeacherClassList.this,
                     "No teacher specified.", Toast.LENGTH_SHORT)
                     .show();
-
+            Log.d("TeacherClass", "no teacher");
             finish();
         }
+        Log.d("TeacherClass", "getting teacher name");
         User teacher = extras.getParcelable("active_user");
-        String teacher_name = teacher.firstName + " " + teacher.lastName;
-        teacherName.setText(teacher_name);
+        teacherName.setText(teacher.firstName + " " + teacher.lastName);
 
         // populate list of classes
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -85,7 +85,7 @@ public class TeacherClassList extends AppCompatActivity {
                         String className = dataSnapshot.child("class_title").getValue().toString();
                         String classPeriod = dataSnapshot.child("class_period").getValue().toString();
                         String classCode = dataSnapshot.getValue().toString();
-                        int logoID = 1;
+                        int logoID = 1; // TODO: Either remove or make the option to select icons
 
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
                     }
