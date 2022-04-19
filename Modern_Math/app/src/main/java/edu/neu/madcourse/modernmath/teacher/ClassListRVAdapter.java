@@ -34,7 +34,7 @@ public class ClassListRVAdapter extends RecyclerView.Adapter<ClassListRVHolder> 
         holder.classPeriod.setText(item.getClassPeriod());
         holder.className.setText(item.getClassName());
         int image = getImageResource(item.getLogoID());
-        holder.logo.setImageResource(image);
+        //holder.logo.setImageResource(image);
     }
 
     private int getImageResource(int logoID) {

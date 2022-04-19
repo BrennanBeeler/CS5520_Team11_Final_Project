@@ -23,10 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 
 public class TeacherClassList extends AppCompatActivity {
     private FloatingActionButton addClass;
@@ -35,6 +33,7 @@ public class TeacherClassList extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     final private ArrayList<ClassListItem> classList = new ArrayList<>();
     private DatabaseReference myDatabase;
+    private User teacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,7 @@ public class TeacherClassList extends AppCompatActivity {
             finish();
         }
         Log.d("TeacherClass", "getting teacher name");
-        User teacher = extras.getParcelable("active_user");
+        teacher = extras.getParcelable("active_user");
         teacherName.setText(teacher.firstName + " " + teacher.lastName);
 
         // populate list of classes
@@ -71,6 +70,8 @@ public class TeacherClassList extends AppCompatActivity {
         classListRV = findViewById(R.id.class_list);
         classListRV.setHasFixedSize(true);
         adapter = new ClassListRVAdapter(classList);
+        classListRV.setAdapter(adapter);
+        classListRV.setLayoutManager(layoutManager);
 
 
         // TODO: move this recyclerview stuff to a different thread
@@ -81,10 +82,12 @@ public class TeacherClassList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (dataSnapshot.child("teacher_email").getValue().toString() == teacher.email) {
-                        String className = dataSnapshot.child("class_title").getValue().toString();
-                        String classPeriod = dataSnapshot.child("class_period").getValue().toString();
-                        String classCode = dataSnapshot.getValue().toString();
+                    if (dataSnapshot.child("teacher_email").getValue().toString().equals(teacher.email)) {
+                        String className = "Class: " +
+                                dataSnapshot.child("class_title").getValue().toString();
+                        String classPeriod = "Period: " +
+                                dataSnapshot.child("class_period").getValue().toString();
+                        String classCode = "Class Code: " + dataSnapshot.getKey();
                         int logoID = 1; // TODO: Either remove or make the option to select icons
 
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
@@ -92,7 +95,7 @@ public class TeacherClassList extends AppCompatActivity {
                 }
 
                 adapter.notifyDataSetChanged();
-                classListRV.scrollToPosition(classList.size() - 1);
+                classListRV.scrollToPosition(0);
             }
 
             @Override
@@ -104,16 +107,14 @@ public class TeacherClassList extends AppCompatActivity {
         ClassListClickListener i = new ClassListClickListener() {
             @Override
             public void onClassClick(int position) {
-                Intent intent = new Intent(TeacherClassList.this, TeacherListStudents.class );
+                Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
                 intent.putExtra("class_code", classList.get(position).getClassCode());
-                intent.putExtra("teacher_name", teacher);
+                intent.putExtra("active_user", teacher);
                 startActivity(intent);
             }
         };
         adapter.setOnItemClickListener(i);
 
-        classListRV.setAdapter(adapter);
-        classListRV.setLayoutManager(layoutManager);
 
 
         addClass.setOnClickListener(new View.OnClickListener() {
