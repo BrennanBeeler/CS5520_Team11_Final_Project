@@ -58,7 +58,7 @@ public class TeacherClassList extends AppCompatActivity {
             Toast.makeText(TeacherClassList.this,
                     "No teacher specified.", Toast.LENGTH_SHORT)
                     .show();
-            Log.d("TeacherClass", "no teacher");
+
             finish();
         }
         Log.d("TeacherClass", "getting teacher name");

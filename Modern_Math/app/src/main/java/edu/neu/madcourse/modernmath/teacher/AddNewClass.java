@@ -72,31 +72,37 @@ public class AddNewClass extends AppCompatActivity {
             return;
         }
 
+        Log.d("AddClass", "setting up data ");
+
         Map<String, Object> newClass = new HashMap<>();
         newClass.put("class_title", classTitle);
         newClass.put("class_period", period);
         newClass.put("teacher_email", teacher.email);
+        newClass.put("assignments", null );
+
+        Log.d("AddClass", "starting DB access ");
 
         myDatabase.child("classes").child(joinCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
                     // If unsuccessful in retrieving this, the email is available
+                    Log.d("AddClass", "onComplete: adding data ");
+
                     if (task.getResult().getValue() == null) {
                         myDatabase.child("classes").child(joinCode).setValue(newClass, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                 if (error == null) {
                                     // We have successfully created the account
-
+                                    Log.d("AddClass", "onComplete: successful add");
                                     // Return data to main about teacher
                                     Intent data_intent = new Intent();
                                     setResult(Activity.RESULT_OK, data_intent);
                                     data_intent.putExtra("active_user", teacher);
-
-                                    finish();
                                 }
                                 else {
+                                    Log.d("AddClass", "onComplete: unsuccessful add");
                                     Toast.makeText(AddNewClass.this,
                                             "There was a problem creating your class. Please try again.",
                                             Toast.LENGTH_SHORT).show();
