@@ -19,12 +19,9 @@
             android:name=".assignments.Create_Assignment"
             android:exported="false" />
         <activity
-        <activity
             android:name=".problem_screen.ProblemScreenActivity"
             android:exported="true"
-            android:screenOrientation="landscape"
-            >
-        </activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".teacher.TeacherListStudents"
             android:exported="false" />
