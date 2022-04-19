@@ -23,8 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 
 public class TeacherClassList extends AppCompatActivity {
     private FloatingActionButton addClass;
@@ -61,6 +63,16 @@ public class TeacherClassList extends AppCompatActivity {
         }
         Log.d("TeacherClass", "getting teacher name");
         teacher = extras.getParcelable("active_user");
+        teacherName.setText(teacher.firstName + " " + teacher.lastName);
+        if (extras == null) {
+            Toast.makeText(TeacherClassList.this,
+                    "No teacher specified.", Toast.LENGTH_SHORT)
+                    .show();
+            Log.d("TeacherClass", "no teacher");
+            finish();
+        }
+        Log.d("TeacherClass", "getting teacher name");
+        User teacher = extras.getParcelable("active_user");
         teacherName.setText(teacher.firstName + " " + teacher.lastName);
 
         // populate list of classes
