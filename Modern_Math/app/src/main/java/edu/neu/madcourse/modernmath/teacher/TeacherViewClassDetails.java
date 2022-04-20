@@ -1,9 +1,12 @@
 package edu.neu.madcourse.modernmath.teacher;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -22,16 +29,17 @@ import edu.neu.madcourse.modernmath.database.User;
 public class TeacherViewClassDetails extends AppCompatActivity {
     private User teacher;
     private FloatingActionButton addAssignment;
+    private String class_code;
 
     private RecyclerView assignmentListRV;
     private AssignmentListRVAdapter assignmentAdapter;
     private RecyclerView.LayoutManager assignmentLayoutManager;
-    final private ArrayList<ClassListItem> assignmentList = new ArrayList<>();
+    final private ArrayList<AssignmentListItem> assignmentList = new ArrayList<>();
 
     private RecyclerView studentListRV;
     private StudentListRVAdapter studentAdapter;
     private RecyclerView.LayoutManager studentLayoutManager;
-    final private ArrayList<ClassListItem> studentList = new ArrayList<>();
+    final private ArrayList<StudentListItem> studentList = new ArrayList<>();
 
     private DatabaseReference myDatabase;
 
@@ -39,6 +47,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_view_class_details);
+        this.myDatabase = FirebaseDatabase.getInstance().getReference();
 
         TextView teacherName = findViewById(R.id.teacher_name);
         TextView classCode = findViewById(R.id.class_code_detail_screen);
@@ -47,8 +56,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
 
         setSupportActionBar(findViewById(R.id.class_list_toolbar));
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-        {
+        if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
@@ -62,7 +70,8 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         }
         teacher = extras.getParcelable("active_user");
         teacherName.setText(teacher.firstName + " " + teacher.lastName);
-        classCode.setText(extras.getString("class_code"));
+        class_code = extras.getString("class_code");
+        classCode.setText(class_code);
         className.setText(extras.getString("class_title"));
 
         addAssignment.setOnClickListener(new View.OnClickListener() {
@@ -74,8 +83,68 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             }
         });
 
-
+        assignmentRVSetup();
+        studentRVSetup();
     }
 
+    private void assignmentRVSetup() {
+        assignmentLayoutManager = new LinearLayoutManager(this);
+        assignmentListRV = findViewById(R.id.teacher_assignments_RV);
+        assignmentListRV.setHasFixedSize(true);
+        assignmentAdapter = new AssignmentListRVAdapter(assignmentList);
+        assignmentListRV.setAdapter(assignmentAdapter);
+        assignmentListRV.setLayoutManager(assignmentLayoutManager);
 
+
+        // TODO: move this recyclerview stuff to a different thread
+        // TODO: make the database call actually work
+        this.myDatabase.child("classes").child(class_code).child("assignments").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                assignmentList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    boolean add = Boolean.getBoolean(dataSnapshot.child("addition").getValue().toString());
+                    boolean subtract = Boolean.getBoolean(dataSnapshot.child("subtraction").getValue().toString());
+                    boolean multiply = Boolean.getBoolean(dataSnapshot.child("multiplication").getValue().toString());
+                    boolean divide = Boolean.getBoolean(dataSnapshot.child("division").getValue().toString());
+
+                    String title = dataSnapshot.child("class_title").getValue().toString();
+                    String difficulty = "TODO " + dataSnapshot.child("difficulty").getValue().toString();
+
+                    boolean isTimed = dataSnapshot.hasChild("time");
+                    String amount;
+                    if (isTimed) {
+                        amount = dataSnapshot.child("time").getValue().toString() + " minutes";
+                    } else {
+                        amount = dataSnapshot.child("num_questions").getValue().toString() + " questions";
+                    }
+                        assignmentList.add(new AssignmentListItem(add, subtract, multiply, divide, title, difficulty, amount, isTimed));
+                }
+
+                assignmentAdapter.notifyDataSetChanged();
+                assignmentListRV.scrollToPosition(0);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Firebase Error", "Failed to get access ");
+            }
+        });
+
+        AssignmentListClickListener i = new AssignmentListClickListener() {
+            @Override
+            public void onAssignmentClick(int position) {
+                // TODO: make assignment summary page?
+                Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
+                intent.putExtra("active_user", teacher);
+                startActivity(intent);
+            }
+        };
+        assignmentAdapter.setListener(i);
+    }
+
+    private void studentRVSetup() {
+
+    }
 }
