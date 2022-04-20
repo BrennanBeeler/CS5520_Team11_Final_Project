@@ -1,5 +1,7 @@
 package edu.neu.madcourse.modernmath.assignments;
 
+import android.content.res.Resources;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.neu.madcourse.modernmath.R;

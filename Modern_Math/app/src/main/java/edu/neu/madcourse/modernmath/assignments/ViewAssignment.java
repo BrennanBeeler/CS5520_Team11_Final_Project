@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
@@ -51,14 +55,7 @@ public class ViewAssignment extends AppCompatActivity {
             this.current_class_id = extras.getString("current_class_id");
             this.current_assignment = extras.getParcelable("current_assignment");
 
-
-
-
-
-            for (Student_Assignment assignment : this.current_assignment.student_assignments)
-            {
-                this.studentAssignmentList.add(new StudentAssignmentCard(assignment));
-            }
+            this.setData();
         }
         else
         {
@@ -73,6 +70,49 @@ public class ViewAssignment extends AppCompatActivity {
         this.studentAssignmentRVAdaptor = new StudentAssignmentRVAdaptor(this.studentAssignmentList);
         this.recyclerView.setAdapter(this.studentAssignmentRVAdaptor);
         this.recyclerView.setLayoutManager(this.layoutManager);
+    }
+
+    private void setData()
+    {
+        TextView assignment_name = findViewById(R.id.assignment_name);
+        assignment_name.setText(this.current_assignment.assignment_title);
+
+        // Convert operators to proper format and set
+        TextView operators = findViewById(R.id.operators);
+        StringJoiner joiner = new StringJoiner(", ");
+        for (Operator op : this.current_assignment.operators)
+        {
+            joiner.add(String.valueOf(op.value));
+        }
+        operators.setText("Operators: " + joiner);
+
+        TextView difficulty = findViewById(R.id.assignment_difficulty);
+        difficulty.setText("Difficulty: " + this.current_assignment.difficulty);
+
+        TextView timeLimit = findViewById(R.id.assignment_time_limit);
+        if (this.current_assignment.time == 0)
+        {
+            timeLimit.setText("Time Limit: No limit");
+        }
+        else
+        {
+            timeLimit.setText("Time Limit: " + this.current_assignment.time);
+        }
+
+        TextView numQuestions = findViewById(R.id.assignment_num_questions);
+        if (this.current_assignment.num_questions == 0)
+        {
+            numQuestions.setText("Number of questions: No target");
+        }
+        else
+        {
+            numQuestions.setText("Number of questions: " + this.current_assignment.num_questions);
+        }
+
+        for (Student_Assignment assignment : this.current_assignment.student_assignments)
+        {
+            this.studentAssignmentList.add(new StudentAssignmentCard(assignment));
+        }
     }
 
     private void testMethod()

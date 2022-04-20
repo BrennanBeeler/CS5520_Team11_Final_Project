@@ -23,14 +23,14 @@ public class Assignment implements Parcelable {
 
     public Difficulty difficulty;
 
-    public String time;
+    public int time;
 
     public int num_questions;
 
     public ArrayList<Student_Assignment> student_assignments;
 
     public Assignment(String assignment_id, String assignment_title, Difficulty difficulty,
-                      ArrayList<Operator> operators, String time, int num_questions,
+                      ArrayList<Operator> operators, int time, int num_questions,
                       ArrayList<Student_Assignment> student_assignments)
     {
         this.assignment_id = Objects.requireNonNull(assignment_id, "assignment_id must not be null");
@@ -59,7 +59,7 @@ public class Assignment implements Parcelable {
         // TODO: ensure this works
         this.operators = in.readArrayList(null);
         this.difficulty = Difficulty.valueOf(in.readString());
-        this.time = in.readString();
+        this.time = in.readInt();
         this.num_questions = in.readInt();
 
         this.student_assignments = new ArrayList<>();
@@ -82,7 +82,7 @@ public class Assignment implements Parcelable {
         out.writeString(this.assignment_title);
         out.writeList(this.operators);
         out.writeString(String.valueOf(this.difficulty));
-        out.writeString(this.time);
+        out.writeInt(this.time);
         out.writeInt(this.num_questions);
 
         Student_Assignment[] test = new Student_Assignment[this.student_assignments.size()];

@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/student_email"
             app:layout_constraintBottom_toTopOf="@id/student_num_correct"
-            android:text="Time Spent"
+            android:text="@string/time_spent"
             />
 
         <TextView

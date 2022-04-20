@@ -1,5 +1,6 @@
 package edu.neu.madcourse.modernmath.assignments;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +40,11 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
 
     @Override
     public void onBindViewHolder(@NonNull StudentAssignmentRVHolder viewHolder, int position) {
+        // TODO: fix this if we can
         viewHolder.student_email.setText(studentAssignmentList.get(position).getEmail());
-        viewHolder.student_time_spent.setText(studentAssignmentList.get(position).getTimeSpent());
-        viewHolder.student_num_correct.setText(Integer.toString(studentAssignmentList.get(position).getNumCorrect()));
-        viewHolder.student_num_incorrect.setText(Integer.toString(studentAssignmentList.get(position).getNumIncorrect()));
+        viewHolder.student_time_spent.setText("Time spent: " + studentAssignmentList.get(position).getTimeSpent());
+        viewHolder.student_num_correct.setText("Number correct: " + Integer.toString(studentAssignmentList.get(position).getNumCorrect()));
+        viewHolder.student_num_incorrect.setText("Number incorrect: " + Integer.toString(studentAssignmentList.get(position).getNumIncorrect()));
     }
 
     @Override

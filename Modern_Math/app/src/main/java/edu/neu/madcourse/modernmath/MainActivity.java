@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
         intent.putExtra("current_class_id", "test");
         intent.putExtra("current_assignment", new Assignment("a_id", "test_a1",
-                Difficulty.EASY, operators, "test_time", 6, student_assignments));
+                Difficulty.EASY, operators, 0, 6, student_assignments));
 
         startActivity(intent);
     }
