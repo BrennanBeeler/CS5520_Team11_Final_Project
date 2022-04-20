@@ -2,13 +2,21 @@ package edu.neu.madcourse.modernmath.assignments;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.login.LoginClickListener;
+import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
+import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 
 public class ViewAssignment extends AppCompatActivity {
@@ -17,6 +25,11 @@ public class ViewAssignment extends AppCompatActivity {
     String current_class_id;
     Assignment current_assignment;
 
+    private final ArrayList<StudentAssignmentCard> studentAssignmentList = new ArrayList<>();
+
+    private RecyclerView recyclerView;
+    private StudentAssignmentRVAdaptor studentAssignmentRVAdaptor;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +51,47 @@ public class ViewAssignment extends AppCompatActivity {
             this.current_assignment = extras.getParcelable("current_assignment");
         }
 
+        this.recyclerView = findViewById(R.id.student_assignment_recyclerview);
+        this.recyclerView.setHasFixedSize(true);
+        this.layoutManager = new LinearLayoutManager(ViewAssignment.this);
 
+        this.testMethod();
 
+        this.studentAssignmentRVAdaptor = new StudentAssignmentRVAdaptor(this.studentAssignmentList);
 
+//        LoginClickListener loginClickListener = position -> {
+//            Intent intent;
+//
+//            if (userList.get(position).is_teacher)
+//            {
+//                intent = new Intent(MainActivity.this, TeacherClassList.class);
+//            }
+//            else
+//            {
+//                intent = new Intent(MainActivity.this, ProblemSelectionActivity.class);
+//            }
+//
+//            intent.putExtra("active_user", new User(userList.get(position)));
+//            startActivity(intent);
+//        };
 
-
-
-
+//        this.studentAssignmentRVAdaptor.setUsernameClickListener(loginClickListener);
+        this.recyclerView.setAdapter(this.studentAssignmentRVAdaptor);
+        this.recyclerView.setLayoutManager(this.layoutManager);
     }
+
+    private void testMethod()
+    {
+        for (int i = 0; i < 10 ; i++)
+        {
+            this.studentAssignmentList.add(
+                    new StudentAssignmentCard(
+                            new Student_Assignment(
+                                    "test" + i,
+                                    "none",
+                                    0,
+                                    0)));
+        }
+    }
+
 }

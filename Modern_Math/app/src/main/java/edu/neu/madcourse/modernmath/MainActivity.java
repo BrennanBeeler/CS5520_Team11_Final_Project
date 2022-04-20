@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
+import edu.neu.madcourse.modernmath.assignments.ViewAssignment;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
@@ -186,6 +187,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToAssignmentCreation(View view)
     {
-        startActivity(new Intent(MainActivity.this, Create_Assignment.class));
+        startActivity(new Intent(MainActivity.this, ViewAssignment.class));
     }
 }

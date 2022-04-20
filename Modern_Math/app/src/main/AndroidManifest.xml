@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
+            android:name=".assignments.StudentAssignmentCard"
+            android:exported="false" />
+        <activity
             android:name=".assignments.ViewAssignment"
             android:exported="false" />
         <activity
