@@ -21,15 +21,16 @@ public class StudentAssignmentRVHolder extends RecyclerView.ViewHolder {
         this.student_num_correct = cardView.findViewById(R.id.student_num_correct);
         this.student_num_incorrect = cardView.findViewById(R.id.student_num_incorrect);
 
-        cardView.setOnClickListener(view -> {
-            if (studentAssignmentClickListener != null)
-            {
-                int position = getLayoutPosition();
-                if (position != RecyclerView.NO_POSITION)
-                {
-                    studentAssignmentClickListener.onStudentAssignmentClick(position);
-                }
-            }
-        });
+        // TODO: determine if onClick is ever needed
+//        cardView.setOnClickListener(view -> {
+//            if (studentAssignmentClickListener != null)
+//            {
+//                int position = getLayoutPosition();
+//                if (position != RecyclerView.NO_POSITION)
+//                {
+//                    studentAssignmentClickListener.onStudentAssignmentClick(position);
+//                }
+//            }
+//        });
     }
 }

@@ -2,6 +2,9 @@ package edu.neu.madcourse.modernmath.assignments;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -58,8 +61,14 @@ public class Assignment implements Parcelable {
         this.difficulty = Difficulty.valueOf(in.readString());
         this.time = in.readString();
         this.num_questions = in.readInt();
+
+        this.student_assignments = new ArrayList<>();
+
         // TODO: check this too
-        this.student_assignments = new ArrayList<>(Arrays.asList((Student_Assignment[]) in.readParcelableArray(getClass().getClassLoader())));
+        for (Parcelable p : in.readParcelableArray(getClass().getClassLoader()))
+        {
+            this.student_assignments.add((Student_Assignment) p);
+        }
     }
 
     @Override
@@ -75,7 +84,22 @@ public class Assignment implements Parcelable {
         out.writeString(String.valueOf(this.difficulty));
         out.writeString(this.time);
         out.writeInt(this.num_questions);
-        out.writeParcelableArray((Student_Assignment[]) this.student_assignments.toArray(), flags);
+
+        Student_Assignment[] test = new Student_Assignment[this.student_assignments.size()];
+
+        out.writeParcelableArray(this.student_assignments.toArray(test), flags);
     }
 
+    @NonNull
+    @Override
+    public String toString()
+    {
+        return "\nAssignmentID: " + this.assignment_id +
+                "\nAssignment Title: " + this.assignment_title +
+                "\nOperators: " + this.operators +
+                "\nDifficulty: " + this.difficulty +
+                "\nTime: " + this.time +
+                "\nNum Qs: " + this.num_questions +
+                "\nNum students: " + this.student_assignments;
+    }
 }

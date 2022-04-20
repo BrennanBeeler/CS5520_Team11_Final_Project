@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -49,33 +50,27 @@ public class ViewAssignment extends AppCompatActivity {
         if (extras != null) {
             this.current_class_id = extras.getString("current_class_id");
             this.current_assignment = extras.getParcelable("current_assignment");
+
+
+
+
+
+            for (Student_Assignment assignment : this.current_assignment.student_assignments)
+            {
+                this.studentAssignmentList.add(new StudentAssignmentCard(assignment));
+            }
+        }
+        else
+        {
+            this.testMethod();
         }
 
         this.recyclerView = findViewById(R.id.student_assignment_recyclerview);
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(ViewAssignment.this);
 
-        this.testMethod();
 
         this.studentAssignmentRVAdaptor = new StudentAssignmentRVAdaptor(this.studentAssignmentList);
-
-//        LoginClickListener loginClickListener = position -> {
-//            Intent intent;
-//
-//            if (userList.get(position).is_teacher)
-//            {
-//                intent = new Intent(MainActivity.this, TeacherClassList.class);
-//            }
-//            else
-//            {
-//                intent = new Intent(MainActivity.this, ProblemSelectionActivity.class);
-//            }
-//
-//            intent.putExtra("active_user", new User(userList.get(position)));
-//            startActivity(intent);
-//        };
-
-//        this.studentAssignmentRVAdaptor.setUsernameClickListener(loginClickListener);
         this.recyclerView.setAdapter(this.studentAssignmentRVAdaptor);
         this.recyclerView.setLayoutManager(this.layoutManager);
     }
@@ -93,5 +88,4 @@ public class ViewAssignment extends AppCompatActivity {
                                     0)));
         }
     }
-
 }

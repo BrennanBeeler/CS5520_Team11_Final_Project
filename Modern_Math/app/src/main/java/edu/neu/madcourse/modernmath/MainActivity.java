@@ -25,7 +25,11 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import edu.neu.madcourse.modernmath.assignments.Assignment;
 import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
+import edu.neu.madcourse.modernmath.assignments.Difficulty;
+import edu.neu.madcourse.modernmath.assignments.Operator;
+import edu.neu.madcourse.modernmath.assignments.Student_Assignment;
 import edu.neu.madcourse.modernmath.assignments.ViewAssignment;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
@@ -187,6 +191,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToAssignmentCreation(View view)
     {
-        startActivity(new Intent(MainActivity.this, ViewAssignment.class));
+        startActivity(new Intent(MainActivity.this, Create_Assignment.class));
+    }
+
+    public void goToAssignmentView(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, ViewAssignment.class);
+
+        ArrayList<Operator> operators = new ArrayList<>();
+        operators.add(Operator.ADDITION);
+        operators.add(Operator.SUBTRACTION);
+
+        ArrayList<Student_Assignment> student_assignments = new ArrayList<>();
+        student_assignments.add(new Student_Assignment("test_email_1", "22", 5, 3));
+        student_assignments.add(new Student_Assignment("test_email_2", "2", 1, 2));
+        student_assignments.add(new Student_Assignment("test_email_3", "15", 6, 0));
+
+        intent.putExtra("current_class_id", "test");
+        intent.putExtra("current_assignment", new Assignment("a_id", "test_a1",
+                Difficulty.EASY, operators, "test_time", 6, student_assignments));
+
+        startActivity(intent);
     }
 }

@@ -3,9 +3,8 @@ package edu.neu.madcourse.modernmath.assignments;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
+import androidx.annotation.NonNull;
+
 
 public class Student_Assignment implements Parcelable {
 
@@ -52,5 +51,15 @@ public class Student_Assignment implements Parcelable {
         out.writeString(this.time_spent);
         out.writeInt(this.num_correct);
         out.writeInt(this.num_incorrect);
+    }
+
+    @NonNull
+    @Override
+    public String toString()
+    {
+        return "\nStudent Email: " + this.student_email +
+                "\nTime Spent: " + this.time_spent +
+                "\nCorrect: " + this.num_correct +
+                "\nIncorrect: " + this.num_incorrect;
     }
 }
