@@ -121,6 +121,7 @@ public class TeacherClassList extends AppCompatActivity {
             public void onClassClick(int position) {
                 Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
                 intent.putExtra("class_code", classList.get(position).getClassCode());
+                intent.putExtra("class_title", classList.get(position).getClassName());
                 intent.putExtra("active_user", teacher);
                 startActivity(intent);
             }
