@@ -56,7 +56,6 @@ public class Assignment implements Parcelable {
     private Assignment(Parcel in) {
         this.assignment_id = in.readString();
         this.assignment_title = in.readString();
-        // TODO: ensure this works
         this.operators = in.readArrayList(null);
         this.difficulty = Difficulty.valueOf(in.readString());
         this.time = in.readInt();
@@ -64,7 +63,6 @@ public class Assignment implements Parcelable {
 
         this.student_assignments = new ArrayList<>();
 
-        // TODO: check this too
         for (Parcelable p : in.readParcelableArray(getClass().getClassLoader()))
         {
             this.student_assignments.add((Student_Assignment) p);
