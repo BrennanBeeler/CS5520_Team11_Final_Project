@@ -28,7 +28,8 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_assignment_card, parent, false);
-        return new AssignmentListHolder(view, listener);    }
+        return new AssignmentListHolder(view, listener);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
