@@ -97,7 +97,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
 
 
         // TODO: move this recyclerview stuff to a different thread
-        // TODO: make the database call actually work
         this.myDatabase.child("classes").child(class_code).child("assignments").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -135,7 +134,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         AssignmentListClickListener i = new AssignmentListClickListener() {
             @Override
             public void onAssignmentClick(int position) {
-                // TODO: make assignment summary page?
+                // TODO: send to assignment summary page
                 Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
                 intent.putExtra("active_user", teacher);
                 startActivity(intent);
@@ -145,6 +144,50 @@ public class TeacherViewClassDetails extends AppCompatActivity {
     }
 
     private void studentRVSetup() {
+        studentLayoutManager = new LinearLayoutManager(this);
+        studentListRV = findViewById(R.id.teacher_students_RV);
+        studentListRV.setHasFixedSize(true);
+        studentAdapter = new StudentListRVAdapter(studentList);
+        studentListRV.setAdapter(studentAdapter);
+        studentListRV.setLayoutManager(studentLayoutManager);
 
+
+        // TODO: move this recyclerview stuff to a different thread
+        this.myDatabase.child("users").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                studentList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.hasChild("class_code") &&
+                            dataSnapshot.child("class_code").getValue().toString().equals(class_code)) {
+                        String name = dataSnapshot.child("first_name").getValue().toString()
+                                + " " + dataSnapshot.child("last_name").getValue().toString();
+                        String email = dataSnapshot.getKey().toString();
+
+                        studentList.add(new StudentListItem(name, email));
+                    }
+                }
+
+                studentAdapter.notifyDataSetChanged();
+                studentListRV.scrollToPosition(0);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Firebase Error", "Failed to get access ");
+            }
+        });
+
+        StudentClickListener i = new StudentClickListener() {
+            @Override
+            public void onStudentClick(int position) {
+                // TODO: send to assignment summary page
+                Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
+                intent.putExtra("active_user", teacher);
+                startActivity(intent);
+            }
+        };
+        studentAdapter.setListener(i);
     }
 }
