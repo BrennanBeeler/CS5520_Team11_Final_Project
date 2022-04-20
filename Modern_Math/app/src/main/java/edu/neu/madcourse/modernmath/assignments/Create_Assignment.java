@@ -91,6 +91,9 @@ public class Create_Assignment extends AppCompatActivity {
                 }
                 else
                 {
+                    // TODO: will need to get the class so that we can add an empty assignment for
+                    //  each student in the class
+
                     // TODO: create assignment and push to firebase. Will retrieve on previous screen
                     //  Will need to have info on which teacher is making the assignment/what class
                     Toast.makeText(Create_Assignment.this, "TODO- create assignment",

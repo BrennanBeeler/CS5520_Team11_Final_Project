@@ -1,10 +1,17 @@
 package edu.neu.madcourse.modernmath.assignments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
-public class Assignment {
+import edu.neu.madcourse.modernmath.database.User;
+
+public class Assignment implements Parcelable {
     public String assignment_id;
 
     public String assignment_title;
@@ -13,12 +20,15 @@ public class Assignment {
 
     public Difficulty difficulty;
 
-    public Duration time;
+    public String time;
 
     public int num_questions;
 
+    public ArrayList<Student_Assignment> student_assignments;
+
     public Assignment(String assignment_id, String assignment_title, Difficulty difficulty,
-                      ArrayList<Operator> operators, Duration time, int num_questions)
+                      ArrayList<Operator> operators, String time, int num_questions,
+                      ArrayList<Student_Assignment> student_assignments)
     {
         this.assignment_id = Objects.requireNonNull(assignment_id, "assignment_id must not be null");
         this.assignment_title = Objects.requireNonNull(assignment_title, "assignment_title must not be null");
@@ -26,6 +36,46 @@ public class Assignment {
         this.operators = Objects.requireNonNull(operators, "operators must not be null");
         this.time = time;
         this.num_questions = num_questions;
+        this.student_assignments = student_assignments;
+    }
+
+    public static final Parcelable.Creator<Assignment> CREATOR
+            = new Parcelable.Creator<Assignment>() {
+        public Assignment createFromParcel(Parcel in) {
+            return new Assignment(in);
+        }
+
+        public Assignment[] newArray(int size) {
+            return new Assignment[size];
+        }
+    };
+
+    private Assignment(Parcel in) {
+        this.assignment_id = in.readString();
+        this.assignment_title = in.readString();
+        // TODO: ensure this works
+        this.operators = in.readArrayList(null);
+        this.difficulty = Difficulty.valueOf(in.readString());
+        this.time = in.readString();
+        this.num_questions = in.readInt();
+        // TODO: check this too
+        this.student_assignments = new ArrayList<>(Arrays.asList((Student_Assignment[]) in.readParcelableArray(getClass().getClassLoader())));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(this.assignment_id);
+        out.writeString(this.assignment_title);
+        out.writeList(this.operators);
+        out.writeString(String.valueOf(this.difficulty));
+        out.writeString(this.time);
+        out.writeInt(this.num_questions);
+        out.writeParcelableArray((Student_Assignment[]) this.student_assignments.toArray(), flags);
     }
 
 }
