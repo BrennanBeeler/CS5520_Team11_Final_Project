@@ -8,16 +8,19 @@ public class AssignmentListItem {
 
     private String title;
     private String difficulty;
-    private int numQuestions;
+    private String amount;
 
-    public AssignmentListItem(boolean add, boolean subtract, boolean multiply, boolean divide, String title, String difficulty, int numQuestions) {
+    public boolean isTimed;
+
+    public AssignmentListItem(boolean add, boolean subtract, boolean multiply, boolean divide, String title, String difficulty, String amount, boolean isTimed) {
         this.add = add;
         this.subtract = subtract;
         this.multiply = multiply;
         this.divide = divide;
         this.title = title;
         this.difficulty = difficulty;
-        this.numQuestions = numQuestions;
+        this.amount = amount;
+        this.isTimed = isTimed;
     }
 
     public boolean isAdd() {
@@ -44,7 +47,7 @@ public class AssignmentListItem {
         return difficulty;
     }
 
-    public int getNumQuestions() {
-        return numQuestions;
+    public String getAmount() {
+        return amount;
     }
 }

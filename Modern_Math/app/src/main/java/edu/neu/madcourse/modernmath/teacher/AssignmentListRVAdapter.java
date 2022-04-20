@@ -46,7 +46,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         ((AssignmentListHolder) holder).title.setText(assignmentListItems.get(position).getTitle());
-        ((AssignmentListHolder) holder).numQuestions.setText(assignmentListItems.get(position).getNumQuestions());
+        ((AssignmentListHolder) holder).amount.setText(assignmentListItems.get(position).getAmount());
         ((AssignmentListHolder) holder).difficulty.setText(assignmentListItems.get(position).getDifficulty());
     }
 
@@ -62,7 +62,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<RecyclerView.V
         public TextView divide;
         public TextView title;
         public TextView difficulty;
-        public TextView numQuestions;
+        public TextView amount;
 
         public AssignmentListHolder(@NonNull View itemView, AssignmentListClickListener clickListener) {
             super(itemView);
@@ -73,7 +73,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<RecyclerView.V
             divide = itemView.findViewById(R.id.assignment_divide);
             title = itemView.findViewById(R.id.assignment_title);
             difficulty = itemView.findViewById(R.id.assignment_difficulty);
-            numQuestions = itemView.findViewById(R.id.assignment_num_questions);
+            amount = itemView.findViewById(R.id.assignment_num_questions);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
