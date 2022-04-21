@@ -100,6 +100,7 @@ public class AddNewClass extends AppCompatActivity {
                                     Intent data_intent = new Intent();
                                     setResult(Activity.RESULT_OK, data_intent);
                                     data_intent.putExtra("active_user", teacher);
+                                    finish();
                                 }
                                 else {
                                     Log.d("AddClass", "onComplete: unsuccessful add");
