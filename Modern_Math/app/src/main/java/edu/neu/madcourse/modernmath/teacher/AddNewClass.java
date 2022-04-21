@@ -78,7 +78,6 @@ public class AddNewClass extends AppCompatActivity {
         newClass.put("class_title", classTitle);
         newClass.put("class_period", period);
         newClass.put("teacher_email", teacher.email);
-        newClass.put("assignments", null );
 
         Log.d("AddClass", "starting DB access ");
 

@@ -78,11 +78,9 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         addAssignment.setOnClickListener(view -> {
             Intent intent = new Intent(TeacherViewClassDetails.this, Create_Assignment.class);
 
-
-            // TODO: wire into add assignment screen
-
-
-
+            // TODO: null protection?
+            intent.putExtra("active_user", this.teacher);
+            intent.putExtra("active_class_id", this.class_code);
 
             startActivity(intent);
         });
@@ -113,6 +111,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                     boolean divide = Boolean.getBoolean(dataSnapshot.child("division").getValue().toString());
 
                     String title = dataSnapshot.child("class_title").getValue().toString();
+                    // TODO:?????
                     String difficulty = "TODO " + dataSnapshot.child("difficulty").getValue().toString();
 
                     boolean isTimed = dataSnapshot.hasChild("time");
@@ -137,9 +136,9 @@ public class TeacherViewClassDetails extends AppCompatActivity {
 
         AssignmentListClickListener i = position -> {
             // TODO: send to assignment summary page
-            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-            intent.putExtra("active_user", teacher);
-            startActivity(intent);
+//            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
+//            intent.putExtra("active_user", teacher);
+//            startActivity(intent);
         };
         assignmentAdapter.setListener(i);
     }
@@ -182,9 +181,9 @@ public class TeacherViewClassDetails extends AppCompatActivity {
 
         StudentClickListener i = position -> {
             // TODO: send to assignment summary page
-            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-            intent.putExtra("active_user", teacher);
-            startActivity(intent);
+//            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
+//            intent.putExtra("active_user", teacher);
+//            startActivity(intent);
         };
         studentAdapter.setListener(i);
     }

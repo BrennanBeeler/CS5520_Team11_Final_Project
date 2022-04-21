@@ -83,11 +83,9 @@ public class TeacherClassList extends AppCompatActivity {
                 classList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     if (dataSnapshot.child("teacher_email").getValue().toString().equals(teacher.email)) {
-                        String className = "Class: " +
-                                dataSnapshot.child("class_title").getValue().toString();
-                        String classPeriod = "Period: " +
-                                dataSnapshot.child("class_period").getValue().toString();
-                        String classCode = "Class Code: " + dataSnapshot.getKey();
+                        String className = dataSnapshot.child("class_title").getValue().toString();
+                        String classPeriod = dataSnapshot.child("class_period").getValue().toString();
+                        String classCode = dataSnapshot.getKey();
                         int logoID = 1; // TODO: Either remove or make the option to select icons
 
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
@@ -106,6 +104,11 @@ public class TeacherClassList extends AppCompatActivity {
 
         ClassListClickListener i = position -> {
             Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
+
+
+
+            // TODO: fix this so it doesn't contain random text
+
             intent.putExtra("class_code", classList.get(position).getClassCode());
             intent.putExtra("class_title", classList.get(position).getClassName());
             intent.putExtra("active_user", teacher);

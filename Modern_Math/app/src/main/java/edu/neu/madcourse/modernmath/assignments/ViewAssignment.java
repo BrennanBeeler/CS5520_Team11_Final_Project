@@ -62,6 +62,8 @@ public class ViewAssignment extends AppCompatActivity {
             this.testMethod();
         }
 
+        // TODO: will need to check if no students are there/have started assignment
+
         this.recyclerView = findViewById(R.id.student_assignment_recyclerview);
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(ViewAssignment.this);

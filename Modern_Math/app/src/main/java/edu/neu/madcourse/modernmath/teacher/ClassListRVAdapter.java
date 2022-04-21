@@ -30,9 +30,9 @@ public class ClassListRVAdapter extends RecyclerView.Adapter<ClassListRVHolder> 
     public void onBindViewHolder(@NonNull ClassListRVHolder holder, int position) {
         ClassListItem item = classListItems.get(position);
 
-        holder.classCode.setText(item.getClassCode());
-        holder.classPeriod.setText(item.getClassPeriod());
-        holder.className.setText(item.getClassName());
+        holder.classCode.setText("Class code: " + item.getClassCode());
+        holder.classPeriod.setText("Class period:" + item.getClassPeriod());
+        holder.className.setText("Class name: " + item.getClassName());
         int image = getImageResource(item.getLogoID());
         holder.logo.setImageResource(image);
     }
