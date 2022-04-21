@@ -75,8 +75,6 @@ public class TeacherClassList extends AppCompatActivity {
         classListRV.setAdapter(adapter);
         classListRV.setLayoutManager(layoutManager);
 
-
-        // TODO: move this recyclerview stuff to a different thread
         // TODO: make the database call actually work
         this.myDatabase.child("classes").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -106,27 +104,21 @@ public class TeacherClassList extends AppCompatActivity {
             }
         });
 
-        ClassListClickListener i = new ClassListClickListener() {
-            @Override
-            public void onClassClick(int position) {
-                Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
-                intent.putExtra("class_code", classList.get(position).getClassCode());
-                intent.putExtra("class_title", classList.get(position).getClassName());
-                intent.putExtra("active_user", teacher);
-                startActivity(intent);
-            }
+        ClassListClickListener i = position -> {
+            Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
+            intent.putExtra("class_code", classList.get(position).getClassCode());
+            intent.putExtra("class_title", classList.get(position).getClassName());
+            intent.putExtra("active_user", teacher);
+            startActivity(intent);
         };
         adapter.setOnItemClickListener(i);
 
 
 
-        addClass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(TeacherClassList.this, AddNewClass.class);
-                intent.putExtra("active_user", teacher);
-                startActivity(intent);
-            }
+        addClass.setOnClickListener(view -> {
+            Intent intent = new Intent(TeacherClassList.this, AddNewClass.class);
+            intent.putExtra("active_user", teacher);
+            startActivity(intent);
         });
     }
 }

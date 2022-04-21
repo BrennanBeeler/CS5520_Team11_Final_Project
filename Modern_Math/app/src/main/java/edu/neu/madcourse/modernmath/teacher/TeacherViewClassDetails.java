@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
 import edu.neu.madcourse.modernmath.database.User;
 
 public class TeacherViewClassDetails extends AppCompatActivity {
@@ -74,13 +75,16 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         classCode.setText(class_code);
         className.setText(extras.getString("class_title"));
 
-        addAssignment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: wire into add assignment screen
-                Intent intent = new Intent(TeacherViewClassDetails.this, TeacherClassList.class);
-                startActivity(intent);
-            }
+        addAssignment.setOnClickListener(view -> {
+            Intent intent = new Intent(TeacherViewClassDetails.this, Create_Assignment.class);
+
+
+            // TODO: wire into add assignment screen
+
+
+
+
+            startActivity(intent);
         });
 
         assignmentRVSetup();
@@ -95,8 +99,8 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         assignmentListRV.setAdapter(assignmentAdapter);
         assignmentListRV.setLayoutManager(assignmentLayoutManager);
 
+        // TODO: add placeholder for when no assignments present
 
-        // TODO: move this recyclerview stuff to a different thread
         this.myDatabase.child("classes").child(class_code).child("assignments").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -131,14 +135,11 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             }
         });
 
-        AssignmentListClickListener i = new AssignmentListClickListener() {
-            @Override
-            public void onAssignmentClick(int position) {
-                // TODO: send to assignment summary page
-                Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-                intent.putExtra("active_user", teacher);
-                startActivity(intent);
-            }
+        AssignmentListClickListener i = position -> {
+            // TODO: send to assignment summary page
+            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
+            intent.putExtra("active_user", teacher);
+            startActivity(intent);
         };
         assignmentAdapter.setListener(i);
     }
@@ -151,8 +152,8 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         studentListRV.setAdapter(studentAdapter);
         studentListRV.setLayoutManager(studentLayoutManager);
 
+        // TODO: add filler for when there are no students
 
-        // TODO: move this recyclerview stuff to a different thread
         this.myDatabase.child("users").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -179,14 +180,11 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             }
         });
 
-        StudentClickListener i = new StudentClickListener() {
-            @Override
-            public void onStudentClick(int position) {
-                // TODO: send to assignment summary page
-                Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-                intent.putExtra("active_user", teacher);
-                startActivity(intent);
-            }
+        StudentClickListener i = position -> {
+            // TODO: send to assignment summary page
+            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
+            intent.putExtra("active_user", teacher);
+            startActivity(intent);
         };
         studentAdapter.setListener(i);
     }
