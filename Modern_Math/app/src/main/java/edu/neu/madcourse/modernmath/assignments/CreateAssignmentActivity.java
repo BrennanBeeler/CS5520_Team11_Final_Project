@@ -1,11 +1,9 @@
 package edu.neu.madcourse.modernmath.assignments;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,27 +13,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
-import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
 
-public class Create_Assignment extends AppCompatActivity {
+public class CreateAssignmentActivity extends AppCompatActivity {
 
     private Difficulty selected_difficulty;
     private User active_user;
@@ -114,7 +103,7 @@ public class Create_Assignment extends AppCompatActivity {
         create_button.setOnClickListener(view -> {
             if (assignment_name_edittext.getText().toString().equals(""))
             {
-                Toast.makeText(Create_Assignment.this, "Please provide an assignment name",
+                Toast.makeText(CreateAssignmentActivity.this, "Please provide an assignment name",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -125,7 +114,7 @@ public class Create_Assignment extends AppCompatActivity {
                 if (timeValues[time_picker.getValue()].equals("Timer Off")
                         && numQuestionValues[num_questions_picker.getValue()].equals("No target"))
                 {
-                    Toast.makeText(Create_Assignment.this, "Turn on either the timer " +
+                    Toast.makeText(CreateAssignmentActivity.this, "Turn on either the timer " +
                                     "or set a target number of questions to be answered.",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -170,7 +159,7 @@ public class Create_Assignment extends AppCompatActivity {
                             }
                             else
                             {
-                                Toast.makeText(Create_Assignment.this, "There was a problem. Please try again.",
+                                Toast.makeText(CreateAssignmentActivity.this, "There was a problem. Please try again.",
                                         Toast.LENGTH_SHORT).show();
                                 Log.v("DB_FAILURE", "Access to db failed when creating new assignment.");
                             }
@@ -179,7 +168,7 @@ public class Create_Assignment extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(Create_Assignment.this, "At least one operator " +
+                Toast.makeText(CreateAssignmentActivity.this, "At least one operator " +
                         "must be selected.", Toast.LENGTH_SHORT).show();
             }
 

@@ -10,7 +10,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
+import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Operator;
-import edu.neu.madcourse.modernmath.assignments.ViewAssignment;
+import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 
 public class TeacherViewClassDetails extends AppCompatActivity {
@@ -76,7 +75,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         className.setText(extras.getString("class_title"));
 
         addAssignment.setOnClickListener(view -> {
-            Intent intent = new Intent(TeacherViewClassDetails.this, Create_Assignment.class);
+            Intent intent = new Intent(TeacherViewClassDetails.this, CreateAssignmentActivity.class);
 
             // TODO: null protection?
             intent.putExtra("active_user", this.teacher);
@@ -143,7 +142,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         });
 
         AssignmentListClickListener i = position -> {
-            Intent intent = new Intent(TeacherViewClassDetails.this, ViewAssignment.class );
+            Intent intent = new Intent(TeacherViewClassDetails.this, ViewAssignmentActivity.class );
             intent.putExtra("current_class_id", this.class_code);
             intent.putExtra("current_assignment_id", this.assignmentList.get(position).getAssignment_id());
             intent.putExtra("active_user", this.teacher);
@@ -179,7 +178,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                 }
 
                 studentAdapter.notifyDataSetChanged();
-                studentListRV.scrollToPosition(0);
             }
 
             @Override
@@ -189,10 +187,11 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         });
 
         StudentClickListener i = position -> {
-            // TODO: send to assignment summary page
-//            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-//            intent.putExtra("active_user", teacher);
-//            startActivity(intent);
+            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewStudentDetailsActivity.class );
+            intent.putExtra("active_user", teacher);
+            intent.putExtra("class_id", class_code);
+            intent.putExtra("student_email", studentList.get(position).getEmail());
+            startActivity(intent);
         };
         studentAdapter.setListener(i);
     }

@@ -103,5 +103,5 @@
     <string name="incorrect_answers">Incorrect Answers: %1$d</string>
     <string name="home">Home</string>
     <string name="error">Something went wrong. Please try again.</string>
-    <string name="time_spent">Time Spent: %1$s</string>
+    <string name="time_spent">Time Spent</string>
 </resources>

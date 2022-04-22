@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -18,22 +17,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.StringJoiner;
 
-import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.login.LoginClickListener;
-import edu.neu.madcourse.modernmath.login.LoginRVAdaptor;
-import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
-import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 
-public class ViewAssignment extends AppCompatActivity {
+public class ViewAssignmentActivity extends AppCompatActivity {
 
     private DatabaseReference myDatabase;
 
@@ -212,7 +204,7 @@ public class ViewAssignment extends AppCompatActivity {
 
         this.recyclerView = findViewById(R.id.student_assignment_recyclerview);
         this.recyclerView.setHasFixedSize(true);
-        this.layoutManager = new LinearLayoutManager(ViewAssignment.this);
+        this.layoutManager = new LinearLayoutManager(ViewAssignmentActivity.this);
 
 
         this.studentAssignmentRVAdaptor = new StudentAssignmentRVAdaptor(this.studentAssignmentList);
