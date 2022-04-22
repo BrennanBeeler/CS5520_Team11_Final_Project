@@ -75,7 +75,6 @@ public class TeacherClassList extends AppCompatActivity {
         classListRV.setAdapter(adapter);
         classListRV.setLayoutManager(layoutManager);
 
-        // TODO: make the database call actually work
         this.myDatabase.child("classes").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -91,9 +90,7 @@ public class TeacherClassList extends AppCompatActivity {
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
                     }
                 }
-
                 adapter.notifyDataSetChanged();
-                classListRV.scrollToPosition(0);
             }
 
             @Override
@@ -104,11 +101,6 @@ public class TeacherClassList extends AppCompatActivity {
 
         ClassListClickListener i = position -> {
             Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
-
-
-
-            // TODO: fix this so it doesn't contain random text
-
             intent.putExtra("class_code", classList.get(position).getClassCode());
             intent.putExtra("class_title", classList.get(position).getClassName());
             intent.putExtra("active_user", teacher);

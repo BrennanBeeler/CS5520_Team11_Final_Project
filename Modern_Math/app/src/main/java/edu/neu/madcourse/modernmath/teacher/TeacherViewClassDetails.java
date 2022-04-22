@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
+import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
 
 public class TeacherViewClassDetails extends AppCompatActivity {
@@ -50,7 +51,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_view_class_details);
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
 
-        TextView teacherName = findViewById(R.id.teacher_name);
         TextView classCode = findViewById(R.id.class_code_detail_screen);
         TextView className = findViewById(R.id.class_details_title);
         addAssignment = findViewById(R.id.addAssignment);
@@ -70,7 +70,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             finish();
         }
         teacher = extras.getParcelable("active_user");
-        teacherName.setText(teacher.firstName + " " + teacher.lastName);
         class_code = extras.getString("class_code");
         classCode.setText(class_code);
         className.setText(extras.getString("class_title"));
@@ -105,32 +104,37 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 assignmentList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    boolean add = Boolean.getBoolean(dataSnapshot.child("addition").getValue().toString());
-                    boolean subtract = Boolean.getBoolean(dataSnapshot.child("subtraction").getValue().toString());
-                    boolean multiply = Boolean.getBoolean(dataSnapshot.child("multiplication").getValue().toString());
-                    boolean divide = Boolean.getBoolean(dataSnapshot.child("division").getValue().toString());
+                    ArrayList<Operator> operators = new ArrayList<>();
+                    if ((Boolean) dataSnapshot.child("addition").getValue())
+                    {
+                        operators.add(Operator.ADDITION);
+                    }
+                    if ((Boolean) dataSnapshot.child("subtraction").getValue())
+                    {
+                        operators.add(Operator.SUBTRACTION);
+                    }
+                    if ((Boolean) dataSnapshot.child("multiplication").getValue())
+                    {
+                        operators.add(Operator.MULTIPLICATION);
+                    }
+                    if ((Boolean) dataSnapshot.child("division").getValue())
+                    {
+                        operators.add(Operator.DIVISION);
+                    }
 
                     String title = dataSnapshot.child("class_title").getValue().toString();
-                    // TODO:?????
-                    String difficulty = "TODO " + dataSnapshot.child("difficulty").getValue().toString();
+                    String difficulty = dataSnapshot.child("difficulty").getValue().toString();
+                    String num_questions = (String) dataSnapshot.child("num_questions").getValue();
+                    String time_limit = (String) dataSnapshot.child("time").getValue();
 
-                    boolean isTimed = dataSnapshot.hasChild("time");
-                    String amount;
-                    if (isTimed) {
-                        amount = dataSnapshot.child("time").getValue().toString() + " minutes";
-                    } else {
-                        amount = dataSnapshot.child("num_questions").getValue().toString() + " questions";
-                    }
-                        assignmentList.add(new AssignmentListItem(add, subtract, multiply, divide, title, difficulty, amount, isTimed));
+                    assignmentList.add(new AssignmentListItem(title, operators, difficulty, num_questions, time_limit));
                 }
-
                 assignmentAdapter.notifyDataSetChanged();
-                assignmentListRV.scrollToPosition(0);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Firebase Error", "Failed to get access ");
+                Log.d("Firebase Error", "Failed to get access during assignment access.");
             }
         });
 

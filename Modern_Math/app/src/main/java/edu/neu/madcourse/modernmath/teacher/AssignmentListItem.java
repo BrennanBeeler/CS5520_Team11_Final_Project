@@ -1,53 +1,43 @@
 package edu.neu.madcourse.modernmath.teacher;
 
+import java.util.ArrayList;
+
+import edu.neu.madcourse.modernmath.assignments.Operator;
+
 public class AssignmentListItem {
-    private boolean add;
-    private boolean subtract;
-    private boolean multiply;
-    private boolean divide;
-
     private String title;
+    private ArrayList<Operator> operators;
     private String difficulty;
-    private String amount;
+    private String num_questions;
+    private String time_limit;
 
-    public boolean isTimed;
-
-    public AssignmentListItem(boolean add, boolean subtract, boolean multiply, boolean divide, String title, String difficulty, String amount, boolean isTimed) {
-        this.add = add;
-        this.subtract = subtract;
-        this.multiply = multiply;
-        this.divide = divide;
+    public AssignmentListItem(String title, ArrayList<Operator> operators, String difficulty, String num_questions, String time_limit) {
         this.title = title;
+        this.operators = operators;
         this.difficulty = difficulty;
-        this.amount = amount;
-        this.isTimed = isTimed;
-    }
-
-    public boolean isAdd() {
-        return add;
-    }
-
-    public boolean isSubtract() {
-        return subtract;
-    }
-
-    public boolean isMultiply() {
-        return multiply;
-    }
-
-    public boolean isDivide() {
-        return divide;
+        this.num_questions = num_questions;
+        this.time_limit = time_limit;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public ArrayList<Operator> getOperators()
+    {
+        return this.operators;
+    }
+
     public String getDifficulty() {
         return difficulty;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getNum_questions() {
+        return this.num_questions;
+    }
+
+    public String getTime_limit()
+    {
+        return this.time_limit;
     }
 }

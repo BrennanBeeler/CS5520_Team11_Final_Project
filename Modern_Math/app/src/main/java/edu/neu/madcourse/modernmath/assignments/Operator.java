@@ -3,7 +3,7 @@ package edu.neu.madcourse.modernmath.assignments;
 public enum Operator {
     ADDITION('+'), SUBTRACTION('-'), MULTIPLICATION('*'), DIVISION('/');
 
-    char value;
+    public char value;
 
     Operator(char c) {
         this.value = c;
