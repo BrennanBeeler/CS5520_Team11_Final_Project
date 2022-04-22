@@ -27,6 +27,7 @@ import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.teacher.studentassignments.TeacherViewStudentDetailsActivity;
 
 public class TeacherViewClassDetails extends AppCompatActivity {
     private User teacher;
@@ -191,6 +192,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             intent.putExtra("active_user", teacher);
             intent.putExtra("class_id", class_code);
             intent.putExtra("student_email", studentList.get(position).getEmail());
+            intent.putExtra("student_name", studentList.get(position).getName());
             startActivity(intent);
         };
         studentAdapter.setListener(i);

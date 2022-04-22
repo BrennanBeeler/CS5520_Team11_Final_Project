@@ -16,7 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
-            android:name=".teacher.TeacherViewStudentDetailsActivity"
+            android:name=".teacher.studentassignments.StudentAssignmentCard_AssignmentName"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.studentassignments.TeacherViewStudentDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".assignments.StudentAssignmentCard"

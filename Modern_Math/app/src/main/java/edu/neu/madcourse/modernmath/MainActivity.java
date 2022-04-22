@@ -180,29 +180,4 @@ public class MainActivity extends AppCompatActivity {
     {
         startActivity(new Intent(MainActivity.this, test.class));
     }
-
-    public void goToAssignmentCreation(View view)
-    {
-        startActivity(new Intent(MainActivity.this, CreateAssignmentActivity.class));
-    }
-
-    public void goToAssignmentView(View view)
-    {
-        Intent intent = new Intent(MainActivity.this, ViewAssignmentActivity.class);
-
-        ArrayList<Operator> operators = new ArrayList<>();
-        operators.add(Operator.ADDITION);
-        operators.add(Operator.SUBTRACTION);
-
-        ArrayList<Student_Assignment> student_assignments = new ArrayList<>();
-        student_assignments.add(new Student_Assignment("test_email_1", "22", 5, 3));
-        student_assignments.add(new Student_Assignment("test_email_2", "2", 1, 2));
-        student_assignments.add(new Student_Assignment("test_email_3", "15", 6, 0));
-
-        intent.putExtra("current_class_id", "test");
-        intent.putExtra("current_assignment", new Assignment("a_id", "test_a1",
-                Difficulty.EASY, operators, 0, 6, student_assignments));
-
-        startActivity(intent);
-    }
 }
