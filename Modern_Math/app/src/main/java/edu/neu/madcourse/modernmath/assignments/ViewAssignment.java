@@ -178,8 +178,8 @@ public class ViewAssignment extends AppCompatActivity {
                     {
                         String email = student_assignment.getKey();
                         String time_spent = (String) student_assignment.child("time_spent").getValue();
-                        int num_correct = (Integer) student_assignment.child("num_correct").getValue();
-                        int num_incorrect = (Integer) student_assignment.child("num_incorrect").getValue();
+                        int num_correct = (int) (long) student_assignment.child("num_correct").getValue();
+                        int num_incorrect = (int) (long) student_assignment.child("num_incorrect").getValue();
 
                         Optional<User> tempUser = userArrayList.stream().filter(o -> o.email.equals(email)).findFirst();
 
@@ -210,9 +210,6 @@ public class ViewAssignment extends AppCompatActivity {
             }
         });
 
-
-
-
         this.recyclerView = findViewById(R.id.student_assignment_recyclerview);
         this.recyclerView.setHasFixedSize(true);
         this.layoutManager = new LinearLayoutManager(ViewAssignment.this);
@@ -221,14 +218,5 @@ public class ViewAssignment extends AppCompatActivity {
         this.studentAssignmentRVAdaptor = new StudentAssignmentRVAdaptor(this.studentAssignmentList);
         this.recyclerView.setAdapter(this.studentAssignmentRVAdaptor);
         this.recyclerView.setLayoutManager(this.layoutManager);
-    }
-
-    private void setData()
-    {
-
-        for (Student_Assignment assignment : this.current_assignment.student_assignments)
-        {
-            this.studentAssignmentList.add(new StudentAssignmentCard(assignment));
-        }
     }
 }
