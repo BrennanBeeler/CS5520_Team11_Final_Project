@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
 import edu.neu.madcourse.modernmath.assignments.Operator;
+import edu.neu.madcourse.modernmath.assignments.ViewAssignment;
 import edu.neu.madcourse.modernmath.database.User;
 
 public class TeacherViewClassDetails extends AppCompatActivity {
@@ -122,12 +123,15 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                         operators.add(Operator.DIVISION);
                     }
 
-                    String title = dataSnapshot.child("class_title").getValue().toString();
-                    String difficulty = dataSnapshot.child("difficulty").getValue().toString();
-                    String num_questions = (String) dataSnapshot.child("num_questions").getValue();
-                    String time_limit = (String) dataSnapshot.child("time").getValue();
+                    String assignment_id = dataSnapshot.getKey();
 
-                    assignmentList.add(new AssignmentListItem(title, operators, difficulty, num_questions, time_limit));
+                    String title = dataSnapshot.child("assignment_title").getValue().toString();
+                    String difficulty = dataSnapshot.child("difficulty").getValue().toString();
+                    int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
+                    int time_limit = (int) (long) dataSnapshot.child("time").getValue();
+
+                    assignmentList.add(new AssignmentListItem(assignment_id, title, operators,
+                            difficulty, num_questions, time_limit));
                 }
                 assignmentAdapter.notifyDataSetChanged();
             }
@@ -139,10 +143,11 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         });
 
         AssignmentListClickListener i = position -> {
-            // TODO: send to assignment summary page
-//            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-//            intent.putExtra("active_user", teacher);
-//            startActivity(intent);
+            Intent intent = new Intent(TeacherViewClassDetails.this, ViewAssignment.class );
+            intent.putExtra("current_class_id", this.class_code);
+            intent.putExtra("current_assignment_id", this.assignmentList.get(position).getAssignment_id());
+            intent.putExtra("active_user", this.teacher);
+            startActivity(intent);
         };
         assignmentAdapter.setListener(i);
     }

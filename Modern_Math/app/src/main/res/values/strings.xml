@@ -38,19 +38,19 @@
     </string-array>
 
     <string-array name="time_array">
-        <item>Timer Off</item>
-        <item>5 min</item>
-        <item>10 min</item>
-        <item>15 min</item>
-        <item>20 min</item>
-        <item>25 min</item>
-        <item>30 min</item>
-        <item>35 min</item>
-        <item>40 min</item>
-        <item>45 min</item>
-        <item>50 min</item>
-        <item>55 min</item>
-        <item>60 min</item>
+        <item>Timer off</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>55</item>
+        <item>60</item>
     </string-array>
 
     <string-array name="num_q_array">

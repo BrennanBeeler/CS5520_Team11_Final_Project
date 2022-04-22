@@ -131,16 +131,36 @@ public class Create_Assignment extends AppCompatActivity {
                 }
                 else
                 {
-                    // TODO: nicer formatting
                     Map<String, Object> new_assignment = new HashMap<>();
-                    new_assignment.put("class_title", assignment_name_edittext.getText().toString());
+                    new_assignment.put("assignment_title", assignment_name_edittext.getText().toString());
                     new_assignment.put("difficulty", String.valueOf(selected_difficulty));
-                    new_assignment.put("num_questions", numQuestionValues[num_questions_picker.getValue()]);
+
+                    // Handles case of num questions off so representation is easier
+                    if (numQuestionValues[num_questions_picker.getValue()].equals("No target"))
+                    {
+                        new_assignment.put("num_questions", 0);
+
+                    }
+                    else
+                    {
+                        new_assignment.put("num_questions", Integer.parseInt(numQuestionValues[num_questions_picker.getValue()]));
+                    }
+
                     new_assignment.put("addition", add_switch.isChecked());
                     new_assignment.put("subtraction", sub_switch.isChecked());
                     new_assignment.put("multiplication", multi_switch.isChecked());
                     new_assignment.put("division", div_switch.isChecked());
-                    new_assignment.put("time", timeValues[time_picker.getValue()]);
+
+                    // Handles case of timer off so representation is easier
+                    if (timeValues[time_picker.getValue()].equals("Timer off"))
+                    {
+                        new_assignment.put("time", 0);
+                    }
+                    else
+                    {
+                        new_assignment.put("time", Integer.parseInt(timeValues[time_picker.getValue()]));
+
+                    }
 
                     this.myDatabase.child("classes").child(this.active_class_id).child("assignments").push().setValue(new_assignment)
                         .addOnCompleteListener(task -> {

@@ -45,8 +45,25 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
         holder.operators.setText("Operators: " + joiner);
 
         holder.difficulty.setText("Difficulty: " + assignmentListItems.get(position).getDifficulty());
-        holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit());
-        holder.num_questions.setText("Number of questions: " + assignmentListItems.get(position).getNum_questions());
+
+        if (assignmentListItems.get(position).getTime_limit() == 0)
+        {
+            holder.time_limit.setText("Time Limit: Timer off");
+        }
+        else
+        {
+            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit());
+        }
+
+        if (assignmentListItems.get(position).getNum_questions() == 0)
+        {
+            holder.num_questions.setText("Number of questions: No target");
+        }
+        else
+        {
+            holder.num_questions.setText("Number of questions: " + assignmentListItems.get(position).getNum_questions());
+        }
+
     }
 
     @Override
