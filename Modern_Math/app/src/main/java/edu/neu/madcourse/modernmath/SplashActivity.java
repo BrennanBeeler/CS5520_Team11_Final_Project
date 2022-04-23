@@ -52,14 +52,10 @@ public class SplashActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MainActivity.class);
 
-        Log.v("HERE", "TEST");
-
         try {
             // Try to get users, but if it takes more than 3 seconds, we assume no active users
             ArrayList<User> currentUsers = executorService.submit(new GetUsers(userDao))
                     .get(3, TimeUnit.SECONDS);
-
-            Log.v("HERE91", String.valueOf(currentUsers.size()));
 
             if (currentUsers != null) {
                 if (currentUsers.size() >= 1)

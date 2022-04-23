@@ -1,5 +1,6 @@
 package edu.neu.madcourse.modernmath.teacher;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +31,15 @@ public class ClassListRVAdapter extends RecyclerView.Adapter<ClassListRVHolder> 
     public void onBindViewHolder(@NonNull ClassListRVHolder holder, int position) {
         ClassListItem item = classListItems.get(position);
 
-        holder.classCode.setText(item.getClassCode());
-        holder.classPeriod.setText(item.getClassPeriod());
+        holder.classCode.setText("Class code: " + item.getClassCode());
+        holder.classPeriod.setText("Class period: " + item.getClassPeriod());
         holder.className.setText(item.getClassName());
         int image = getImageResource(item.getLogoID());
         holder.logo.setImageResource(image);
     }
 
     private int getImageResource(int logoID) {
-        return R.drawable.common_full_open_on_phone; //
+        return R.mipmap.ic_launcher_mm_round; //
     }
 
     @Override

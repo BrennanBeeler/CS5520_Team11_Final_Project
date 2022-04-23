@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login.AddNewUserActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/add_class_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/ic_launcher_mm_background"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <TextView
+        android:id="@+id/teacher_name_add_class"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Teacher Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_class_toolbar" />
+
+    <EditText
+        android:id="@+id/class_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Class Title"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        android:minWidth="200dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/new_class_period"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_class_toolbar" />
+
+
+    <EditText
+        android:id="@+id/new_class_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Class Meeting Period"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:minWidth="200dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/new_class_join_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/class_title" />
+
+    <EditText
+        android:id="@+id/new_class_join_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Unique Join Code"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:minWidth="200dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/create_class_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_class_period" />
+
+
+    <Button
+        android:id="@+id/create_class_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onNewClassSubmit"
+        android:text="Create New Class"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_class_join_code" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

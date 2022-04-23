@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.neu.madcourse.modernmath">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <queries>
-        <package android:name="com.google.android.googlequicksearchbox"/>
+        <package android:name="com.google.android.googlequicksearchbox" />
     </queries>
 
     <application
@@ -16,7 +16,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
-            android:name=".teacher.TeacherListStudents"
+            android:name=".teacher.studentassignments.StudentAssignmentCard_AssignmentName"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.studentassignments.TeacherViewStudentDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".assignments.StudentAssignmentCard"
+            android:exported="false" />
+        <activity
+            android:name=".assignments.ViewAssignmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".assignments.CreateAssignmentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".problem_screen.ProblemScreenActivity"
+            android:exported="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".teacher.AddNewClass"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.TeacherViewClassDetails"
             android:exported="false" />
         <activity
             android:name=".teacher.TeacherClassList"

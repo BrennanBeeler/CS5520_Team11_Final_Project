@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/problem_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".problem_screen.ProblemScreenActivity">
+
+  <androidx.cardview.widget.CardView
+      android:id="@+id/cardView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:layout_marginTop="136dp"
+      android:layout_marginEnd="18dp"
+      android:layout_marginBottom="43dp"
+      app:layout_constraintBottom_toTopOf="@+id/timer"
+      app:layout_constraintEnd_toStartOf="@+id/answerText"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/operand_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="70sp" />
+
+    <TextView
+        android:id="@+id/operator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:textSize="70sp" />
+
+    <TextView
+        android:id="@+id/operand_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="180dp"
+        android:textSize="70sp" />
+
+    <TextView
+        android:id="@+id/equals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="300dp"
+        android:text="@string/equals"
+        android:textSize="70sp" />
+  </androidx.cardview.widget.CardView>
+
+  <EditText
+      android:id="@+id/answerText"
+      android:layout_width="0dp"
+      android:layout_height="96dp"
+      android:layout_marginEnd="213dp"
+      android:textAlignment="gravity"
+      android:textSize="70sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/cardView"
+      app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+  <fragment
+      android:id="@+id/fragment"
+      android:name="edu.neu.madcourse.modernmath.problem_screen.NumPadFragment"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="540dp"
+      android:layout_marginTop="96dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:layout="@layout/fragment_num_pad" />
+
+  <TextView
+      android:id="@+id/timer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="15sp"
+      android:layout_marginStart="16dp"
+      android:layout_marginBottom="18dp"
+      app:layout_constraintBottom_toTopOf="@+id/numberofQuestions"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+  <TextView
+      android:id="@+id/numberofQuestions"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="15sp"
+      android:layout_marginStart="16dp"
+      android:layout_marginBottom="77dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/timer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
