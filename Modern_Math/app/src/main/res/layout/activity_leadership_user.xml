@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:gravity="left">
+
+        <TextView
+            android:id="@+id/leadership_user_name"
+            android:layout_width="264dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/leadership_button"
+            android:gravity="left"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            android:text="name"/>
+
+        <TextView
+            android:id="@+id/leadership_user_score"
+            android:layout_width="73dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/leadership_user_name"
+            android:textSize="24sp"
+            android:text="score"
+            />
+
+        <Button
+            android:id="@+id/leadership_button"
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:text="1" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
