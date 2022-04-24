@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -54,6 +55,15 @@ public class ProblemSelectionActivity extends AppCompatActivity {
             activeUser.setText("Welcome " + user.firstName);
         }
 
+        // Action Bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            actionBar.setTitle("Select Problem Type");
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
 
         // Mode Selection - Multiple Selection
         add_switch = findViewById(R.id.addition_switch);
