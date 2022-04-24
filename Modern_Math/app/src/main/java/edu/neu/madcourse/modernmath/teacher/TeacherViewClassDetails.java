@@ -10,9 +10,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -55,10 +58,12 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         TextView className = findViewById(R.id.class_details_title);
         addAssignment = findViewById(R.id.addAssignment);
 
-        setSupportActionBar(findViewById(R.id.class_list_toolbar));
+        Toolbar tb = (Toolbar)findViewById(R.id.class_list_toolbar);
+        setSupportActionBar(tb);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("Class Details");
+            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
@@ -87,6 +92,25 @@ public class TeacherViewClassDetails extends AppCompatActivity {
 
         assignmentRVSetup();
         studentRVSetup();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(TeacherViewClassDetails.this, TeacherClassList.class);
+                intent.putExtra("active_user", this.teacher);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void assignmentRVSetup() {
