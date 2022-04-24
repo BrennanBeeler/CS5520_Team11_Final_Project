@@ -24,6 +24,7 @@ import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
+import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
 
 /**
  * Class that displays various input options to player to start the game.
@@ -90,7 +91,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     public void startPracticeSession(View view) {
         if (!validateInputs()) {
             // TODO: Change of Destination
-            Intent practiceIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
+            Intent practiceIntent = new Intent(ProblemSelectionActivity.this, ProblemScreenActivity.class);
             practiceIntent.putExtra("active_user", user);
             practiceIntent.putExtra("play_mode", this.selectedPlayMode);
             practiceIntent.putExtra("play_level", this.selectedPlayLevel);
@@ -101,7 +102,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     public void startTimeChallengeSession(View view) {
         if (!validateInputs()) {
             // TODO: Change of Destination
-            Intent challengeIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
+            Intent challengeIntent = new Intent(ProblemSelectionActivity.this, ProblemScreenActivity.class);
             challengeIntent.putExtra("active_user", user);
             challengeIntent.putExtra("play_mode", this.selectedPlayMode);
             challengeIntent.putExtra("play_level", this.selectedPlayLevel);

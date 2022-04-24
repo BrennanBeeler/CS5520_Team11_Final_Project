@@ -12,51 +12,119 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
+import edu.neu.madcourse.modernmath.database.User;
 
 public class ProblemScreenActivity extends AppCompatActivity {
 
     private String userAnswer = "";
-    private Difficulty difficulty = Difficulty.EASY;
-    private int numOfQuestions = 10;
+    private Difficulty difficulty;
+    private int numOfQuestions;
     private long time = 0;
     private int operand1;
     private int operand2;
     private int answer;
-    private String assignmentCode;
-    private String userId = "test2";
-    private Operator[] operators = {Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION, Operator.DIVISION};
+    String classId = "";
+    private String assignmentCode = "";
+    private User user;
+    private Operator[] operators;
     private int correctAnswers = 0;
     private int incorrectAnswer = 0;
+    private int overallAnswers;
     EditText answerField;
     TextView numberOfQuestionsField;
+    DatabaseReference db;
+    Task<DataSnapshot> assignmentRef;
+    Task<DataSnapshot> userRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_problem_screen);
         Bundle extras = getIntent().getExtras();
+        db = FirebaseDatabase.getInstance().getReference();
+
         if (extras != null) {
-            difficulty = (Difficulty) extras.getSerializable("difficulty");
+            difficulty = (Difficulty) extras.getSerializable("play_level");
             numOfQuestions = extras.getInt("numberOfQuestions");
             time = extras.getLong("time");
             assignmentCode = extras.getString("assignmentCode");
-            userId = extras.getString("userId");
-            operators = (Operator[]) extras.getSerializable("operators");
+            user = (User) extras.get("active_user");
+            operators = ((List<Operator>) extras.getSerializable("play_mode")).toArray(new Operator[0]);
+            classId = extras.getString("classKey");
         }
-        if (operators.length == 0 || userId.isEmpty()) {
+        if (operators.length == 0 || user == null) {
             Toast.makeText(getBaseContext(), getString(R.string.error),
                     Toast.LENGTH_SHORT).show();
             finish();
         }
-        Dialog dialog = showStartDialog();
-        dialog.show();
+        initUser();
+        if (assignmentCode != null) {
+            initAssignment();
+        }
+        else {
+            if (time == 0 && numOfQuestions == 0) {
+                numOfQuestions = 10;
+            }
+            Dialog dialog = showStartDialog();
+            dialog.show();
+        }
+    }
+
+    private void initUser() {
+        userRef = db.child("users").child(user.email).get();
+        userRef.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("answers").getValue() != null) {
+                    overallAnswers = Math.toIntExact((Long) dataSnapshot.child("answers").getValue());
+                }
+            }
+        });
+    }
+
+    private void initAssignment() {
+        assignmentRef = db.child("classes").child(classId).child("assignments")
+                .child(assignmentCode).child("student_assignments").child(user.email).get();
+        assignmentRef.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() == null) {
+                    //TO-DO : show invalid user error
+                } else if(dataSnapshot.child("time_spent").getValue() != null) {
+                    try {
+                        Integer correct = Math.toIntExact((Long) dataSnapshot.child("num_correct").getValue());
+                        Integer incorrect = Math.toIntExact((Long) dataSnapshot.child("num_incorrect").getValue());
+                        numOfQuestions -= correct + incorrect;
+                        correctAnswers = correct;
+                        incorrectAnswer = incorrect;
+                        if (time > 0) {
+                            time -= (long)dataSnapshot.child("time_spent").getValue();
+                        }
+
+                    }catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                    Dialog dialog = showStartDialog();
+                    dialog.show();
+                }
+            }
+        });
     }
 
     private void init(){
@@ -167,6 +235,19 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         numOfQuestions);
                 numberOfQuestionsField.setText(text);
             } else if (numOfQuestions == 0) {
+
+                if (classId != null || assignmentCode != null) {
+                    Map<String, Object> assignmentMap = new HashMap<>();
+                    assignmentMap.put("num_correct", correctAnswers);
+                    assignmentMap.put("num_incorrect", incorrectAnswer );
+                    assignmentMap.put("time_spent", 10000);
+                    db.child("classes").child(classId).child("assignments")
+                            .child(assignmentCode).child("student_assignments").child(user.email)
+                            .updateChildren(assignmentMap);
+                }
+                Map<String, Object> userMap = new HashMap<>();
+                userMap.put("answers", overallAnswers + correctAnswers);
+                db.child("users").child(user.email).updateChildren(userMap);
                 showEndDialog("").show();
             }
             setUserAnswer("");
