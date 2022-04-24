@@ -32,6 +32,13 @@ public class User implements Parcelable {
     @ColumnInfo(name = "is_teacher")
     public boolean is_teacher;
 
+    @ColumnInfo(name = "class_code")
+    public String class_code;
+
+    @ColumnInfo(name = "answers")
+    public int answers;
+
+
     public User(@NonNull String email, String firstName, String lastName, int age, boolean active,
                 boolean is_teacher)
     {
