@@ -20,29 +20,13 @@
         android:id="@+id/levelSpinner"
         android:layout_width="262dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="332dp"
         android:background="@android:drawable/spinner_background"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/modeSpinner"
-        app:layout_constraintVertical_bias="0.17" />
-
-    <TextView
-        android:id="@+id/modeSpinner"
-        android:layout_width="262dp"
-        android:layout_height="35dp"
-        android:background="@android:drawable/editbox_dropdown_light_frame"
-        android:drawableRight="@android:drawable/arrow_down_float"
-        android:hint="Select Mode"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/practiceButton"
@@ -73,8 +57,8 @@
         android:id="@+id/activeUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="Welcome!"
-        app:layout_constraintBottom_toTopOf="@+id/modeSpinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,5 +76,51 @@
         app:layout_constraintTop_toBottomOf="@+id/challengeButton"
         app:layout_constraintVertical_bias="0.177"
         android:onClick="startAssignmentSession"/>
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/division_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/division"
+        app:layout_constraintBottom_toTopOf="@+id/levelSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiplication_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/subtraction_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subtraction"
+        app:layout_constraintBottom_toTopOf="@+id/multiplication_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addition_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/multiplication_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/multiplication"
+        app:layout_constraintBottom_toTopOf="@+id/division_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtraction_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/addition_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addition"
+        app:layout_constraintBottom_toTopOf="@id/subtraction_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activeUserTextView"
+        app:layout_constraintVertical_bias=".1"
+        app:layout_constraintVertical_chainStyle="packed" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

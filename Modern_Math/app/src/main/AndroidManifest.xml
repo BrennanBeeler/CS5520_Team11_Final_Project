@@ -71,6 +71,9 @@
         <activity
             android:name=".problemselection.ProblemSelectionActivity"
             android:exported="false" />
+        <activity
+            android:name=".leadershipboard.LeadershipActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
