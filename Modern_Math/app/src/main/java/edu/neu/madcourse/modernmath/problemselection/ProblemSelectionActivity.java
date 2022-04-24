@@ -24,6 +24,7 @@ import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
+import edu.neu.madcourse.modernmath.studentassignments.StudentAssignmentsActivity;
 
 /**
  * Class that displays various input options to player to start the game.
@@ -111,7 +112,8 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startAssignmentSession(View view) {
         // TODO: Change of Destination
-        Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
+        Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, StudentAssignmentsActivity.class);
+        assignmentIntent.putExtra("active_user", user);
         startActivity(assignmentIntent);
     }
 
