@@ -74,6 +74,9 @@
         <activity
             android:name=".leadershipboard.LeadershipActivity"
             android:exported="false" />
+        <activity
+            android:name=".studentassignments.StudentAssignmentsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
