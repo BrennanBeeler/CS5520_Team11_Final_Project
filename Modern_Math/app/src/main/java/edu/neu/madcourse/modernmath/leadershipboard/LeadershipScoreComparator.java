@@ -10,10 +10,10 @@ import edu.neu.madcourse.modernmath.login.UserLoginCard;
  * @author www.codejava.net
  *
  */
-public class EmployeeAgeComparator implements Comparator<User> {
+public class LeadershipScoreComparator implements Comparator<User> {
 
     @Override
-    public int compare(User emp1, User emp2) {
-        return emp1.age - emp2.age;
+    public int compare(User user1, User user2) {
+        return user1.age - user2.age;
     }
 }

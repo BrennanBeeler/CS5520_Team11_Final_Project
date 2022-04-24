@@ -17,14 +17,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import edu.neu.madcourse.modernmath.assignments.Assignment;
-import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
-import edu.neu.madcourse.modernmath.assignments.Difficulty;
-import edu.neu.madcourse.modernmath.assignments.Operator;
-import edu.neu.madcourse.modernmath.assignments.Student_Assignment;
-import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
+import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 import edu.neu.madcourse.modernmath.login.LoginClickListener;
@@ -180,4 +175,5 @@ public class MainActivity extends AppCompatActivity {
     {
         startActivity(new Intent(MainActivity.this, test.class));
     }
+
 }

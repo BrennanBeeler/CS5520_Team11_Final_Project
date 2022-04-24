@@ -72,7 +72,7 @@
             android:name=".problemselection.ProblemSelectionActivity"
             android:exported="false" />
         <activity
-            android:name=".leadershipboard.LeadershipCollectorActivity"
+            android:name=".leadershipboard.LeadershipActivity"
             android:exported="false" />
     </application>
 
