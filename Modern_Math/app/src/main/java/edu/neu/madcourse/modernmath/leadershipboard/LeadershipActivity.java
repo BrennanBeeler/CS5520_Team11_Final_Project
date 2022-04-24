@@ -31,9 +31,13 @@ public class LeadershipActivity extends AppCompatActivity {
 
         // To-do: Remove once tested
         User usertest1 = new User("email", "Nidhi", "Shah", 10,true, false);
-        User usertest2 = new User("email", "N", "S", 9,true, false);
+        User usertest2 = new User("email", "Janan", "Gandhi", 9,true, false);
+        User usertest3 = new User("email", "Apo", "Keth", 15,true, false);
+        User usertest4 = new User("email", "Spatika", "H", 4,true, false);
         userList.add(usertest1);
         userList.add(usertest2);
+        userList.add(usertest3);
+        userList.add(usertest4);
 
         Collections.sort(userList,
                 new LeadershipScoreComparator());
