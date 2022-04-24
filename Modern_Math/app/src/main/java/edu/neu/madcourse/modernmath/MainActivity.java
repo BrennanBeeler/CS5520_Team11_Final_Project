@@ -4,35 +4,22 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import edu.neu.madcourse.modernmath.assignments.Assignment;
-import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
-import edu.neu.madcourse.modernmath.assignments.Difficulty;
-import edu.neu.madcourse.modernmath.assignments.Operator;
-import edu.neu.madcourse.modernmath.assignments.Student_Assignment;
-import edu.neu.madcourse.modernmath.assignments.ViewAssignment;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
+import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 import edu.neu.madcourse.modernmath.login.LoginClickListener;
@@ -189,28 +176,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, test.class));
     }
 
-    public void goToAssignmentCreation(View view)
-    {
-        startActivity(new Intent(MainActivity.this, Create_Assignment.class));
-    }
-
-    public void goToAssignmentView(View view)
-    {
-        Intent intent = new Intent(MainActivity.this, ViewAssignment.class);
-
-        ArrayList<Operator> operators = new ArrayList<>();
-        operators.add(Operator.ADDITION);
-        operators.add(Operator.SUBTRACTION);
-
-        ArrayList<Student_Assignment> student_assignments = new ArrayList<>();
-        student_assignments.add(new Student_Assignment("test_email_1", "22", 5, 3));
-        student_assignments.add(new Student_Assignment("test_email_2", "2", 1, 2));
-        student_assignments.add(new Student_Assignment("test_email_3", "15", 6, 0));
-
-        intent.putExtra("current_class_id", "test");
-        intent.putExtra("current_assignment", new Assignment("a_id", "test_a1",
-                Difficulty.EASY, operators, 0, 6, student_assignments));
-
-        startActivity(intent);
-    }
 }

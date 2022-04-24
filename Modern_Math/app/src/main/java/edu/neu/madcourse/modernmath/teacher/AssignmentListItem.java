@@ -1,53 +1,51 @@
 package edu.neu.madcourse.modernmath.teacher;
 
+import java.util.ArrayList;
+
+import edu.neu.madcourse.modernmath.assignments.Operator;
+
 public class AssignmentListItem {
-    private boolean add;
-    private boolean subtract;
-    private boolean multiply;
-    private boolean divide;
-
+    private String assignment_id;
     private String title;
+    private ArrayList<Operator> operators;
     private String difficulty;
-    private String amount;
+    private int num_questions;
+    private int time_limit;
 
-    public boolean isTimed;
-
-    public AssignmentListItem(boolean add, boolean subtract, boolean multiply, boolean divide, String title, String difficulty, String amount, boolean isTimed) {
-        this.add = add;
-        this.subtract = subtract;
-        this.multiply = multiply;
-        this.divide = divide;
+    public AssignmentListItem(String assignment_id, String title, ArrayList<Operator> operators,
+                              String difficulty, int num_questions, int time_limit) {
+        this.assignment_id = assignment_id;
         this.title = title;
+        this.operators = operators;
         this.difficulty = difficulty;
-        this.amount = amount;
-        this.isTimed = isTimed;
+        this.num_questions = num_questions;
+        this.time_limit = time_limit;
     }
 
-    public boolean isAdd() {
-        return add;
-    }
-
-    public boolean isSubtract() {
-        return subtract;
-    }
-
-    public boolean isMultiply() {
-        return multiply;
-    }
-
-    public boolean isDivide() {
-        return divide;
+    public String getAssignment_id()
+    {
+        return this.assignment_id;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public ArrayList<Operator> getOperators()
+    {
+        return this.operators;
+    }
+
     public String getDifficulty() {
         return difficulty;
     }
 
-    public String getAmount() {
-        return amount;
+    public int getNum_questions() {
+        return this.num_questions;
+    }
+
+    public int getTime_limit()
+    {
+        return this.time_limit;
     }
 }

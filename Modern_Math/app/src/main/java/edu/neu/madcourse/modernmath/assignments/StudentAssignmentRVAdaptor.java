@@ -40,7 +40,7 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
 
     @Override
     public void onBindViewHolder(@NonNull StudentAssignmentRVHolder viewHolder, int position) {
-        // TODO: fix this if we can
+        // TODO: format time spent based on ultimate time format
         viewHolder.student_email.setText(studentAssignmentList.get(position).getEmail());
         viewHolder.student_time_spent.setText("Time spent: " + studentAssignmentList.get(position).getTimeSpent());
         viewHolder.student_num_correct.setText("Number correct: " + Integer.toString(studentAssignmentList.get(position).getNumCorrect()));

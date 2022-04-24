@@ -27,8 +27,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.Create_Assignment;
+import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
+import edu.neu.madcourse.modernmath.assignments.Operator;
+import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.teacher.studentassignments.TeacherViewStudentDetailsActivity;
 
 public class TeacherViewClassDetails extends AppCompatActivity {
     private User teacher;
@@ -53,7 +56,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         setContentView(R.layout.activity_teacher_view_class_details);
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
 
-        TextView teacherName = findViewById(R.id.teacher_name);
         TextView classCode = findViewById(R.id.class_code_detail_screen);
         TextView className = findViewById(R.id.class_details_title);
         addAssignment = findViewById(R.id.addAssignment);
@@ -75,13 +77,12 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             finish();
         }
         teacher = extras.getParcelable("active_user");
-        teacherName.setText(teacher.firstName + " " + teacher.lastName);
         class_code = extras.getString("class_code");
         classCode.setText(class_code);
         className.setText(extras.getString("class_title"));
 
         addAssignment.setOnClickListener(view -> {
-            Intent intent = new Intent(TeacherViewClassDetails.this, Create_Assignment.class);
+            Intent intent = new Intent(TeacherViewClassDetails.this, CreateAssignmentActivity.class);
 
             // TODO: null protection?
             intent.putExtra("active_user", this.teacher);
@@ -129,40 +130,49 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 assignmentList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    boolean add = Boolean.getBoolean(dataSnapshot.child("addition").getValue().toString());
-                    boolean subtract = Boolean.getBoolean(dataSnapshot.child("subtraction").getValue().toString());
-                    boolean multiply = Boolean.getBoolean(dataSnapshot.child("multiplication").getValue().toString());
-                    boolean divide = Boolean.getBoolean(dataSnapshot.child("division").getValue().toString());
-
-                    String title = dataSnapshot.child("class_title").getValue().toString();
-                    // TODO:?????
-                    String difficulty = "TODO " + dataSnapshot.child("difficulty").getValue().toString();
-
-                    boolean isTimed = dataSnapshot.hasChild("time");
-                    String amount;
-                    if (isTimed) {
-                        amount = dataSnapshot.child("time").getValue().toString() + " minutes";
-                    } else {
-                        amount = dataSnapshot.child("num_questions").getValue().toString() + " questions";
+                    ArrayList<Operator> operators = new ArrayList<>();
+                    if ((Boolean) dataSnapshot.child("addition").getValue())
+                    {
+                        operators.add(Operator.ADDITION);
                     }
-                        assignmentList.add(new AssignmentListItem(add, subtract, multiply, divide, title, difficulty, amount, isTimed));
-                }
+                    if ((Boolean) dataSnapshot.child("subtraction").getValue())
+                    {
+                        operators.add(Operator.SUBTRACTION);
+                    }
+                    if ((Boolean) dataSnapshot.child("multiplication").getValue())
+                    {
+                        operators.add(Operator.MULTIPLICATION);
+                    }
+                    if ((Boolean) dataSnapshot.child("division").getValue())
+                    {
+                        operators.add(Operator.DIVISION);
+                    }
 
+                    String assignment_id = dataSnapshot.getKey();
+
+                    String title = dataSnapshot.child("assignment_title").getValue().toString();
+                    String difficulty = dataSnapshot.child("difficulty").getValue().toString();
+                    int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
+                    int time_limit = (int) (long) dataSnapshot.child("time").getValue();
+
+                    assignmentList.add(new AssignmentListItem(assignment_id, title, operators,
+                            difficulty, num_questions, time_limit));
+                }
                 assignmentAdapter.notifyDataSetChanged();
-                assignmentListRV.scrollToPosition(0);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Firebase Error", "Failed to get access ");
+                Log.d("Firebase Error", "Failed to get access during assignment access.");
             }
         });
 
         AssignmentListClickListener i = position -> {
-            // TODO: send to assignment summary page
-//            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-//            intent.putExtra("active_user", teacher);
-//            startActivity(intent);
+            Intent intent = new Intent(TeacherViewClassDetails.this, ViewAssignmentActivity.class );
+            intent.putExtra("current_class_id", this.class_code);
+            intent.putExtra("current_assignment_id", this.assignmentList.get(position).getAssignment_id());
+            intent.putExtra("active_user", this.teacher);
+            startActivity(intent);
         };
         assignmentAdapter.setListener(i);
     }
@@ -194,7 +204,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                 }
 
                 studentAdapter.notifyDataSetChanged();
-                studentListRV.scrollToPosition(0);
             }
 
             @Override
@@ -204,10 +213,12 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         });
 
         StudentClickListener i = position -> {
-            // TODO: send to assignment summary page
-//            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewClassDetails.class );
-//            intent.putExtra("active_user", teacher);
-//            startActivity(intent);
+            Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewStudentDetailsActivity.class );
+            intent.putExtra("active_user", teacher);
+            intent.putExtra("class_id", class_code);
+            intent.putExtra("student_email", studentList.get(position).getEmail());
+            intent.putExtra("student_name", studentList.get(position).getName());
+            startActivity(intent);
         };
         studentAdapter.setListener(i);
     }

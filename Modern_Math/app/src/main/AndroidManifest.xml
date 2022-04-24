@@ -16,13 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ModernMath">
         <activity
+            android:name=".teacher.studentassignments.StudentAssignmentCard_AssignmentName"
+            android:exported="false" />
+        <activity
+            android:name=".teacher.studentassignments.TeacherViewStudentDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".assignments.StudentAssignmentCard"
             android:exported="false" />
         <activity
-            android:name=".assignments.ViewAssignment"
+            android:name=".assignments.ViewAssignmentActivity"
             android:exported="false" />
         <activity
-            android:name=".assignments.Create_Assignment"
+            android:name=".assignments.CreateAssignmentActivity"
             android:exported="false" />
         <activity
             android:name=".problem_screen.ProblemScreenActivity"
@@ -64,6 +70,9 @@
             android:exported="false" />
         <activity
             android:name=".problemselection.ProblemSelectionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".leadershipboard.LeadershipActivity"
             android:exported="false" />
     </application>
 

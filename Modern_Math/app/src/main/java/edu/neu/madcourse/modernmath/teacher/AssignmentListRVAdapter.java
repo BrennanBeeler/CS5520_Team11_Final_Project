@@ -9,10 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.StringJoiner;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.assignments.Operator;
 
-public class AssignmentListRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentListHolder> {
     final private ArrayList<AssignmentListItem> assignmentListItems;
     private AssignmentListClickListener listener;
 
@@ -26,67 +28,46 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AssignmentListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.teacher_assignment_card, parent, false);
         return new AssignmentListHolder(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (!assignmentListItems.get(position).isAdd()) {
-            ((AssignmentListHolder) holder).add.setText("");
+    public void onBindViewHolder(@NonNull AssignmentListHolder holder, int position) {
+        holder.title.setText(assignmentListItems.get(position).getTitle());
+
+        StringJoiner joiner = new StringJoiner(" ");
+        for (Operator op : assignmentListItems.get(position).getOperators())
+        {
+            joiner.add(String.valueOf(op.value));
         }
-        if (!assignmentListItems.get(position).isSubtract()) {
-            ((AssignmentListHolder) holder).subtract.setText("");
+        holder.operators.setText("Operators: " + joiner);
+
+        holder.difficulty.setText("Difficulty: " + assignmentListItems.get(position).getDifficulty());
+
+        if (assignmentListItems.get(position).getTime_limit() == 0)
+        {
+            holder.time_limit.setText("Time Limit: Timer off");
         }
-        if (!assignmentListItems.get(position).isMultiply()) {
-            ((AssignmentListHolder) holder).multiply.setText("");
-        }
-        if (!assignmentListItems.get(position).isDivide()) {
-            ((AssignmentListHolder) holder).divide.setText("");
+        else
+        {
+            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit());
         }
 
-        ((AssignmentListHolder) holder).title.setText(assignmentListItems.get(position).getTitle());
-        ((AssignmentListHolder) holder).amount.setText(assignmentListItems.get(position).getAmount());
-        ((AssignmentListHolder) holder).difficulty.setText(assignmentListItems.get(position).getDifficulty());
+        if (assignmentListItems.get(position).getNum_questions() == 0)
+        {
+            holder.num_questions.setText("Number of questions: No target");
+        }
+        else
+        {
+            holder.num_questions.setText("Number of questions: " + assignmentListItems.get(position).getNum_questions());
+        }
+
     }
 
     @Override
     public int getItemCount() {
         return assignmentListItems.size();
-    }
-
-    public class AssignmentListHolder extends RecyclerView.ViewHolder {
-        public TextView add;
-        public TextView subtract;
-        public TextView multiply;
-        public TextView divide;
-        public TextView title;
-        public TextView difficulty;
-        public TextView amount;
-
-        public AssignmentListHolder(@NonNull View itemView, AssignmentListClickListener clickListener) {
-            super(itemView);
-
-            add = itemView.findViewById(R.id.assignment_add);
-            subtract = itemView.findViewById(R.id.assignment_subtract);
-            multiply = itemView.findViewById(R.id.assignment_multiply);
-            divide = itemView.findViewById(R.id.assignment_divide);
-            title = itemView.findViewById(R.id.assignment_title);
-            difficulty = itemView.findViewById(R.id.assignment_difficulty);
-            amount = itemView.findViewById(R.id.assignment_num_questions);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(clickListener != null) {
-                        int position = getLayoutPosition();
-                        if(position != RecyclerView.NO_POSITION) {
-                            clickListener.onAssignmentClick(position);
-                        }
-                    }
-                }
-            });
-        }
     }
 }

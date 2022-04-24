@@ -10,82 +10,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <TextView
-            android:id="@+id/assignment_subtract"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="-"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toTopOf="@+id/assignment_divide"
-            app:layout_constraintStart_toEndOf="@+id/assignment_add"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/assignment_num_questions"
+            android:id="@+id/assignment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Assignment Name"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/assignment_difficulty" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/operators"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginBottom="5dp"
+            />
 
         <TextView
-            android:id="@+id/assignment_title"
+            android:id="@+id/operators"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="Operators"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/assignment_subtract"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/assignment_name"
+            app:layout_constraintBottom_toTopOf="@+id/assignment_difficulty"
 
-        <TextView
-            android:id="@+id/assignment_add"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="+"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toTopOf="@+id/assignment_multiply"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/assignment_multiply"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="X"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/assignment_add" />
-
-        <TextView
-            android:id="@+id/assignment_divide"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="/"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/assignment_multiply"
-            app:layout_constraintTop_toBottomOf="@+id/assignment_subtract" />
+            />
 
         <TextView
             android:id="@+id/assignment_difficulty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="TextView"
+            android:text="Assignment Difficulty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/operators"
+            app:layout_constraintBottom_toTopOf="@+id/assignment_time_limit"
+            />
+
+        <TextView
+            android:id="@+id/assignment_time_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assignment Time Limit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/assignment_difficulty"
+            app:layout_constraintBottom_toTopOf="@+id/assignment_num_questions"
+            />
+
+        <TextView
+            android:id="@+id/assignment_num_questions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Num Questions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/assignment_time_limit"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/assignment_num_questions"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/assignment_divide" />
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
