@@ -23,19 +23,10 @@
     <string name="timer">Timer</string>
     <string name="difficulty">Difficulty</string>
 
-    <string-array name="mode_array">
-        <item>Add</item>
-        <item>Subtract</item>
-        <item>Multiple</item>
-        <item>Divide</item>
-    </string-array>
-
     <string-array name="level_array">
-        <item>Select Level</item>
-        <item>Easy</item>
-        <item>Medium</item>
-        <item>Hard</item>
-        <item>Custom</item>
+        <item>EASY</item>
+        <item>MEDIUM</item>
+        <item>HARD</item>
     </string-array>
 
     <string-array name="time_array">
