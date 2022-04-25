@@ -1,12 +1,16 @@
 package edu.neu.madcourse.modernmath.problem_screen;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,9 +29,12 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class ProblemScreenActivity extends AppCompatActivity {
 
@@ -61,6 +68,16 @@ public class ProblemScreenActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         db = FirebaseDatabase.getInstance().getReference();
 
+        // Set up action bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setTitle("Practice Math Facts");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
+
         if (extras != null) {
             difficulty = (Difficulty) extras.getSerializable("play_level");
             numOfQuestions = extras.getInt("numberOfQuestions");
@@ -87,6 +104,25 @@ public class ProblemScreenActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(ProblemScreenActivity.this, ProblemSelectionActivity.class);
+                intent.putExtra("active_user", this.user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onStop() {

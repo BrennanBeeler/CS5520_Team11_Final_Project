@@ -8,6 +8,6 @@ public class LeadershipScoreComparator implements Comparator<User> {
 
     @Override
     public int compare(User user1, User user2) {
-        return user2.age - user1.age;
+        return user2.answers - user1.answers;
     }
 }

@@ -32,7 +32,7 @@ public class LeadershipAdapter extends RecyclerView.Adapter<LeadershipHolder> {
     @Override
     public void onBindViewHolder(@NonNull LeadershipHolder viewHolder, int position) {
         viewHolder.user_name.setText(userList.get(position).firstName + " " + userList.get(position).lastName);
-        viewHolder.user_score.setText(String.valueOf(userList.get(position).age));
+        viewHolder.user_score.setText(String.valueOf(userList.get(position).answers));
         viewHolder.user_rank.setText(String.valueOf(position + 1));
     }
 

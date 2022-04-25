@@ -10,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +28,9 @@ import java.util.ArrayList;
 import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
 import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
+import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 
 public class TeacherClassList extends AppCompatActivity {
     private FloatingActionButton addClass;
@@ -48,8 +52,9 @@ public class TeacherClassList extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            actionBar.setTitle("Class List");
+            actionBar.setDisplayShowTitleEnabled(true);
         }
 
         // set teacher name
@@ -115,5 +120,24 @@ public class TeacherClassList extends AppCompatActivity {
             intent.putExtra("active_user", teacher);
             startActivity(intent);
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.leader_menu_item, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.leader:
+                Intent intent = new Intent(TeacherClassList.this, LeadershipActivity.class);
+                intent.putExtra("active_user", this.teacher);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

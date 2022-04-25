@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath.leadershipboard;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
@@ -33,12 +33,27 @@ public class LeadershipActivity extends AppCompatActivity {
         setContentView(R.layout.activity_leadership_list);
         userList = new ArrayList<>();
 
+        // Action Bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            actionBar.setTitle("Leaderboard");
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
+
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
         Task<DataSnapshot> snapshot = this.myDatabase.child("users").get();
         snapshot.addOnSuccessListener(result -> {
             for (DataSnapshot dataSnapshot : snapshot.getResult().getChildren()) {
                 if (!dataSnapshot.getValue(User.class).is_teacher) {
-                    userList.add(dataSnapshot.getValue(User.class));
+                    HashMap<String, Object> user = (HashMap<String, Object>) dataSnapshot.getValue();
+                    User u = dataSnapshot.getValue(User.class);
+                    u.setFirstName(String.valueOf(user.get("first_name")));
+                    u.setLastName(String.valueOf(user.get("last_name")));
+                    userList.add(u);
+
                     Collections.sort(userList,
                             new LeadershipScoreComparator());
                     this.recyclerView = findViewById(R.id.leadershipRecyclerView);
@@ -54,10 +69,6 @@ public class LeadershipActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
 
                 });
-
-
-
-
 
     }
 

@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,23 +13,21 @@ import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
-
 import edu.neu.madcourse.modernmath.studentassignments.StudentAssignmentsActivity;
 
+import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
 import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
-
 
 /**
  * Class that displays various input options to player to start the game.
@@ -57,6 +57,15 @@ public class ProblemSelectionActivity extends AppCompatActivity {
             activeUser.setText("Welcome " + user.firstName);
         }
 
+        // Action Bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            actionBar.setTitle("Select Problem Type");
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
 
         // Mode Selection - Multiple Selection
         add_switch = findViewById(R.id.addition_switch);
@@ -84,7 +93,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
+                // No action required
             }
         });
 
@@ -93,7 +102,6 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startPracticeSession(View view) {
         if (!validateInputs()) {
-            // TODO: Change of Destination
             Intent practiceIntent = new Intent(ProblemSelectionActivity.this, ProblemScreenActivity.class);
             practiceIntent.putExtra("active_user", user);
             practiceIntent.putExtra("play_mode", this.selectedPlayMode);
@@ -104,7 +112,6 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startTimeChallengeSession(View view) {
         if (!validateInputs()) {
-            // TODO: Change of Destination
             Intent challengeIntent = new Intent(ProblemSelectionActivity.this, ProblemScreenActivity.class);
             challengeIntent.putExtra("active_user", user);
             challengeIntent.putExtra("play_mode", this.selectedPlayMode);
@@ -114,7 +121,6 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     }
 
     public void startAssignmentSession(View view) {
-        // TODO: Change of Destination
         Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, StudentAssignmentsActivity.class);
         assignmentIntent.putExtra("active_user", user);
         startActivity(assignmentIntent);
@@ -147,5 +153,24 @@ public class ProblemSelectionActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.leader_menu_item, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.leader:
+                Intent intent = new Intent(ProblemSelectionActivity.this, LeadershipActivity.class);
+                intent.putExtra("active_user", this.user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

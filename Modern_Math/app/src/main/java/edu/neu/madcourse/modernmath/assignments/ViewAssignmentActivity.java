@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +26,7 @@ import java.util.StringJoiner;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 
 public class ViewAssignmentActivity extends AppCompatActivity {
@@ -53,7 +57,8 @@ public class ViewAssignmentActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("View Assignment Details");
+            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
@@ -210,5 +215,25 @@ public class ViewAssignmentActivity extends AppCompatActivity {
         this.studentAssignmentRVAdaptor = new StudentAssignmentRVAdaptor(this.studentAssignmentList);
         this.recyclerView.setAdapter(this.studentAssignmentRVAdaptor);
         this.recyclerView.setLayoutManager(this.layoutManager);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(ViewAssignmentActivity.this, TeacherClassList.class);
+                intent.putExtra("active_user", this.active_user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

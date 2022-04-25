@@ -4,8 +4,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +26,8 @@ import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
+import edu.neu.madcourse.modernmath.teacher.TeacherViewClassDetails;
 
 public class CreateAssignmentActivity extends AppCompatActivity {
 
@@ -42,7 +47,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("Create a New Assignment");
+            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
@@ -173,5 +179,24 @@ public class CreateAssignmentActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(CreateAssignmentActivity.this, TeacherClassList.class);
+                intent.putExtra("active_user", this.active_user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

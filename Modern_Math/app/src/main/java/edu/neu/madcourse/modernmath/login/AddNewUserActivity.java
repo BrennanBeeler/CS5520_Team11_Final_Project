@@ -56,7 +56,8 @@ public class AddNewUserActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("Add New User");
+            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
