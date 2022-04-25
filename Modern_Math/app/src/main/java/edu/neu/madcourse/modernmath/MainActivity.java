@@ -178,11 +178,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void leadershipOnClick(View view) {
         Intent intent = new Intent(MainActivity.this, LeadershipActivity.class);
-        Bundle extras = getIntent().getExtras();
-
-        ArrayList<User> users = extras.getParcelableArrayList("current_users");
-
-        intent.putExtra("current_users", users);
         startActivity(intent);
     }
 }

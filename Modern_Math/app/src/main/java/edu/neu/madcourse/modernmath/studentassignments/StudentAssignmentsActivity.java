@@ -30,12 +30,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.assignments.Assignment;
 import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
+import edu.neu.madcourse.modernmath.assignments.Student_Assignment;
 import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.leadershipboard.LeadershipScoreComparator;
@@ -43,10 +46,12 @@ import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListClickListener;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListRVAdapter;
+import edu.neu.madcourse.modernmath.teacher.ClassListItem;
 import edu.neu.madcourse.modernmath.teacher.StudentClickListener;
 import edu.neu.madcourse.modernmath.teacher.StudentListItem;
 import edu.neu.madcourse.modernmath.teacher.StudentListRVAdapter;
 import edu.neu.madcourse.modernmath.teacher.TeacherViewClassDetails;
+import edu.neu.madcourse.modernmath.teacher.studentassignments.StudentAssignmentCard_AssignmentName;
 import edu.neu.madcourse.modernmath.teacher.studentassignments.TeacherViewStudentDetailsActivity;
 
 public class StudentAssignmentsActivity extends AppCompatActivity {
@@ -59,14 +64,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
     private AssignmentListRVAdapter assignmentAdapter;
     private RecyclerView.LayoutManager assignmentLayoutManager;
     final private ArrayList<AssignmentListItem> assignmentList = new ArrayList<>();
-
-    private RecyclerView studentListRV;
-    private StudentListRVAdapter studentAdapter;
-    private RecyclerView.LayoutManager studentLayoutManager;
-    final private ArrayList<StudentListItem> studentList = new ArrayList<>();
-
     private DatabaseReference myDatabase;
-    private String m_Text = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,19 +72,35 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_assignments_list);
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
 
-        //TextView classCode = findViewById(R.id.class_code_detail_screen);
-        //TextView className = findViewById(R.id.class_details_title);
-        addClassCode = findViewById(R.id.studentView_floatingActionButton);
-
         Bundle extras = getIntent().getExtras();
 
         active_user = extras.getParcelable("active_user");
-        class_code = active_user.class_code;
-        System.out.println("CLASS CODE " + class_code);
-        //classCode.setText(class_code);
-        //className.setText(extras.getString("class_title"));
 
 
+        this.myDatabase.child("users").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (dataSnapshot.getKey().equals(active_user.email)) {
+
+                        class_code = dataSnapshot.getValue(User.class).class_code;
+                        if (class_code != null) {
+                            addClassCode.hide();
+                            assignmentRVSetup();
+                        }
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Firebase Error", "Failed to get access ");
+            }
+        });
+
+        addClassCode = findViewById(R.id.studentView_floatingActionButton);
         addClassCode.setOnClickListener(view ->  {
                 AlertDialog.Builder builder = new AlertDialog.Builder(StudentAssignmentsActivity.this);
                 builder.setTitle("Enter your class code!");
@@ -99,7 +113,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                 // Set up the buttons
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    private DatabaseReference myDatabase = FirebaseDatabase.getInstance().getReference();;
+                    DatabaseReference myDatabase = FirebaseDatabase.getInstance().getReference();
                     Bundle extras = getIntent().getExtras();
                     User active_user = extras.getParcelable("active_user");
                     @Override
@@ -111,7 +125,21 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                         this.myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
                             if (task.isSuccessful())
                             {
-                                //finish();
+                                Task<DataSnapshot> snapshot = this.myDatabase.child("classes").child(class_code).child("assignments").get();
+                                snapshot.addOnSuccessListener(result -> {
+                                            for (DataSnapshot dataSnapshot : snapshot.getResult().getChildren()) {
+                                                Map<String, Object> initial_assignment_details = new HashMap<>();
+                                                initial_assignment_details.put("time_spent", "0");
+                                                initial_assignment_details.put("num_correct", 0);
+                                                initial_assignment_details.put("num_incorrect", 0);
+
+                                                myDatabase.child("classes").child(class_code).child("assignments").child(dataSnapshot.getKey()).child("student_assignments")
+                                                        .child(active_user.email).setValue(initial_assignment_details);
+                                            }
+                                        })
+                                        .addOnFailureListener(e -> {
+
+                                        });
                             }
                             else
                             {
@@ -139,8 +167,6 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         assignmentAdapter = new AssignmentListRVAdapter(assignmentList);
         assignmentListRV.setAdapter(assignmentAdapter);
         assignmentListRV.setLayoutManager(assignmentLayoutManager);
-
-        // TODO: add placeholder for when no assignments present
 
         this.myDatabase.child("classes").child(class_code).child("assignments").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
