@@ -87,7 +87,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
             }
         }
 
-        if (this.inactive_users != null)
+        if (this.inactive_users != null && !this.inactive_users.contains(null))
         {
             if (this.inactive_users.stream().map(user -> user.email).anyMatch(user_email -> user_email.equals(email)))
             {

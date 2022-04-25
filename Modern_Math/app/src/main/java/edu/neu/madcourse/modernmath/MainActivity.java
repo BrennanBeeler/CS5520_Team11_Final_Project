@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import androidx.room.Room;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -58,7 +60,18 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
+
+        Log.v("HERE_bundle", String.valueOf(savedInstanceState));
+
+        Log.v("HERE_extras", String.valueOf(extras));
+
+        if (savedInstanceState != null)
+        {
+            this.initializeData(savedInstanceState);
+            this.repopulateList();
+        }
+        else if (extras != null)
+        {
             ArrayList<User> users = extras.getParcelableArrayList("current_users");
 
             for (int i = 0; i < users.size(); i++) {
@@ -119,6 +132,40 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void initializeData(Bundle saved_state)
+    {
+        if (saved_state != null)
+        {
+            if (saved_state.containsKey("active_user"))
+            {
+                this.active_user = saved_state.getParcelable("active_user");
+
+            }
+
+            if (saved_state.containsKey("inactive_users"))
+            {
+                this.inactive_users = saved_state.getParcelableArrayList("inactive_users");
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outstate)
+    {
+        super.onSaveInstanceState(outstate);
+
+        if (this.active_user != null)
+        {
+            outstate.putParcelable("active_user", this.active_user);
+        }
+
+        if (this.inactive_users != null && this.inactive_users.size() > 0)
+        {
+            outstate.putParcelableArrayList("inactive_users", this.inactive_users);
+        }
+
     }
 
     private void repopulateList()
