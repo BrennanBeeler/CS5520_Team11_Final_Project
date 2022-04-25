@@ -76,13 +76,15 @@ public class test extends AppCompatActivity {
             public void onResults(Bundle bundle) {
                 ArrayList<String> words = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                boolean isNumeric = false;
+                String user_input = words.get(0);
 
-                Log.v("HERE", words.get(0));
+                boolean isNumeric = false;
 
                 try
                 {
-                    if (Integer.parseInt(words.get(0)) >= 0)
+                    user_input = user_input.replaceAll("\\s+","");
+
+                    if (Integer.parseInt(user_input) >= 0)
                     {
                         isNumeric = true;
                     }
@@ -98,7 +100,7 @@ public class test extends AppCompatActivity {
 
                 if (isNumeric)
                 {
-                    test_text.setText(words.get(0));
+                    test_text.setText(user_input);
                 }
                 else
                 {
