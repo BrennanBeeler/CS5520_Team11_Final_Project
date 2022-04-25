@@ -235,6 +235,10 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             challengeIntent.putExtra("active_user", active_user);
             challengeIntent.putExtra("play_mode", this.assignmentList.get(position).getOperators());
             challengeIntent.putExtra("play_level", Difficulty.valueOf(this.assignmentList.get(position).getDifficulty()));
+            challengeIntent.putExtra("numberOfQuestions", this.assignmentList.get(position).getNum_questions());
+            challengeIntent.putExtra("classKey", class_code);
+            challengeIntent.putExtra("assignmentCode", this.assignmentList.get(position).getAssignment_id());
+            challengeIntent.putExtra("time", this.assignmentList.get(position).getTime_limit());
             startActivity(challengeIntent);
 
         };
