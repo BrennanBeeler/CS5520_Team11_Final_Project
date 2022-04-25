@@ -114,4 +114,12 @@ public class User implements Parcelable {
                 "\nActive: " + this.active +
                 "\nIs teacher: " + this.is_teacher;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 }

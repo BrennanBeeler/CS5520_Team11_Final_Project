@@ -19,7 +19,6 @@ import java.util.concurrent.Executors;
 
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.database.UserDatabase;
-import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 import edu.neu.madcourse.modernmath.login.LoginClickListener;
@@ -174,10 +173,5 @@ public class MainActivity extends AppCompatActivity {
     public void testOnClick(View view)
     {
         startActivity(new Intent(MainActivity.this, test.class));
-    }
-
-    public void leadershipOnClick(View view) {
-        Intent intent = new Intent(MainActivity.this, LeadershipActivity.class);
-        startActivity(intent);
     }
 }
