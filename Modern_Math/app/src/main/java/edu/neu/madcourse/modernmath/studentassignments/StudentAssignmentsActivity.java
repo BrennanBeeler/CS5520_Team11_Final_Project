@@ -58,12 +58,13 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
     private User active_user;
     private FloatingActionButton addClassCode;
+    private TextView class_code_view;
     private String class_code;
 
     private RecyclerView assignmentListRV;
     private AssignmentListRVAdapter assignmentAdapter;
     private RecyclerView.LayoutManager assignmentLayoutManager;
-    final private ArrayList<AssignmentListItem> assignmentList = new ArrayList<>();
+    private ArrayList<AssignmentListItem> assignmentList;
     private DatabaseReference myDatabase;
 
     @Override
@@ -71,11 +72,12 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_assignments_list);
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
+        addClassCode = findViewById(R.id.studentView_floatingActionButton);
+        class_code_view = findViewById(R.id.class_code_textView);
 
         Bundle extras = getIntent().getExtras();
-
         active_user = extras.getParcelable("active_user");
-
+        assignmentList = new ArrayList<>();
 
         this.myDatabase.child("users").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -86,8 +88,10 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                         class_code = dataSnapshot.getValue(User.class).class_code;
                         if (class_code != null) {
-                            addClassCode.hide();
                             assignmentRVSetup();
+                        } else {
+                            addClassCode.setVisibility(View.VISIBLE);
+                            class_code_view.setVisibility(View.VISIBLE);
                         }
                         break;
                     }
@@ -100,7 +104,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             }
         });
 
-        addClassCode = findViewById(R.id.studentView_floatingActionButton);
+
         addClassCode.setOnClickListener(view ->  {
                 AlertDialog.Builder builder = new AlertDialog.Builder(StudentAssignmentsActivity.this);
                 builder.setTitle("Enter your class code!");
@@ -138,7 +142,9 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                                             }
                                         })
                                         .addOnFailureListener(e -> {
-
+                                            Toast.makeText(StudentAssignmentsActivity.this, "There was a problem. Please try again.",
+                                                    Toast.LENGTH_SHORT).show();
+                                            Log.v("DB_FAILURE", "Access to realtime firebase failed when accessing the class code.");
                                         });
                             }
                             else
@@ -150,6 +156,8 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                         });
 
                         assignmentRVSetup();
+                        addClassCode.setVisibility(View.INVISIBLE);
+                        class_code_view.setVisibility(View.INVISIBLE);
                     }
                 });
                 builder.show();
@@ -199,8 +207,18 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                     int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
                     int time_limit = (int) (long) dataSnapshot.child("time").getValue();
 
-                    assignmentList.add(new AssignmentListItem(assignment_id, title, operators,
-                            difficulty, num_questions, time_limit));
+                    boolean completion_status = false;
+                    if (dataSnapshot.hasChild("student_assignments")) {
+                        if (!dataSnapshot.child("student_assignments").child(active_user.email)
+                                .child("time_spent").getValue().toString().equals("0")) {
+                            completion_status = true;
+                        }
+                    }
+
+                    AssignmentListItem item = new AssignmentListItem(assignment_id, title, operators,
+                            difficulty, num_questions, time_limit);
+                    item.setCompletion_status(completion_status);
+                    assignmentList.add(item);
                 }
                 assignmentAdapter.notifyDataSetChanged();
 
