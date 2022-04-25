@@ -6,8 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
@@ -18,37 +25,39 @@ public class LeadershipActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LeadershipAdapter leadershipAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private DatabaseReference myDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leadership_list);
+        userList = new ArrayList<>();
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            userList = extras.getParcelableArrayList("current_users");
-        }
+        this.myDatabase = FirebaseDatabase.getInstance().getReference();
+        Task<DataSnapshot> snapshot = this.myDatabase.child("users").get();
+        snapshot.addOnSuccessListener(result -> {
+            for (DataSnapshot dataSnapshot : snapshot.getResult().getChildren()) {
+                if (!dataSnapshot.getValue(User.class).is_teacher) {
+                    userList.add(dataSnapshot.getValue(User.class));
+                    Collections.sort(userList,
+                            new LeadershipScoreComparator());
+                    this.recyclerView = findViewById(R.id.leadershipRecyclerView);
+                    this.recyclerView.setHasFixedSize(true);
+                    this.layoutManager = new LinearLayoutManager(this);
 
-        // To-do: Remove once tested
-        User usertest1 = new User("email", "Nidhi", "Shah", 10,true, false);
-        User usertest2 = new User("email", "Janan", "Gandhi", 9,true, false);
-        User usertest3 = new User("email", "Apo", "Keth", 15,true, false);
-        User usertest4 = new User("email", "Spatika", "H", 4,true, false);
-        userList.add(usertest1);
-        userList.add(usertest2);
-        userList.add(usertest3);
-        userList.add(usertest4);
+                    this.leadershipAdapter = new LeadershipAdapter(this.userList);
+                    this.recyclerView.setAdapter(this.leadershipAdapter);
+                    this.recyclerView.setLayoutManager(this.layoutManager);
+                }
+            }
+            })
+                .addOnFailureListener(e -> {
 
-        Collections.sort(userList,
-                new LeadershipScoreComparator());
+                });
 
-        this.recyclerView = findViewById(R.id.leadershipRecyclerView);
-        this.recyclerView.setHasFixedSize(true);
-        this.layoutManager = new LinearLayoutManager(this);
 
-        this.leadershipAdapter = new LeadershipAdapter(this.userList);
-        this.recyclerView.setAdapter(this.leadershipAdapter);
-        this.recyclerView.setLayoutManager(this.layoutManager);
+
+
 
     }
 
