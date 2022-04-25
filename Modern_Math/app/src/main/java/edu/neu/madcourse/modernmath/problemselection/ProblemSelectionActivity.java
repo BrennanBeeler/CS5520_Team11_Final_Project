@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,11 +23,14 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.neu.madcourse.modernmath.R;
+import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
 import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 /**
  * Class that displays various input options to player to start the game.
@@ -153,5 +158,24 @@ public class ProblemSelectionActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.leader_menu_item, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.leader:
+                Intent intent = new Intent(ProblemSelectionActivity.this, LeadershipActivity.class);
+                intent.putExtra("active_user", this.user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -2,6 +2,7 @@ package edu.neu.madcourse.modernmath.leadershipboard;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,16 @@ public class LeadershipActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             userList = extras.getParcelableArrayList("current_users");
+        }
+
+        // Action Bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            actionBar.setTitle("Leaderboard");
+            actionBar.setDisplayShowTitleEnabled(true);
         }
 
         // To-do: Remove once tested

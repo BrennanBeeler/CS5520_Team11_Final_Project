@@ -7,8 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 
@@ -26,6 +29,7 @@ import edu.neu.madcourse.modernmath.assignments.StudentAssignmentRVAdaptor;
 import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
 
@@ -50,7 +54,8 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
         setSupportActionBar(findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("View Student Details");
+            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
@@ -118,5 +123,24 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
         this.studentAssignmentRVAdaptor = new StudentAssignment_AssignmentNameRVAdaptor(this.studentAssignmentList);
         this.recyclerView.setAdapter(this.studentAssignmentRVAdaptor);
         this.recyclerView.setLayoutManager(this.layoutManager);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(TeacherViewStudentDetailsActivity.this, TeacherClassList.class);
+                intent.putExtra("active_user", this.active_user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
