@@ -19,18 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.studentassignments.StudentAssignmentsActivity;
+
 import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
-import edu.neu.madcourse.modernmath.login.AddExistingUserActivity;
 import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
-import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 /**
  * Class that displays various input options to player to start the game.
@@ -96,7 +93,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
+                // No action required
             }
         });
 
@@ -105,7 +102,6 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startPracticeSession(View view) {
         if (!validateInputs()) {
-            // TODO: Change of Destination
             Intent practiceIntent = new Intent(ProblemSelectionActivity.this, ProblemScreenActivity.class);
             practiceIntent.putExtra("active_user", user);
             practiceIntent.putExtra("play_mode", this.selectedPlayMode);
@@ -116,7 +112,6 @@ public class ProblemSelectionActivity extends AppCompatActivity {
 
     public void startTimeChallengeSession(View view) {
         if (!validateInputs()) {
-            // TODO: Change of Destination
             Intent challengeIntent = new Intent(ProblemSelectionActivity.this, ProblemScreenActivity.class);
             challengeIntent.putExtra("active_user", user);
             challengeIntent.putExtra("play_mode", this.selectedPlayMode);
@@ -126,8 +121,8 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     }
 
     public void startAssignmentSession(View view) {
-        // TODO: Change of Destination
-        Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, AddExistingUserActivity.class);
+        Intent assignmentIntent = new Intent(ProblemSelectionActivity.this, StudentAssignmentsActivity.class);
+        assignmentIntent.putExtra("active_user", user);
         startActivity(assignmentIntent);
     }
 
