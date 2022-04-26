@@ -87,7 +87,7 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                     if (dataSnapshot.child("student_assignments").hasChild(student_email))
                     {
                         // The assignment already exists
-                        String time_spent = (String) dataSnapshot.child("student_assignments")
+                        int time_spent = (int) (long) dataSnapshot.child("student_assignments")
                                 .child(student_email).child("time_spent").getValue();
                         int num_correct = (int) (long) dataSnapshot.child("student_assignments")
                                 .child(student_email).child("num_correct").getValue();
@@ -101,7 +101,7 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                     {
                         // For some reason this student does not yet have an assignment so use default?
                         studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
-                                assignment_name, "0", 0, 0));
+                                assignment_name, 0, 0, 0));
                     }
                 }
                 studentAssignmentRVAdaptor.notifyDataSetChanged();

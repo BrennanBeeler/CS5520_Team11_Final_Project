@@ -177,7 +177,7 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                         Map<String, Object> student_assignments = new HashMap<>();
 
                         Map<String, Object> empty_student_assignment = new HashMap<>();
-                        empty_student_assignment.put("time_spent", "0");
+                        empty_student_assignment.put("time_spent", 0);
                         empty_student_assignment.put("num_correct", 0);
                         empty_student_assignment.put("num_incorrect", 0);
 
