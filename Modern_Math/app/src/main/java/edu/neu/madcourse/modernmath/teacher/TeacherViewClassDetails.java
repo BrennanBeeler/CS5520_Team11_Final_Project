@@ -160,8 +160,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                 // Placeholder if no assignments
                 if (assignmentList.size() == 0) {
                     String title = "No assignments created";
-                    ArrayList<Operator> operators = new ArrayList<>();
-                    assignmentList.add(new AssignmentListItem("", title, operators,
+                    assignmentList.add(new AssignmentListItem("", title, null,
                             "", 0, 0));
                 }
                 assignmentAdapter.notifyDataSetChanged();

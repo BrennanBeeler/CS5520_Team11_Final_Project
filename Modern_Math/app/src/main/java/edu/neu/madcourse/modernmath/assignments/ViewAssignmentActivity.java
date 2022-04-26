@@ -195,7 +195,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                 // TODO: will need to check if no students are there/have started assignment
                 if (studentAssignmentList.isEmpty())
                 {
-
+                    studentAssignmentList.add(new StudentAssignmentCard(null, 0, 0, 0));
                 }
 
                 studentAssignmentRVAdaptor.notifyDataSetChanged();

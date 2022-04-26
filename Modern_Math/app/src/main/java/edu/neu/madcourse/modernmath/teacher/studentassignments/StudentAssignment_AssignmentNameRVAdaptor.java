@@ -35,6 +35,13 @@ public class StudentAssignment_AssignmentNameRVAdaptor extends RecyclerView.Adap
     @Override
     public void onBindViewHolder(@NonNull StudentAssignment_AssignmentNameRVHolder viewHolder, int position) {
         // TODO: format time spent based on ultimate time format
+        if (studentAssignmentList.size() == 1 && studentAssignmentList.get(position).getAssignment_name() == null) {
+            viewHolder.assignment_name.setText("No assignments yet!");
+            viewHolder.student_time_spent.setText("");
+            viewHolder.student_num_correct.setText("");
+            viewHolder.student_num_incorrect.setText("");
+            return;
+        }
         viewHolder.assignment_name.setText(studentAssignmentList.get(position).getAssignment_name());
 
         int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 60000;

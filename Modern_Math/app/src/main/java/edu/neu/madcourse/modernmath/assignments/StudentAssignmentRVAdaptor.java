@@ -40,6 +40,13 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
 
     @Override
     public void onBindViewHolder(@NonNull StudentAssignmentRVHolder viewHolder, int position) {
+        if (studentAssignmentList.size() == 1 && studentAssignmentList.get(position).student_email == null) {
+            viewHolder.student_email.setText("No Students");
+            viewHolder.student_time_spent.setText("");
+            viewHolder.student_num_correct.setText("");
+            viewHolder.student_num_incorrect.setText("");
+            return;
+        }
         viewHolder.student_email.setText(studentAssignmentList.get(position).getEmail());
 
         int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 60000;

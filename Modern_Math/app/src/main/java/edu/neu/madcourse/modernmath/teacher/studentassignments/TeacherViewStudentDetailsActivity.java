@@ -29,6 +29,7 @@ import edu.neu.madcourse.modernmath.assignments.StudentAssignmentRVAdaptor;
 import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
+import edu.neu.madcourse.modernmath.teacher.StudentListItem;
 import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
@@ -103,6 +104,11 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                         studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
                                 assignment_name, 0, 0, 0));
                     }
+                }
+                // placeholder for an empty list
+                if (studentAssignmentList.size() == 0) {
+                    studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
+                            null, 0, 0, 0));
                 }
                 studentAssignmentRVAdaptor.notifyDataSetChanged();
             }

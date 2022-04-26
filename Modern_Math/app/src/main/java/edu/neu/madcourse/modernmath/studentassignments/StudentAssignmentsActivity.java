@@ -263,6 +263,12 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                     item.setCompletion_status(completion_status);
                     assignmentList.add(item);
                 }
+                // Placeholder if no assignments
+                if (assignmentList.size() == 0) {
+                    String title = "No assignments created";
+                    assignmentList.add(new AssignmentListItem("", title, null,
+                            "", 0, 0));
+                }
                 assignmentAdapter.notifyDataSetChanged();
 
             }
@@ -274,6 +280,13 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         });
 
         AssignmentListClickListener i = position -> {
+            // Do nothing for placeholder
+            if(assignmentList.get(position).getOperators() == null) {
+                return;
+            }
+            if (false /* TODO: check if assignment is completed*/) {
+                return;
+            }
             Intent challengeIntent = new Intent(StudentAssignmentsActivity.this, ProblemScreenActivity.class);
             challengeIntent.putExtra("active_user", active_user);
             challengeIntent.putExtra("play_mode", this.assignmentList.get(position).getOperators());
@@ -283,7 +296,6 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             challengeIntent.putExtra("assignmentCode", this.assignmentList.get(position).getAssignment_id());
             challengeIntent.putExtra("time", this.assignmentList.get(position).getTime_limit());
             startActivity(challengeIntent);
-
         };
         assignmentAdapter.setListener(i);
     }
