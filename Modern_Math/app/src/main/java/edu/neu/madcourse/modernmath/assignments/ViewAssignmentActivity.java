@@ -180,14 +180,20 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
                         Optional<User> tempUser = userArrayList.stream().filter(o -> o.email.equals(email)).findFirst();
 
+                        StudentAssignmentCard new_item ;
                         if (tempUser.isPresent())
                         {
-                            studentAssignmentList.add(new StudentAssignmentCard(email, time_spent,
-                                    num_correct, num_incorrect, tempUser.get().firstName + " " + tempUser.get().lastName));
+                            new_item = new StudentAssignmentCard(email, time_spent,
+                                    num_correct, num_incorrect, tempUser.get().firstName + " " + tempUser.get().lastName);
                         }
                         else
                         {
-                            studentAssignmentList.add(new StudentAssignmentCard(email, time_spent, num_correct, num_incorrect));
+                            new_item = new StudentAssignmentCard(email, time_spent, num_correct, num_incorrect);
+                        }
+                        studentAssignmentList.add(new_item);
+                        int num_attempted = num_correct + num_incorrect;
+                        if (time_spent >= time && num_attempted >= num_questions) {
+                            new_item.setCompletion_status(true);
                         }
                     }
                 }

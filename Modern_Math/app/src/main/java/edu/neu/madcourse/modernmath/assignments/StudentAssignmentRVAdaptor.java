@@ -1,6 +1,7 @@
 package edu.neu.madcourse.modernmath.assignments;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,12 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
 
         viewHolder.student_num_correct.setText("Number correct: " + Integer.toString(studentAssignmentList.get(position).getNumCorrect()));
         viewHolder.student_num_incorrect.setText("Number incorrect: " + Integer.toString(studentAssignmentList.get(position).getNumIncorrect()));
+        if (!studentAssignmentList.get(position).isComplete()) {
+            viewHolder.itemView.setBackgroundColor(Color.parseColor("#F58676"));
+        } else {
+            viewHolder.itemView.setBackgroundColor(Color.parseColor("#76F59E"));
+        }
+
     }
 
     @Override

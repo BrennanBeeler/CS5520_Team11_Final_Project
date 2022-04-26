@@ -70,8 +70,8 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
             holder.num_questions.setText("Number of questions: " + assignmentListItems.get(position).getNum_questions());
         }
 
-        if (assignmentListItems.get(position).isCompletion_status()) {
-            holder.itemView.setBackgroundColor(Color.parseColor("green"));
+        if (!assignmentListItems.get(position).isCompletion_status()) {
+            holder.itemView.setBackgroundColor(Color.parseColor("cyan"));
         }
     }
 

@@ -84,6 +84,8 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     // TODO: maybe include assignment info in card so teacher can compare easier
                     String assignment_name = (String) dataSnapshot.child("assignment_title").getValue();
+                    int time = (int) (long) dataSnapshot.child("time").getValue();
+                    int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
 
                     if (dataSnapshot.child("student_assignments").hasChild(student_email))
                     {
@@ -95,8 +97,13 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                         int num_incorrect = (int) (long) dataSnapshot.child("student_assignments")
                                 .child(student_email).child("num_incorrect").getValue();
 
-                        studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
-                                assignment_name, time_spent, num_correct, num_incorrect));
+                        StudentAssignmentCard_AssignmentName new_item = new StudentAssignmentCard_AssignmentName(
+                                assignment_name, time_spent, num_correct, num_incorrect);
+                        studentAssignmentList.add(new_item);
+                        int num_attempted = num_correct + num_incorrect;
+                        if (time_spent >= time && num_attempted >= num_questions) {
+                            new_item.setCompletion_status(true);
+                        }
                     }
                     else
                     {

@@ -250,7 +250,6 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                     if (dataSnapshot.hasChild("student_assignments")) {
                         if (dataSnapshot.child("student_assignments").hasChild(active_user.email))
                         {
-                            // TODO: fix this so it actually works
                             int time_spent = (int) (long)dataSnapshot.child("student_assignments")
                                     .child(active_user.email)
                                     .child("time_spent").getValue();
