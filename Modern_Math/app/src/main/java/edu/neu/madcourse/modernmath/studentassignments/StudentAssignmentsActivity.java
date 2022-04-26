@@ -131,7 +131,6 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                 // Set up the buttons
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    DatabaseReference myDatabase = FirebaseDatabase.getInstance().getReference();
                     Bundle extras = getIntent().getExtras();
                     User active_user = extras.getParcelable("active_user");
                     @Override
@@ -140,26 +139,23 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                         Map<String, Object> values = new HashMap<>();
                         values.put("class_code", class_code);
-                        this.myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
+                        myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
                             if (task.isSuccessful())
                             {
-                                Task<DataSnapshot> snapshot = this.myDatabase.child("classes").child(class_code).child("assignments").get();
-                                snapshot.addOnSuccessListener(result -> {
-                                            for (DataSnapshot dataSnapshot : snapshot.getResult().getChildren()) {
+                                myDatabase.child("classes").child(class_code).child("assignments").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
                                                 Map<String, Object> initial_assignment_details = new HashMap<>();
-                                                initial_assignment_details.put("time_spent", "0");
+                                                initial_assignment_details.put("time_spent", 0);
                                                 initial_assignment_details.put("num_correct", 0);
                                                 initial_assignment_details.put("num_incorrect", 0);
 
                                                 myDatabase.child("classes").child(class_code).child("assignments").child(dataSnapshot.getKey()).child("student_assignments")
                                                         .child(active_user.email).setValue(initial_assignment_details);
                                             }
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(StudentAssignmentsActivity.this, "There was a problem. Please try again.",
-                                                    Toast.LENGTH_SHORT).show();
-                                            Log.v("DB_FAILURE", "Access to realtime firebase failed when accessing the class code.");
-                                        });
+                                    }
+                                });
                             }
                             else
                             {
@@ -223,9 +219,12 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                     boolean completion_status = false;
                     if (dataSnapshot.hasChild("student_assignments")) {
-                        if (!dataSnapshot.child("student_assignments").child(active_user.email)
-                                .child("time_spent").getValue().toString().equals("0")) {
-                            completion_status = true;
+                        if (dataSnapshot.child("student_assignments").hasChild(active_user.email))
+                        {
+                            if (!dataSnapshot.child("student_assignments").child(active_user.email)
+                                    .child("time_spent").getValue().toString().equals("0")) {
+                                completion_status = true;
+                            }
                         }
                     }
 
