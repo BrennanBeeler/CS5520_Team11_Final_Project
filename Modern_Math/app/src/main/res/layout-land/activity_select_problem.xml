@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".problemselection.ProblemSelectionActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/ic_launcher_mm_background"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <Spinner
+        android:id="@+id/levelSpinner"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:background="@android:drawable/spinner_background"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+
+    <Button
+        android:id="@+id/practiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startPracticeSession"
+        android:text="Practice"
+        app:layout_constraintBottom_toTopOf="@+id/challengeButton"
+        app:layout_constraintEnd_toEndOf="@+id/challengeButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/challengeButton"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+
+    <Button
+        android:id="@+id/challengeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startTimeChallengeSession"
+        android:text="Time Challenge"
+        app:layout_constraintBottom_toTopOf="@+id/assignmentButton"
+        app:layout_constraintEnd_toEndOf="@+id/assignmentButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/levelSpinner"
+        app:layout_constraintStart_toStartOf="@+id/assignmentButton"
+        app:layout_constraintTop_toBottomOf="@+id/practiceButton" />
+
+    <TextView
+        android:id="@+id/activeUserTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Welcome!"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+
+
+    <Button
+        android:id="@+id/assignmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startAssignmentSession"
+        android:text="Assignments"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/levelSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/challengeButton" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/division_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/division"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/multiplication_switch"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="@+id/multiplication_switch"
+        app:layout_constraintTop_toBottomOf="@+id/multiplication_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/subtraction_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subtraction"
+        app:layout_constraintBottom_toTopOf="@+id/multiplication_switch"
+        app:layout_constraintEnd_toEndOf="@+id/addition_switch"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toStartOf="@+id/addition_switch"
+        app:layout_constraintTop_toBottomOf="@+id/addition_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/multiplication_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/multiplication"
+        app:layout_constraintBottom_toTopOf="@+id/division_switch"
+        app:layout_constraintEnd_toEndOf="@+id/subtraction_switch"
+        app:layout_constraintHorizontal_bias="0.062"
+        app:layout_constraintStart_toStartOf="@+id/subtraction_switch"
+        app:layout_constraintTop_toBottomOf="@+id/subtraction_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/addition_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:text="@string/addition"
+        app:layout_constraintBottom_toTopOf="@id/subtraction_switch"
+        app:layout_constraintEnd_toStartOf="@+id/levelSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
+        app:layout_constraintVertical_bias="0.39"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
