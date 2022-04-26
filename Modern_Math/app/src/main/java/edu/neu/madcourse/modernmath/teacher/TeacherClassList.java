@@ -95,6 +95,11 @@ public class TeacherClassList extends AppCompatActivity {
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
                     }
                 }
+                // Placeholder if no classes
+                if (classList.size() == 0) {
+                    String className = "No active classes";
+                    classList.add(new ClassListItem(className, "", "", 0));
+                }
                 adapter.notifyDataSetChanged();
             }
 
@@ -105,6 +110,10 @@ public class TeacherClassList extends AppCompatActivity {
         });
 
         ClassListClickListener i = position -> {
+            // Do nothing for placeholder
+            if(classList.get(position).getClassName().equals("No active classes")) {
+                return;
+            }
             Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
             intent.putExtra("class_code", classList.get(position).getClassCode());
             intent.putExtra("class_title", classList.get(position).getClassName());

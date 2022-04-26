@@ -36,6 +36,13 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
     public void onBindViewHolder(@NonNull AssignmentListHolder holder, int position) {
         holder.title.setText(assignmentListItems.get(position).getTitle());
 
+        if (assignmentListItems.size() == 1 && assignmentListItems.get(position).getTitle().equals("No assignments created")) {
+            holder.operators.setText("");
+            holder.difficulty.setText("");
+            holder.time_limit.setText("");
+            holder.num_questions.setText("");
+            return;
+        }
         StringJoiner joiner = new StringJoiner(" ");
         for (Operator op : assignmentListItems.get(position).getOperators())
         {
