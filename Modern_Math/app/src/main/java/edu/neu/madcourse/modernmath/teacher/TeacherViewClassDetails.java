@@ -98,6 +98,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(teacher.firstName);
         return super.onCreateOptionsMenu(menu);
     }
 

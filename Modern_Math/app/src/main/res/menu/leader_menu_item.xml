@@ -5,4 +5,8 @@
         android:id="@+id/leader"
         android:title="Leaderboard"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/name"
+        android:title="Name"
+        app:showAsAction="always" />
 </menu>
