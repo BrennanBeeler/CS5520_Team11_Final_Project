@@ -2,7 +2,6 @@
     <string name="app_name">Modern Math</string>
     <string name="modern_math">Modern Math</string>
     <string name="modern_math_logo">Modern Math Logo</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_existing_user">Login</string>
     <string name="add_new_user">Create Profile</string>
@@ -12,7 +11,7 @@
     <string name="first_name">First Name</string>
     <string name="email">Email?</string>
     <string name="instructor">Instructor Account</string>
-    <string name="leadership_board">LEADERSHIP BOARD</string>
+    <string name="leadership_board">LEADERBOARD</string>
     <string name="subtraction">Subtraction</string>
     <string name="addition">Addition</string>
     <string name="multiplication">Multiplication</string>

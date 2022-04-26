@@ -63,7 +63,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
         if (actionBar != null)
         {
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
-            actionBar.setTitle("Select Problem Type");
+            actionBar.setTitle("Problem Selection");
             actionBar.setDisplayShowTitleEnabled(true);
         }
 
@@ -145,10 +145,10 @@ public class ProblemSelectionActivity extends AppCompatActivity {
                 dialog.cancel();
             }
         });
-        if (selectedPlayMode.size() == 0 || this.selectedPlayLevel.equals("Select")) {
+        if (selectedPlayMode.size() == 0) {
             AlertDialog alert = missingInputAlert.create();
             alert.setTitle("Error");
-            alert.setMessage("Inputs are missing!");
+            alert.setMessage("Please select at least one operator!");
             alert.show();
             return true;
         }
