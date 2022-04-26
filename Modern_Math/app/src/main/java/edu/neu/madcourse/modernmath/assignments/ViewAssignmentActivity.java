@@ -174,7 +174,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                     for (DataSnapshot student_assignment : snapshot.child("student_assignments").getChildren())
                     {
                         String email = student_assignment.getKey();
-                        String time_spent = (String) student_assignment.child("time_spent").getValue();
+                        int time_spent = (int) (long) student_assignment.child("time_spent").getValue();
                         int num_correct = (int) (long) student_assignment.child("num_correct").getValue();
                         int num_incorrect = (int) (long) student_assignment.child("num_incorrect").getValue();
 
