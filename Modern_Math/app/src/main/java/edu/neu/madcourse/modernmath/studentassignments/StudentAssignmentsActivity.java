@@ -167,7 +167,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                         Map<String, Object> values = new HashMap<>();
                         values.put("class_code", class_code);
-                        // TODO: validate that the class code isn't wrong
+
                         myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
                             if (task.isSuccessful())
                             {
@@ -271,7 +271,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                 }
                 // Placeholder if no assignments
                 if (assignmentList.size() == 0) {
-                    String title = "No assignments created";
+                    String title = "No assignments to complete yet!";
                     assignmentList.add(new AssignmentListItem("", title, null,
                             "", 0, 0));
                 }
