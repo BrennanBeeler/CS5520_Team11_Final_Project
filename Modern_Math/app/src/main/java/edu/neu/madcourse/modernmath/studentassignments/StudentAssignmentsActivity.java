@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.leadershipboard.LeadershipScoreComparator;
 import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
+import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListClickListener;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListRVAdapter;
@@ -50,6 +53,7 @@ import edu.neu.madcourse.modernmath.teacher.ClassListItem;
 import edu.neu.madcourse.modernmath.teacher.StudentClickListener;
 import edu.neu.madcourse.modernmath.teacher.StudentListItem;
 import edu.neu.madcourse.modernmath.teacher.StudentListRVAdapter;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 import edu.neu.madcourse.modernmath.teacher.TeacherViewClassDetails;
 import edu.neu.madcourse.modernmath.teacher.studentassignments.StudentAssignmentCard_AssignmentName;
 import edu.neu.madcourse.modernmath.teacher.studentassignments.TeacherViewStudentDetailsActivity;
@@ -74,6 +78,16 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
         addClassCode = findViewById(R.id.studentView_floatingActionButton);
         class_code_view = findViewById(R.id.class_code_textView);
+
+        // Set up action bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setTitle("Class Assignments");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
 
         Bundle extras = getIntent().getExtras();
         active_user = extras.getParcelable("active_user");
@@ -245,4 +259,23 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         assignmentAdapter.setListener(i);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(active_user.firstName);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(StudentAssignmentsActivity.this, ProblemSelectionActivity.class);
+                intent.putExtra("active_user", this.active_user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
