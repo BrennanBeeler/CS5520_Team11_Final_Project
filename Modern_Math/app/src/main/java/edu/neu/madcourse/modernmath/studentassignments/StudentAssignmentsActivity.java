@@ -251,8 +251,14 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                         if (dataSnapshot.child("student_assignments").hasChild(active_user.email))
                         {
                             // TODO: fix this so it actually works
-                            if (!dataSnapshot.child("student_assignments").child(active_user.email)
-                                    .child("time_spent").getValue().toString().equals("0")) {
+                            int time_spent = (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.email)
+                                    .child("time_spent").getValue();
+                            int num_attempted = (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.email).child("num_correct").getValue() +
+                                    (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.email).child("num_incorrect").getValue();
+                            if (time_spent >= time_limit && num_attempted >= num_questions) {
                                 completion_status = true;
                             }
                         }
@@ -284,7 +290,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             if(assignmentList.get(position).getOperators() == null) {
                 return;
             }
-            if (false /* TODO: check if assignment is completed*/) {
+            if (assignmentList.get(position).isCompletion_status()) {
                 return;
             }
             Intent challengeIntent = new Intent(StudentAssignmentsActivity.this, ProblemScreenActivity.class);
