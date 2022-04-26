@@ -52,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setTitle("Login");
+            actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 

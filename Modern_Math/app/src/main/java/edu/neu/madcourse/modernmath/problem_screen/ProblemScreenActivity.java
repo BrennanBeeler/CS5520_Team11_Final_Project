@@ -108,6 +108,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(user.firstName);
         return super.onCreateOptionsMenu(menu);
     }
 
