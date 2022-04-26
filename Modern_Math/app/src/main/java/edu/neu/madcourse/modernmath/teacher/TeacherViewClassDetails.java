@@ -78,7 +78,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         }
         teacher = extras.getParcelable("active_user");
         class_code = extras.getString("class_code");
-        classCode.setText(class_code);
+        classCode.setText("Class code: " + class_code);
         className.setText(extras.getString("class_title"));
 
         addAssignment.setOnClickListener(view -> {

@@ -197,7 +197,8 @@ public class CreateAssignmentActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        new_assignment.put("time", Integer.parseInt(timeValues[time_picker.getValue()]));
+                        // Convert amount put into assignment into milliseconds instead of minutes
+                        new_assignment.put("time", Integer.parseInt(timeValues[time_picker.getValue()]) * 60000);
 
                     }
 

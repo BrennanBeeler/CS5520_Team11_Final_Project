@@ -25,6 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/class_list_toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         />
 
     <TextView
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:layout_marginStart="5dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/class_details_title" />
 

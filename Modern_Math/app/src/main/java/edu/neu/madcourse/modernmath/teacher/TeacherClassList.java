@@ -45,7 +45,6 @@ public class TeacherClassList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_class_list);
-        TextView teacherName = findViewById(R.id.teacher_name);
         addClass = findViewById(R.id.addClass);
 
         setSupportActionBar(findViewById(R.id.class_list_toolbar));
@@ -68,7 +67,6 @@ public class TeacherClassList extends AppCompatActivity {
         }
         Log.d("TeacherClass", "getting teacher name");
         teacher = extras.getParcelable("active_user");
-        teacherName.setText(teacher.firstName + " " + teacher.lastName);
 
         // populate list of classes
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
