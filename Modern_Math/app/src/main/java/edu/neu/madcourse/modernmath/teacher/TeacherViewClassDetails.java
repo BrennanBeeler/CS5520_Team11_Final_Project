@@ -122,6 +122,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         assignmentAdapter = new AssignmentListRVAdapter(assignmentList);
         assignmentListRV.setAdapter(assignmentAdapter);
         assignmentListRV.setLayoutManager(assignmentLayoutManager);
+        assignmentAdapter.setTeacherpage(true);
 
         this.myDatabase.child("classes").child(class_code).child("assignments").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")

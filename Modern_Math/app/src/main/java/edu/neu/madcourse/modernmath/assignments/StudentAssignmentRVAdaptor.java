@@ -50,7 +50,7 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
         }
         viewHolder.student_email.setText(studentAssignmentList.get(position).getEmail());
 
-        int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 60000;
+        int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 1000;
 
         viewHolder.student_time_spent.setText("Time spent: " + formatted_time_spent + " min");
 

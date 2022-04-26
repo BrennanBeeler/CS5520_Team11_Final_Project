@@ -16,13 +16,19 @@ import edu.neu.madcourse.modernmath.assignments.Operator;
 public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentListHolder> {
     final private ArrayList<AssignmentListItem> assignmentListItems;
     private AssignmentListClickListener listener;
+    private boolean teacherpage;
 
     public AssignmentListRVAdapter(ArrayList<AssignmentListItem> assignmentListItems) {
         this.assignmentListItems = assignmentListItems;
+        this.teacherpage = false;
     }
 
     public void setListener(AssignmentListClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setTeacherpage(boolean teacherpage) {
+        this.teacherpage = teacherpage;
     }
 
     @NonNull
@@ -58,7 +64,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
         }
         else
         {
-            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit());
+            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit() / 1000 + " min");
         }
 
         if (assignmentListItems.get(position).getNum_questions() == 0)
@@ -70,7 +76,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
             holder.num_questions.setText("Number of questions: " + assignmentListItems.get(position).getNum_questions());
         }
 
-        if (!assignmentListItems.get(position).isCompletion_status()) {
+        if (!assignmentListItems.get(position).isCompletion_status() && !teacherpage) {
             holder.itemView.setBackgroundColor(Color.parseColor("cyan"));
         }
     }

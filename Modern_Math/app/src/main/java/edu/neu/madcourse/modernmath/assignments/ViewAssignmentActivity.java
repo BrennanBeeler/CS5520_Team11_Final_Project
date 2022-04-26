@@ -158,7 +158,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        timeLimit_textview.setText("Time Limit: " + time);
+                        timeLimit_textview.setText("Time Limit: " + time / 1000 + " min");
                     }
 
                     TextView numQuestions_textview = findViewById(R.id.assignment_num_questions);
