@@ -18,14 +18,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/studentView_recyclerView"
-        android:layout_width="408dp"
-        android:layout_height="596dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentView_textView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/studentView_floatingActionButton"
@@ -33,40 +31,25 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
         app:srcCompat="@android:drawable/ic_input_add" />
-
-    <TextView
-        android:id="@+id/studentView_textView"
-        android:layout_width="244dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="24dp"
-        android:text="Assignments"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
 
     <TextView
         android:id="@+id/class_code_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Use the button to add a class code."
+        android:text="You're not part of a class yet.\nPress the plus sign to add a class code!"
         android:textSize="20sp"
         android:visibility="invisible"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="@+id/studentView_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/studentView_textView"
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
         app:layout_constraintVertical_bias="0.198" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

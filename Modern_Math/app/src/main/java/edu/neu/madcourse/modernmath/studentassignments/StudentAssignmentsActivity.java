@@ -71,6 +71,8 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
     private ArrayList<AssignmentListItem> assignmentList;
     private DatabaseReference myDatabase;
 
+    private ArrayList<String> possibleClassCodes = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +120,22 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             }
         });
 
+        this.myDatabase.child("classes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                possibleClassCodes.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    possibleClassCodes.add(dataSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Firebase Error", "Failed to get possible class codes");
+            }
+        });
+
 
         addClassCode.setOnClickListener(view ->  {
                 AlertDialog.Builder builder = new AlertDialog.Builder(StudentAssignmentsActivity.this);
@@ -135,6 +153,16 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                     User active_user = extras.getParcelable("active_user");
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (!possibleClassCodes.contains(input.getText().toString()))
+                        {
+                            Toast.makeText(StudentAssignmentsActivity.this,
+                                    "That class code cannot be found. " +
+                                            "Please make sure it has been entered correctly.",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
                         class_code = input.getText().toString();
 
                         Map<String, Object> values = new HashMap<>();
