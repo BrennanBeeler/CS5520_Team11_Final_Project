@@ -167,7 +167,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                         Map<String, Object> values = new HashMap<>();
                         values.put("class_code", class_code);
-                        // TODO: validate that the class code isn't wrong
+
                         myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
                             if (task.isSuccessful())
                             {
@@ -251,8 +251,8 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                         if (dataSnapshot.child("student_assignments").hasChild(active_user.email))
                         {
                             // TODO: fix this so it actually works
-                            if (!dataSnapshot.child("student_assignments").child(active_user.email)
-                                    .child("time_spent").getValue().toString().equals("0")) {
+                            if ((int) (long) dataSnapshot.child("student_assignments")
+                                    .child(active_user.email).child("time_spent").getValue() != 0) {
                                 completion_status = true;
                             }
                         }
@@ -265,7 +265,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                 }
                 // Placeholder if no assignments
                 if (assignmentList.size() == 0) {
-                    String title = "No assignments created";
+                    String title = "No assignments to complete yet!";
                     assignmentList.add(new AssignmentListItem("", title, null,
                             "", 0, 0));
                 }
