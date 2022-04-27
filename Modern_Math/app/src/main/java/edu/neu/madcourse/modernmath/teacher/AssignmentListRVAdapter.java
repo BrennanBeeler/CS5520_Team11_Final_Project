@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
         }
 
         if (!assignmentListItems.get(position).isCompletion_status() && !teacherpage) {
-            holder.itemView.setBackgroundColor(Color.parseColor("cyan"));
+            holder.itemView.setBackgroundColor( ActivityCompat.getColor(holder.itemView.getContext(), R.color.student_incomplete));;
         }
     }
 

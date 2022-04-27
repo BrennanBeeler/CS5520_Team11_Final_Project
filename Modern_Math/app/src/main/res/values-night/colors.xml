@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- RecyclerView Colors -->
+    <color name="teacher_complete">#00FF00</color>
+    <color name="teacher_incomplete">#FF0000</color>
+    <color name="student_incomplete">#0000FF</color>
+</resources>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -56,10 +57,14 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
 
         viewHolder.student_num_correct.setText("Number correct: " + Integer.toString(studentAssignmentList.get(position).getNumCorrect()));
         viewHolder.student_num_incorrect.setText("Number incorrect: " + Integer.toString(studentAssignmentList.get(position).getNumIncorrect()));
-        if (!studentAssignmentList.get(position).isComplete()) {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#F58676"));
+        if (studentAssignmentList.get(position).isComplete()) {
+            viewHolder.itemView.setBackgroundColor(ActivityCompat.getColor(viewHolder.itemView.getContext(), R.color.teacher_complete));
+            viewHolder.student_time_spent.setTextColor(Color.parseColor("black"));
+            viewHolder.student_email.setTextColor(Color.parseColor("black"));
+            viewHolder.student_num_correct.setTextColor(Color.parseColor("black"));
+            viewHolder.student_num_incorrect.setTextColor(Color.parseColor("black"));
         } else {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#76F59E"));
+            viewHolder.itemView.setBackgroundColor(ActivityCompat.getColor(viewHolder.itemView.getContext(), R.color.teacher_incomplete));
         }
 
     }

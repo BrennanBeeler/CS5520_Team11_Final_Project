@@ -15,5 +15,9 @@
     <color name="sv">#FF34E4EA</color>
     <color name="onSecondary">#FFFFFFFF</color>
 
+    <!-- RecyclerView Colors -->
+    <color name="teacher_complete">#00b539</color>
+    <color name="teacher_incomplete">#F58676</color>
+    <color name="student_incomplete">#00FFFF</color>
 
 </resources>
