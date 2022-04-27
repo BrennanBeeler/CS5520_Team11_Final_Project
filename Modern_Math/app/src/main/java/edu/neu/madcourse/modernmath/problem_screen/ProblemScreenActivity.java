@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -152,7 +153,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
             @Override
             public void onError(int i) {
-                Toast.makeText(getBaseContext(), "Not numeric", Toast.LENGTH_SHORT).show();
                 answerField.setText("");
             }
 

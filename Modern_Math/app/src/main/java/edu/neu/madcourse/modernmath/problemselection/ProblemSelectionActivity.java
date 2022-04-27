@@ -88,7 +88,6 @@ public class ProblemSelectionActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 selectedPlayLevel = Difficulty.valueOf(String.valueOf(parent.getItemAtPosition(position)));
-                Log.v("Difficulty level ", selectedPlayLevel.toString());
             }
 
             @Override

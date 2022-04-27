@@ -107,8 +107,6 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
                 if (snapshot.getKey() != null)
                 {
-                    Log.v("HERE", snapshot.getKey());
-
                     // TODO: populate fields for assignment
                     String assignment_name = (String) snapshot.child("assignment_title").getValue();
                     boolean addition = (boolean) snapshot.child("addition").getValue();

@@ -221,7 +221,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Firebase Error", "Failed to get access ");
+                Log.d("Firebase Error", "Failed to get access to users");
             }
         });
 

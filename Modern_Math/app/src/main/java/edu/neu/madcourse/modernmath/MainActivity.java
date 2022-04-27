@@ -61,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-
-        Log.v("HERE_bundle", String.valueOf(savedInstanceState));
-
-        Log.v("HERE_extras", String.valueOf(extras));
-
         if (savedInstanceState != null)
         {
             this.initializeData(savedInstanceState);
