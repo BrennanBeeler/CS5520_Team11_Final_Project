@@ -3,12 +3,18 @@ package edu.neu.madcourse.modernmath.problem_screen;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +44,7 @@ import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
+import edu.neu.madcourse.modernmath.test;
 
 public class ProblemScreenActivity extends AppCompatActivity {
 
@@ -63,6 +71,12 @@ public class ProblemScreenActivity extends AppCompatActivity {
     private Instant start;
     private long time_spent;
 
+    private final int REQUEST_CODE = 9882;
+    private TextView test_text;
+    private SpeechRecognizer speechRecognizer;
+    private Intent speechIntent;
+    private boolean is_listening = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +84,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_problem_screen);
         Bundle extras = getIntent().getExtras();
         db = FirebaseDatabase.getInstance().getReference();
-
+        initSpeechService();
         // Set up action bar
         setSupportActionBar(findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
@@ -103,6 +117,137 @@ public class ProblemScreenActivity extends AppCompatActivity {
         }
     }
 
+    private void initSpeechService() {
+        this.test_text = findViewById(R.id.answerText);
+        this.speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+
+        this.speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        this.speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        this.speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+
+        this.speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle bundle) {
+                test_text.setText("...");
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+
+            }
+
+            @Override
+            public void onRmsChanged(float v) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] bytes) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int i) {
+                Toast.makeText(getBaseContext(), "Not numeric", Toast.LENGTH_SHORT).show();
+                answerField.setText("");
+            }
+
+            @Override
+            public void onResults(Bundle bundle) {
+                ArrayList<String> words = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+
+                String user_input = words.get(0);
+
+                boolean isNumeric = false;
+
+                try
+                {
+                    user_input = user_input.replaceAll("\\s+","");
+
+                    if (Integer.parseInt(user_input) >= 0)
+                    {
+                        isNumeric = true;
+                    }
+                    else
+                    {
+                        throw new NumberFormatException();
+                    }
+                }
+                catch (NumberFormatException e)
+                {
+                    Toast.makeText(getBaseContext(), "Not numeric", Toast.LENGTH_SHORT).show();
+                }
+
+                if (isNumeric)
+                {
+                    setUserAnswer(user_input);
+                }
+                else
+                {
+                    setUserAnswer("");
+                }
+                answerField.setText(getUserAnswer());
+
+                is_listening = false;
+            }
+
+            @Override
+            public void onPartialResults(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onEvent(int i, Bundle bundle) {
+
+            }
+        });
+    }
+
+    private boolean checkPermission()
+    {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void getPermissions()
+    {
+        ActivityCompat.requestPermissions(this,
+                new String[] {Manifest.permission.RECORD_AUDIO}, REQUEST_CODE);
+    }
+
+    public void testOnClick(View view)
+    {
+        if (checkPermission())
+        {
+            if(this.is_listening)
+            {
+                this.speechRecognizer.stopListening();
+                this.is_listening = false;
+            }
+            else
+            {
+                this.speechRecognizer.startListening(this.speechIntent);
+                this.is_listening = true;
+            }
+        }
+        else
+        {
+            getPermissions();
+        }
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        speechRecognizer.destroy();
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
