@@ -180,7 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
         for (User user : this.inactive_users)
         {
-            this.userList.add(new UserLoginCard(user));
+            if (user != null)
+            {
+                this.userList.add(new UserLoginCard(user));
+            }
         }
     }
 
