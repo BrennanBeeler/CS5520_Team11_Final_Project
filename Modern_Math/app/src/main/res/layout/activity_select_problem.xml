@@ -6,6 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".problemselection.ProblemSelectionActivity">
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/multiplication_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/multiplication"
+        app:layout_constraintBottom_toTopOf="@+id/division_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subtraction_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/subtraction_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subtraction"
+        app:layout_constraintBottom_toTopOf="@+id/multiplication_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addition_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/division_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/division"
+        app:layout_constraintBottom_toTopOf="@+id/levelSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiplication_switch" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/addition_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addition"
+        app:layout_constraintBottom_toTopOf="@id/subtraction_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activeUserTextView"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
@@ -16,24 +60,12 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <Spinner
-        android:id="@+id/levelSpinner"
-        android:layout_width="262dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="332dp"
-        android:background="@android:drawable/spinner_background"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/practiceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Practice"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/challengeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,23 +77,24 @@
         android:id="@+id/challengeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="startTimeChallengeSession"
         android:text="Time Challenge"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/assignmentButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/practiceButton"
-        app:layout_constraintVertical_bias="0.098"
-        android:onClick="startTimeChallengeSession"/>
+        app:layout_constraintVertical_bias="0.098" />
 
     <TextView
         android:id="@+id/activeUserTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="36dp"
         android:text="Welcome!"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/addition_switch"
         app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
 
     <Button
@@ -71,56 +104,23 @@
         android:text="Assignments"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/challengeButton"
         app:layout_constraintVertical_bias="0.177"
         android:onClick="startAssignmentSession"/>
 
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/division_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/division"
-        app:layout_constraintBottom_toTopOf="@+id/levelSpinner"
+    <Spinner
+        android:id="@+id/levelSpinner"
+        android:layout_width="262dp"
+        android:layout_height="35dp"
+        android:background="@android:drawable/spinner_background"
+        android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/multiplication_switch" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/subtraction_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/subtraction"
-        app:layout_constraintBottom_toTopOf="@+id/multiplication_switch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addition_switch" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/multiplication_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/multiplication"
-        app:layout_constraintBottom_toTopOf="@+id/division_switch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subtraction_switch" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/addition_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/addition"
-        app:layout_constraintBottom_toTopOf="@id/subtraction_switch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activeUserTextView"
-        app:layout_constraintVertical_bias=".1"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/division_switch"
+        app:layout_constraintBottom_toTopOf="@id/practiceButton"
+        tools:layout_editor_absoluteY="333dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
