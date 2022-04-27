@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.leadershipboard.LeadershipScoreComparator;
 import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
+import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListClickListener;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListRVAdapter;
@@ -50,6 +53,7 @@ import edu.neu.madcourse.modernmath.teacher.ClassListItem;
 import edu.neu.madcourse.modernmath.teacher.StudentClickListener;
 import edu.neu.madcourse.modernmath.teacher.StudentListItem;
 import edu.neu.madcourse.modernmath.teacher.StudentListRVAdapter;
+import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 import edu.neu.madcourse.modernmath.teacher.TeacherViewClassDetails;
 import edu.neu.madcourse.modernmath.teacher.studentassignments.StudentAssignmentCard_AssignmentName;
 import edu.neu.madcourse.modernmath.teacher.studentassignments.TeacherViewStudentDetailsActivity;
@@ -67,6 +71,8 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
     private ArrayList<AssignmentListItem> assignmentList;
     private DatabaseReference myDatabase;
 
+    private ArrayList<String> possibleClassCodes = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +80,16 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
         addClassCode = findViewById(R.id.studentView_floatingActionButton);
         class_code_view = findViewById(R.id.class_code_textView);
+
+        // Set up action bar
+        setSupportActionBar(findViewById(R.id.main_toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setTitle("Class Assignments");
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+        }
 
         Bundle extras = getIntent().getExtras();
         active_user = extras.getParcelable("active_user");
@@ -104,6 +120,22 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             }
         });
 
+        this.myDatabase.child("classes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                possibleClassCodes.clear();
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    possibleClassCodes.add(dataSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Firebase Error", "Failed to get possible class codes");
+            }
+        });
+
 
         addClassCode.setOnClickListener(view ->  {
                 AlertDialog.Builder builder = new AlertDialog.Builder(StudentAssignmentsActivity.this);
@@ -117,35 +149,42 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                 // Set up the buttons
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    DatabaseReference myDatabase = FirebaseDatabase.getInstance().getReference();
                     Bundle extras = getIntent().getExtras();
                     User active_user = extras.getParcelable("active_user");
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if (!possibleClassCodes.contains(input.getText().toString()))
+                        {
+                            Toast.makeText(StudentAssignmentsActivity.this,
+                                    "That class code cannot be found. " +
+                                            "Please make sure it has been entered correctly.",
+                                    Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+
                         class_code = input.getText().toString();
 
                         Map<String, Object> values = new HashMap<>();
                         values.put("class_code", class_code);
-                        this.myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
+
+                        myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
                             if (task.isSuccessful())
                             {
-                                Task<DataSnapshot> snapshot = this.myDatabase.child("classes").child(class_code).child("assignments").get();
-                                snapshot.addOnSuccessListener(result -> {
-                                            for (DataSnapshot dataSnapshot : snapshot.getResult().getChildren()) {
+                                myDatabase.child("classes").child(class_code).child("assignments").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            for (DataSnapshot dataSnapshot : task.getResult().getChildren()) {
                                                 Map<String, Object> initial_assignment_details = new HashMap<>();
-                                                initial_assignment_details.put("time_spent", "0");
+                                                initial_assignment_details.put("time_spent", 0);
                                                 initial_assignment_details.put("num_correct", 0);
                                                 initial_assignment_details.put("num_incorrect", 0);
 
                                                 myDatabase.child("classes").child(class_code).child("assignments").child(dataSnapshot.getKey()).child("student_assignments")
                                                         .child(active_user.email).setValue(initial_assignment_details);
                                             }
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(StudentAssignmentsActivity.this, "There was a problem. Please try again.",
-                                                    Toast.LENGTH_SHORT).show();
-                                            Log.v("DB_FAILURE", "Access to realtime firebase failed when accessing the class code.");
-                                        });
+                                    }
+                                });
                             }
                             else
                             {
@@ -209,9 +248,18 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                     boolean completion_status = false;
                     if (dataSnapshot.hasChild("student_assignments")) {
-                        if (!dataSnapshot.child("student_assignments").child(active_user.email)
-                                .child("time_spent").getValue().toString().equals("0")) {
-                            completion_status = true;
+                        if (dataSnapshot.child("student_assignments").hasChild(active_user.email))
+                        {
+                            int time_spent = (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.email)
+                                    .child("time_spent").getValue();
+                            int num_attempted = (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.email).child("num_correct").getValue() +
+                                    (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.email).child("num_incorrect").getValue();
+                            if (time_spent >= time_limit && num_attempted >= num_questions) {
+                                completion_status = true;
+                            }
                         }
                     }
 
@@ -219,6 +267,12 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                             difficulty, num_questions, time_limit);
                     item.setCompletion_status(completion_status);
                     assignmentList.add(item);
+                }
+                // Placeholder if no assignments
+                if (assignmentList.size() == 0) {
+                    String title = "No assignments to complete yet!";
+                    assignmentList.add(new AssignmentListItem("", title, null,
+                            "", 0, 0));
                 }
                 assignmentAdapter.notifyDataSetChanged();
 
@@ -231,6 +285,13 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         });
 
         AssignmentListClickListener i = position -> {
+            // Do nothing for placeholder
+            if(assignmentList.get(position).getOperators() == null) {
+                return;
+            }
+            if (assignmentList.get(position).isCompletion_status()) {
+                return;
+            }
             Intent challengeIntent = new Intent(StudentAssignmentsActivity.this, ProblemScreenActivity.class);
             challengeIntent.putExtra("active_user", active_user);
             challengeIntent.putExtra("play_mode", this.assignmentList.get(position).getOperators());
@@ -240,9 +301,27 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             challengeIntent.putExtra("assignmentCode", this.assignmentList.get(position).getAssignment_id());
             challengeIntent.putExtra("time", this.assignmentList.get(position).getTime_limit());
             startActivity(challengeIntent);
-
         };
         assignmentAdapter.setListener(i);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(active_user.firstName);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                Intent intent = new Intent(StudentAssignmentsActivity.this, ProblemSelectionActivity.class);
+                intent.putExtra("active_user", this.active_user);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

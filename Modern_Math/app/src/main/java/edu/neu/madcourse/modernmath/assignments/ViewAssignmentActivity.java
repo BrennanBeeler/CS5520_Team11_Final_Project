@@ -158,7 +158,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        timeLimit_textview.setText("Time Limit: " + time);
+                        timeLimit_textview.setText("Time Limit: " + time / 1000 + " min");
                     }
 
                     TextView numQuestions_textview = findViewById(R.id.assignment_num_questions);
@@ -174,20 +174,26 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                     for (DataSnapshot student_assignment : snapshot.child("student_assignments").getChildren())
                     {
                         String email = student_assignment.getKey();
-                        String time_spent = (String) student_assignment.child("time_spent").getValue();
+                        int time_spent = (int) (long) student_assignment.child("time_spent").getValue();
                         int num_correct = (int) (long) student_assignment.child("num_correct").getValue();
                         int num_incorrect = (int) (long) student_assignment.child("num_incorrect").getValue();
 
                         Optional<User> tempUser = userArrayList.stream().filter(o -> o.email.equals(email)).findFirst();
 
+                        StudentAssignmentCard new_item ;
                         if (tempUser.isPresent())
                         {
-                            studentAssignmentList.add(new StudentAssignmentCard(email, time_spent,
-                                    num_correct, num_incorrect, tempUser.get().firstName + " " + tempUser.get().lastName));
+                            new_item = new StudentAssignmentCard(email, time_spent,
+                                    num_correct, num_incorrect, tempUser.get().firstName + " " + tempUser.get().lastName);
                         }
                         else
                         {
-                            studentAssignmentList.add(new StudentAssignmentCard(email, time_spent, num_correct, num_incorrect));
+                            new_item = new StudentAssignmentCard(email, time_spent, num_correct, num_incorrect);
+                        }
+                        studentAssignmentList.add(new_item);
+                        int num_attempted = num_correct + num_incorrect;
+                        if (time_spent >= time && num_attempted >= num_questions) {
+                            new_item.setCompletion_status(true);
                         }
                     }
                 }
@@ -195,7 +201,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                 // TODO: will need to check if no students are there/have started assignment
                 if (studentAssignmentList.isEmpty())
                 {
-
+                    studentAssignmentList.add(new StudentAssignmentCard(null, 0, 0, 0));
                 }
 
                 studentAssignmentRVAdaptor.notifyDataSetChanged();
@@ -221,6 +227,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(active_user.firstName);
         return super.onCreateOptionsMenu(menu);
     }
 

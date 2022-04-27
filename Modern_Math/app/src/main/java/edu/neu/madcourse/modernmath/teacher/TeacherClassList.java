@@ -45,7 +45,6 @@ public class TeacherClassList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_class_list);
-        TextView teacherName = findViewById(R.id.teacher_name);
         addClass = findViewById(R.id.addClass);
 
         setSupportActionBar(findViewById(R.id.class_list_toolbar));
@@ -68,7 +67,6 @@ public class TeacherClassList extends AppCompatActivity {
         }
         Log.d("TeacherClass", "getting teacher name");
         teacher = extras.getParcelable("active_user");
-        teacherName.setText(teacher.firstName + " " + teacher.lastName);
 
         // populate list of classes
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
@@ -95,6 +93,11 @@ public class TeacherClassList extends AppCompatActivity {
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
                     }
                 }
+                // Placeholder if no classes
+                if (classList.size() == 0) {
+                    String className = "No active classes";
+                    classList.add(new ClassListItem(className, "", "", 0));
+                }
                 adapter.notifyDataSetChanged();
             }
 
@@ -105,6 +108,10 @@ public class TeacherClassList extends AppCompatActivity {
         });
 
         ClassListClickListener i = position -> {
+            // Do nothing for placeholder
+            if(classList.get(position).getClassName().equals("No active classes")) {
+                return;
+            }
             Intent intent = new Intent(TeacherClassList.this, TeacherViewClassDetails.class );
             intent.putExtra("class_code", classList.get(position).getClassCode());
             intent.putExtra("class_title", classList.get(position).getClassName());
@@ -125,6 +132,7 @@ public class TeacherClassList extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.leader_menu_item, menu);
+        menu.findItem(R.id.name).setTitle(teacher.firstName);
         return super.onCreateOptionsMenu(menu);
     }
 

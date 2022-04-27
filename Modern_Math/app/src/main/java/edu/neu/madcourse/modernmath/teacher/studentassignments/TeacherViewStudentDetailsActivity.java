@@ -29,6 +29,7 @@ import edu.neu.madcourse.modernmath.assignments.StudentAssignmentRVAdaptor;
 import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
+import edu.neu.madcourse.modernmath.teacher.StudentListItem;
 import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
@@ -83,26 +84,38 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     // TODO: maybe include assignment info in card so teacher can compare easier
                     String assignment_name = (String) dataSnapshot.child("assignment_title").getValue();
+                    int time = (int) (long) dataSnapshot.child("time").getValue();
+                    int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
 
                     if (dataSnapshot.child("student_assignments").hasChild(student_email))
                     {
                         // The assignment already exists
-                        String time_spent = (String) dataSnapshot.child("student_assignments")
+                        int time_spent = (int) (long) dataSnapshot.child("student_assignments")
                                 .child(student_email).child("time_spent").getValue();
                         int num_correct = (int) (long) dataSnapshot.child("student_assignments")
                                 .child(student_email).child("num_correct").getValue();
                         int num_incorrect = (int) (long) dataSnapshot.child("student_assignments")
                                 .child(student_email).child("num_incorrect").getValue();
 
-                        studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
-                                assignment_name, time_spent, num_correct, num_incorrect));
+                        StudentAssignmentCard_AssignmentName new_item = new StudentAssignmentCard_AssignmentName(
+                                assignment_name, time_spent, num_correct, num_incorrect);
+                        studentAssignmentList.add(new_item);
+                        int num_attempted = num_correct + num_incorrect;
+                        if (time_spent >= time && num_attempted >= num_questions) {
+                            new_item.setCompletion_status(true);
+                        }
                     }
                     else
                     {
                         // For some reason this student does not yet have an assignment so use default?
                         studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
-                                assignment_name, "0", 0, 0));
+                                assignment_name, 0, 0, 0));
                     }
+                }
+                // placeholder for an empty list
+                if (studentAssignmentList.size() == 0) {
+                    studentAssignmentList.add(new StudentAssignmentCard_AssignmentName(
+                            null, 0, 0, 0));
                 }
                 studentAssignmentRVAdaptor.notifyDataSetChanged();
             }
@@ -128,6 +141,7 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(active_user.firstName);
         return super.onCreateOptionsMenu(menu);
     }
 

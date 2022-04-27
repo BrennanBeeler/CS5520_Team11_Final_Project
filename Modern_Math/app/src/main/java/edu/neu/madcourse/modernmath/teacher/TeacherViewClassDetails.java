@@ -78,7 +78,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         }
         teacher = extras.getParcelable("active_user");
         class_code = extras.getString("class_code");
-        classCode.setText(class_code);
+        classCode.setText("Class code: " + class_code);
         className.setText(extras.getString("class_title"));
 
         addAssignment.setOnClickListener(view -> {
@@ -98,6 +98,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
+        menu.findItem(R.id.name).setTitle(teacher.firstName);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -121,8 +122,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         assignmentAdapter = new AssignmentListRVAdapter(assignmentList);
         assignmentListRV.setAdapter(assignmentAdapter);
         assignmentListRV.setLayoutManager(assignmentLayoutManager);
-
-        // TODO: add placeholder for when no assignments present
+        assignmentAdapter.setTeacherpage(true);
 
         this.myDatabase.child("classes").child(class_code).child("assignments").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -158,6 +158,12 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                     assignmentList.add(new AssignmentListItem(assignment_id, title, operators,
                             difficulty, num_questions, time_limit));
                 }
+                // Placeholder if no assignments
+                if (assignmentList.size() == 0) {
+                    String title = "No assignments created";
+                    assignmentList.add(new AssignmentListItem("", title, null,
+                            "", 0, 0));
+                }
                 assignmentAdapter.notifyDataSetChanged();
             }
 
@@ -168,6 +174,10 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         });
 
         AssignmentListClickListener i = position -> {
+            // Do nothing for placeholder
+            if(assignmentList.get(position).getTitle().equals("No assignments created")) {
+                return;
+            }
             Intent intent = new Intent(TeacherViewClassDetails.this, ViewAssignmentActivity.class );
             intent.putExtra("current_class_id", this.class_code);
             intent.putExtra("current_assignment_id", this.assignmentList.get(position).getAssignment_id());
@@ -185,8 +195,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         studentListRV.setAdapter(studentAdapter);
         studentListRV.setLayoutManager(studentLayoutManager);
 
-        // TODO: add filler for when there are no students
-
         this.myDatabase.child("users").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -202,7 +210,12 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                         studentList.add(new StudentListItem(name, email));
                     }
                 }
-
+                // Placeholder if no students
+                if (studentList.size() == 0) {
+                    String name = "No students enrolled";
+                    String email = "";
+                    studentList.add(new StudentListItem(name, email));
+                }
                 studentAdapter.notifyDataSetChanged();
             }
 
@@ -213,6 +226,11 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         });
 
         StudentClickListener i = position -> {
+            // Do nothing for placeholder
+            if(studentList.get(position).getName().equals("No students enrolled")) {
+               return;
+            }
+
             Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewStudentDetailsActivity.class );
             intent.putExtra("active_user", teacher);
             intent.putExtra("class_id", class_code);

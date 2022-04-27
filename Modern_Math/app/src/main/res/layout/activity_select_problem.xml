@@ -95,7 +95,8 @@
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/addition_switch"
-        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/assignmentButton"

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +76,36 @@ public class test extends AppCompatActivity {
             public void onResults(Bundle bundle) {
                 ArrayList<String> words = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                // TODO: handle non-numbers?
-                test_text.setText(words.get(0));
+                String user_input = words.get(0);
+
+                boolean isNumeric = false;
+
+                try
+                {
+                    user_input = user_input.replaceAll("\\s+","");
+
+                    if (Integer.parseInt(user_input) >= 0)
+                    {
+                        isNumeric = true;
+                    }
+                    else
+                    {
+                        throw new NumberFormatException();
+                    }
+                }
+                catch (NumberFormatException e)
+                {
+                    Toast.makeText(test.this, "Not numeric", Toast.LENGTH_SHORT).show();
+                }
+
+                if (isNumeric)
+                {
+                    test_text.setText(user_input);
+                }
+                else
+                {
+                    test_text.setText("");
+                }
 
                 is_listening = false;
             }
