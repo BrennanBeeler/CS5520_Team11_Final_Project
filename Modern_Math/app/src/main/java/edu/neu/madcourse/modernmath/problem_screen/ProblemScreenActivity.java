@@ -23,6 +23,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,13 +54,14 @@ public class ProblemScreenActivity extends AppCompatActivity {
     private int correctAnswers = 0;
     private int incorrectAnswer = 0;
     private int previousCorrect;
-    private int previousIncorrect;
     private int overallAnswers;
     EditText answerField;
     TextView numberOfQuestionsField;
     DatabaseReference db;
     Task<DataSnapshot> assignmentRef;
     Task<DataSnapshot> userRef;
+    private Instant start;
+    private long time_spent;
 
 
     @Override
@@ -96,11 +99,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         if (assignmentCode != null) {
             initAssignment();
         } else {
-            if (time == 0 && numOfQuestions == 0) {
-                numOfQuestions = 10;
-            }
-            Dialog dialog = showStartDialog();
-            dialog.show();
+            init();
         }
     }
 
@@ -128,7 +127,9 @@ public class ProblemScreenActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        postScores();
+        if(numOfQuestions > 0 || time > 0) {
+            postScores();
+        }
         previousCorrect = correctAnswers;
     }
 
@@ -138,9 +139,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
         initUser();
         if (assignmentCode != null) {
             initAssignment();
-        } else {
-            Dialog dialog = showStartDialog();
-            dialog.show();
         }
     }
 
@@ -173,16 +171,21 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         correctAnswers = correct;
                         previousCorrect = correct;
                         incorrectAnswer = incorrect;
-                        previousIncorrect = incorrect;
+                        time_spent = (long) dataSnapshot.child("time_spent").getValue();
                         if (time > 0) {
-                            time -= (long) dataSnapshot.child("time_spent").getValue();
+                            time -= time_spent;
                         }
 
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    Dialog dialog = showStartDialog();
-                    dialog.show();
+                    if ( numOfQuestions <= 0 && time <= 0) {
+                        //TO-DO: invalid assignment state
+                        finish();
+                    }else {
+                        Dialog dialog = showStartDialog();
+                        dialog.show();
+                    }
                 }
             }
         });
@@ -208,11 +211,12 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 public void onTick(long l) {
                     String timeString = "Time Remaining: " + l / 1000;
                     timer.setText(timeString);
+                    time -= 1000;
                 }
 
                 @Override
                 public void onFinish() {
-                    showEndDialog("Times up!\n").show();
+                    postScores();
                 }
             }.start();
         }
@@ -236,6 +240,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         init();
+                        start = Instant.now();
                     }
                 });
         builder.setCancelable(false);
@@ -299,7 +304,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 numberOfQuestionsField.setText(text);
             } else if (numOfQuestions == 0) {
                 postScores();
-                showEndDialog("").show();
             }
             setUserAnswer("");
             answerField.setText("");
@@ -309,17 +313,20 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private void postScores() {
         if (classId != null || assignmentCode != null) {
+            Instant stop = Instant.now();
             Map<String, Object> assignmentMap = new HashMap<>();
             assignmentMap.put("num_correct", correctAnswers);
             assignmentMap.put("num_incorrect", incorrectAnswer);
-            assignmentMap.put("time_spent", 10000);
+            assignmentMap.put("time_spent", Duration.between(start, stop).toMillis() + time_spent);
             db.child("classes").child(classId).child("assignments")
                     .child(assignmentCode).child("student_assignments").child(user.email)
                     .updateChildren(assignmentMap);
+            start = null;
         }
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("answers", overallAnswers + correctAnswers - previousCorrect);
         db.child("users").child(user.email).updateChildren(userMap);
+        showEndDialog("").show();
     }
 
     private void generateQuestion() {

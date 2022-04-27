@@ -10,7 +10,7 @@ public class AssignmentListItem {
     private ArrayList<Operator> operators;
     private String difficulty;
     private int num_questions;
-    private int time_limit;
+    private long time_limit;
     private boolean completion_status;
 
     public AssignmentListItem(String assignment_id, String title, ArrayList<Operator> operators,
@@ -46,7 +46,7 @@ public class AssignmentListItem {
         return this.num_questions;
     }
 
-    public int getTime_limit()
+    public long getTime_limit()
     {
         return this.time_limit;
     }
