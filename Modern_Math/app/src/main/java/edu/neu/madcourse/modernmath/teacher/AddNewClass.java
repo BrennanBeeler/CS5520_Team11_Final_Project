@@ -54,8 +54,6 @@ public class AddNewClass extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         teacher = extras.getParcelable("active_user");
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
-        TextView teacherName = findViewById(R.id.teacher_name_add_class);
-        teacherName.setText(teacher.firstName + " " + teacher.lastName);
     }
 
     public void onNewClassSubmit(View view) {

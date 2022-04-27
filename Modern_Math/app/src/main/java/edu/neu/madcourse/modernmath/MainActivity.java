@@ -220,9 +220,4 @@ public class MainActivity extends AppCompatActivity {
 
         this.getNewUserIntentLauncher.launch(intent);
     }
-
-    public void testOnClick(View view)
-    {
-        startActivity(new Intent(MainActivity.this, test.class));
-    }
 }

@@ -45,9 +45,6 @@
             android:name=".teacher.TeacherClassList"
             android:exported="false" />
         <activity
-            android:name=".test"
-            android:exported="false" />
-        <activity
             android:name=".login.AddExistingUserActivity"
             android:exported="false" />
         <activity
