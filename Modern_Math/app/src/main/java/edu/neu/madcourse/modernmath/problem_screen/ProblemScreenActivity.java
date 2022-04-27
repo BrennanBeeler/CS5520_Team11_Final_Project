@@ -38,13 +38,11 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
-import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
-import edu.neu.madcourse.modernmath.test;
+
 
 public class ProblemScreenActivity extends AppCompatActivity {
 
