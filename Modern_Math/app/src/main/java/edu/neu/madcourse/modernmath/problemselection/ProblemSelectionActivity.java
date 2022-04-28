@@ -115,7 +115,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
             challengeIntent.putExtra("active_user", user);
             challengeIntent.putExtra("play_mode", this.selectedPlayMode);
             challengeIntent.putExtra("play_level", this.selectedPlayLevel);
-            challengeIntent.putExtra("time", 120000);
+            challengeIntent.putExtra("time", 120000L);
             startActivity(challengeIntent);
         }
     }
