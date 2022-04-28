@@ -119,9 +119,9 @@
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@id/division_switch"
-        app:layout_constraintBottom_toTopOf="@id/practiceButton"
-        tools:layout_editor_absoluteY="333dp" />
+        app:layout_constraintBottom_toTopOf="@id/practiceButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
