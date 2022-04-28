@@ -127,6 +127,7 @@ public class ProblemSelectionActivity extends AppCompatActivity {
     }
 
     public boolean validateInputs() {
+        selectedPlayMode = new ArrayList<>();
         if (add_switch.isChecked()) {
             selectedPlayMode.add(Operator.valueOf("ADDITION"));
         }
