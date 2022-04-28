@@ -61,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-
-        Log.v("HERE_bundle", String.valueOf(savedInstanceState));
-
-        Log.v("HERE_extras", String.valueOf(extras));
-
         if (savedInstanceState != null)
         {
             this.initializeData(savedInstanceState);
@@ -180,7 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
         for (User user : this.inactive_users)
         {
-            this.userList.add(new UserLoginCard(user));
+            if (user != null)
+            {
+                this.userList.add(new UserLoginCard(user));
+            }
         }
     }
 
@@ -216,10 +214,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         this.getNewUserIntentLauncher.launch(intent);
-    }
-
-    public void testOnClick(View view)
-    {
-        startActivity(new Intent(MainActivity.this, test.class));
     }
 }

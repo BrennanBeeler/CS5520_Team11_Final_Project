@@ -3,12 +3,19 @@ package edu.neu.madcourse.modernmath.problem_screen;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,18 +30,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
-import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
+
 
 public class ProblemScreenActivity extends AppCompatActivity {
 
@@ -52,13 +61,20 @@ public class ProblemScreenActivity extends AppCompatActivity {
     private int correctAnswers = 0;
     private int incorrectAnswer = 0;
     private int previousCorrect;
-    private int previousIncorrect;
     private int overallAnswers;
     EditText answerField;
     TextView numberOfQuestionsField;
     DatabaseReference db;
     Task<DataSnapshot> assignmentRef;
     Task<DataSnapshot> userRef;
+    private Instant start;
+    private long time_spent;
+
+    private final int REQUEST_CODE = 9882;
+    private TextView test_text;
+    private SpeechRecognizer speechRecognizer;
+    private Intent speechIntent;
+    private boolean is_listening = false;
 
 
     @Override
@@ -67,7 +83,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_problem_screen);
         Bundle extras = getIntent().getExtras();
         db = FirebaseDatabase.getInstance().getReference();
-
+        initSpeechService();
         // Set up action bar
         setSupportActionBar(findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
@@ -96,14 +112,140 @@ public class ProblemScreenActivity extends AppCompatActivity {
         if (assignmentCode != null) {
             initAssignment();
         } else {
-            if (time == 0 && numOfQuestions == 0) {
-                numOfQuestions = 10;
-            }
-            Dialog dialog = showStartDialog();
-            dialog.show();
+            init();
         }
     }
 
+    private void initSpeechService() {
+        this.test_text = findViewById(R.id.answerText);
+        this.speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+
+        this.speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        this.speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        this.speechIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
+
+        this.speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle bundle) {
+                test_text.setText("...");
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+
+            }
+
+            @Override
+            public void onRmsChanged(float v) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] bytes) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int i) {
+                answerField.setText("");
+            }
+
+            @Override
+            public void onResults(Bundle bundle) {
+                ArrayList<String> words = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+
+                String user_input = words.get(0);
+
+                boolean isNumeric = false;
+
+                try
+                {
+                    user_input = user_input.replaceAll("\\s+","");
+
+                    if (Integer.parseInt(user_input) >= 0)
+                    {
+                        isNumeric = true;
+                    }
+                    else
+                    {
+                        throw new NumberFormatException();
+                    }
+                }
+                catch (NumberFormatException e)
+                {
+                    Toast.makeText(getBaseContext(), "Not numeric", Toast.LENGTH_SHORT).show();
+                }
+
+                if (isNumeric)
+                {
+                    setUserAnswer(user_input);
+                }
+                else
+                {
+                    setUserAnswer("");
+                }
+                answerField.setText(getUserAnswer());
+
+                is_listening = false;
+            }
+
+            @Override
+            public void onPartialResults(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onEvent(int i, Bundle bundle) {
+
+            }
+        });
+    }
+
+    private boolean checkPermission()
+    {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void getPermissions()
+    {
+        ActivityCompat.requestPermissions(this,
+                new String[] {Manifest.permission.RECORD_AUDIO}, REQUEST_CODE);
+    }
+
+    public void testOnClick(View view)
+    {
+        if (checkPermission())
+        {
+            if(this.is_listening)
+            {
+                this.speechRecognizer.stopListening();
+                this.is_listening = false;
+            }
+            else
+            {
+                this.speechRecognizer.startListening(this.speechIntent);
+                this.is_listening = true;
+            }
+        }
+        else
+        {
+            getPermissions();
+        }
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        speechRecognizer.destroy();
+        super.onDestroy();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,7 +270,9 @@ public class ProblemScreenActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        postScores();
+        if(numOfQuestions > 0 || time > 0) {
+            postScores();
+        }
         previousCorrect = correctAnswers;
     }
 
@@ -138,9 +282,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
         initUser();
         if (assignmentCode != null) {
             initAssignment();
-        } else {
-            Dialog dialog = showStartDialog();
-            dialog.show();
         }
     }
 
@@ -173,16 +314,21 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         correctAnswers = correct;
                         previousCorrect = correct;
                         incorrectAnswer = incorrect;
-                        previousIncorrect = incorrect;
+                        time_spent = (long) dataSnapshot.child("time_spent").getValue();
                         if (time > 0) {
-                            time -= (long) dataSnapshot.child("time_spent").getValue();
+                            time -= time_spent;
                         }
 
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    Dialog dialog = showStartDialog();
-                    dialog.show();
+                    if ( numOfQuestions <= 0 && time <= 0) {
+                        //TO-DO: invalid assignment state
+                        finish();
+                    }else {
+                        Dialog dialog = showStartDialog();
+                        dialog.show();
+                    }
                 }
             }
         });
@@ -208,11 +354,12 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 public void onTick(long l) {
                     String timeString = "Time Remaining: " + l / 1000;
                     timer.setText(timeString);
+                    time -= 1000;
                 }
 
                 @Override
                 public void onFinish() {
-                    showEndDialog("Times up!\n").show();
+                    postScores();
                 }
             }.start();
         }
@@ -236,6 +383,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         init();
+                        start = Instant.now();
                     }
                 });
         builder.setCancelable(false);
@@ -299,7 +447,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 numberOfQuestionsField.setText(text);
             } else if (numOfQuestions == 0) {
                 postScores();
-                showEndDialog("").show();
             }
             setUserAnswer("");
             answerField.setText("");
@@ -309,17 +456,20 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private void postScores() {
         if (classId != null || assignmentCode != null) {
+            Instant stop = Instant.now();
             Map<String, Object> assignmentMap = new HashMap<>();
             assignmentMap.put("num_correct", correctAnswers);
             assignmentMap.put("num_incorrect", incorrectAnswer);
-            assignmentMap.put("time_spent", 10000);
+            assignmentMap.put("time_spent", Duration.between(start, stop).toMillis() + time_spent);
             db.child("classes").child(classId).child("assignments")
                     .child(assignmentCode).child("student_assignments").child(user.email)
                     .updateChildren(assignmentMap);
+            start = null;
         }
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("answers", overallAnswers + correctAnswers - previousCorrect);
         db.child("users").child(user.email).updateChildren(userMap);
+        showEndDialog("").show();
     }
 
     private void generateQuestion() {

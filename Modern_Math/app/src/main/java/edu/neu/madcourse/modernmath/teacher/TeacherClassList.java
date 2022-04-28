@@ -65,7 +65,6 @@ public class TeacherClassList extends AppCompatActivity {
 
             finish();
         }
-        Log.d("TeacherClass", "getting teacher name");
         teacher = extras.getParcelable("active_user");
 
         // populate list of classes

@@ -12,6 +12,8 @@ public class StudentAssignmentCard_AssignmentName extends AppCompatActivity {
     public int num_incorrect;
     private boolean completion_status;
 
+    public StudentAssignmentCard_AssignmentName() {}
+
     public StudentAssignmentCard_AssignmentName(String assignment_name, int time_spent, int num_correct, int num_incorrect)
     {
         this.assignment_name = assignment_name;
