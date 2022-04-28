@@ -51,18 +51,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_tag_line"
-        app:layout_constraintBottom_toTopOf="@+id/test"/>
-
-    <Button
-        android:id="@+id/test"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Test out voice"
-        app:layout_constraintBottom_toTopOf="@+id/main_add_new_user_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="testOnClick"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/main_add_new_user_button"/>
 
     <Button
         android:id="@+id/main_add_new_user_button"
