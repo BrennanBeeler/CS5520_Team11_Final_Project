@@ -15,11 +15,13 @@ import android.os.CountDownTimer;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -69,10 +72,11 @@ public class ProblemScreenActivity extends AppCompatActivity {
     Task<DataSnapshot> userRef;
     private Instant start;
     private long time_spent;
+    Operator selectedOp;
 
-    private final int REQUEST_CODE = 9882;
     private TextView test_text;
     private SpeechRecognizer speechRecognizer;
+    TextToSpeech textToSpeech;
     private Intent speechIntent;
     private boolean is_listening = false;
 
@@ -84,6 +88,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         db = FirebaseDatabase.getInstance().getReference();
         initSpeechService();
+        initTTS();
         // Set up action bar
         setSupportActionBar(findViewById(R.id.main_toolbar));
         ActionBar actionBar = getSupportActionBar();
@@ -111,9 +116,40 @@ public class ProblemScreenActivity extends AppCompatActivity {
         initUser();
         if (assignmentCode != null) {
             initAssignment();
+        } else if (time > 0){
+            showStartDialog().show();
         } else {
             init();
         }
+    }
+
+    private void initTTS() {
+        ImageView tts = findViewById(R.id.tts_btn);
+        textToSpeech = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                textToSpeech.setLanguage(Locale.US);
+            }
+        });
+
+        tts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textToSpeech.speak(String.valueOf(operand1), TextToSpeech.QUEUE_ADD, null, "");
+                String operatorString;
+                switch (selectedOp) {
+                    case ADDITION: operatorString = "plus";
+                    break;
+                    case SUBTRACTION: operatorString = "minus";
+                    break;
+                    case MULTIPLICATION: operatorString = "multiplied by";
+                    break;
+                    default:operatorString = "divided by";
+                }
+                textToSpeech.speak(operatorString, TextToSpeech.QUEUE_ADD, null, "");
+                textToSpeech.speak(String.valueOf(operand2), TextToSpeech.QUEUE_ADD, null, "");
+            }
+        });
     }
 
     private void initSpeechService() {
@@ -184,11 +220,11 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
                 if (isNumeric)
                 {
-                    setUserAnswer(user_input);
+                    setAnswerField(user_input);
                 }
                 else
                 {
-                    setUserAnswer("");
+                    setAnswerField("");
                 }
                 answerField.setText(getUserAnswer());
 
@@ -215,6 +251,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private void getPermissions()
     {
+        int REQUEST_CODE = 9882;
         ActivityCompat.requestPermissions(this,
                 new String[] {Manifest.permission.RECORD_AUDIO}, REQUEST_CODE);
     }
@@ -341,18 +378,19 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
         if (numOfQuestions > 0) {
             numberOfQuestionsField = findViewById(R.id.numberofQuestions);
-            String text = String.format(getString(R.string.number_of_Questions),
-                    numOfQuestions);
+            String text = String.valueOf(numOfQuestions);
             numberOfQuestionsField.setText(text);
+            findViewById(R.id.number_icon).setVisibility(View.VISIBLE);
         }
         TextView timer = findViewById(R.id.timer);
 
         generateQuestion();
         if (time > 0) {
+            findViewById(R.id.timer_icon).setVisibility(View.VISIBLE);
             new CountDownTimer(time, 1000) {
                 @Override
                 public void onTick(long l) {
-                    String timeString = "Time Remaining: " + l / 1000;
+                    String timeString = String.valueOf(l / 1000);
                     timer.setText(timeString);
                     time -= 1000;
                 }
@@ -410,14 +448,23 @@ public class ProblemScreenActivity extends AppCompatActivity {
     public void numberPressed(View view) {
         TextView textView = (TextView) view;
         String number = textView.getText().toString();
-        if (getUserAnswer().isEmpty()) {
-            setUserAnswer(number);
-        } else if (getUserAnswer().length() == 4) {
-            //To-DO: show error
+        setAnswerField(number);
+    }
+
+    private void setAnswerField(String number) {
+        if(!(Integer.parseInt(number) > 9999)) {
+            if (getUserAnswer().isEmpty()) {
+                setUserAnswer(number);
+                answerField.setText(getUserAnswer());
+            } else if (getUserAnswer().length() >= 4) {
+                //To-DO: show error
+            } else {
+                setUserAnswer(getUserAnswer() + number);
+                answerField.setText(getUserAnswer());
+            }
         } else {
-            setUserAnswer(getUserAnswer() + number);
+            //TO-DO: show error
         }
-        answerField.setText(getUserAnswer());
     }
 
     public void clear(View view) {
@@ -442,8 +489,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
             }
             --numOfQuestions;
             if (numOfQuestions > 0) {
-                String text = String.format(getString(R.string.number_of_Questions),
-                        numOfQuestions);
+                String text = String.valueOf(numOfQuestions);
                 numberOfQuestionsField.setText(text);
             } else if (numOfQuestions == 0) {
                 postScores();
@@ -465,6 +511,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                     .child(assignmentCode).child("student_assignments").child(user.email)
                     .updateChildren(assignmentMap);
             start = null;
+            time = 0;
         }
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("answers", overallAnswers + correctAnswers - previousCorrect);
@@ -475,7 +522,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
     private void generateQuestion() {
 
         int selectedOpIndex = generateRandom(operators.length, 0);
-        Operator selectedOp = operators[selectedOpIndex];
+        selectedOp = operators[selectedOpIndex];
 
         switch (selectedOp) {
             case ADDITION:
