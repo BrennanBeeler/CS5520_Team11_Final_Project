@@ -65,7 +65,7 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
         }
         else
         {
-            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit() / 1000 + " min");
+            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit() / 1000 / 60 + " min");
         }
 
         if (assignmentListItems.get(position).getNum_questions() == 0)

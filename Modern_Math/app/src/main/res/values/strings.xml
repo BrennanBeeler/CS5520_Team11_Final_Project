@@ -19,7 +19,7 @@
     <string name="assignment_name">Assignment name</string>
     <string name="number_of_questions">Number of questions</string>
     <string name="create_assignment">Create assignment</string>
-    <string name="timer">Timer</string>
+    <string name="timer">Timer (m)</string>
     <string name="difficulty">Difficulty</string>
 
     <string-array name="level_array">

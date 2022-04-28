@@ -46,7 +46,7 @@ public class StudentAssignment_AssignmentNameRVAdaptor extends RecyclerView.Adap
         }
         viewHolder.assignment_name.setText(studentAssignmentList.get(position).getAssignment_name());
 
-        int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 1000;
+        int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 1000 / 60;
 
         viewHolder.student_time_spent.setText("Time spent: " + formatted_time_spent + " min");
         viewHolder.student_num_correct.setText("Number correct: " + studentAssignmentList.get(position).getNumCorrect());

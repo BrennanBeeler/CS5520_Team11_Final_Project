@@ -257,7 +257,8 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                                     .child(active_user.email).child("num_correct").getValue() +
                                     (int) (long)dataSnapshot.child("student_assignments")
                                     .child(active_user.email).child("num_incorrect").getValue();
-                            if (time_spent >= time_limit && num_attempted >= num_questions) {
+                            if ( time_limit > 0 && time_spent >= time_limit
+                                    || num_attempted >= num_questions) {
                                 completion_status = true;
                             }
                         }
