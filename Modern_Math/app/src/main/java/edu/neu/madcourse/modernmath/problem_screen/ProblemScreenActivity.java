@@ -128,7 +128,11 @@ public class ProblemScreenActivity extends AppCompatActivity {
         textToSpeech = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int i) {
-                textToSpeech.setLanguage(Locale.US);
+                if(i == TextToSpeech.SUCCESS)
+                    textToSpeech.setLanguage(Locale.US);
+                else {
+                    //To-DO: show error
+                }
             }
         });
 
@@ -452,7 +456,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
     }
 
     private void setAnswerField(String number) {
-        if(!(Integer.parseInt(number) > 9999)) {
+        if(!number.isEmpty() && !(Integer.parseInt(number) > 9999)) {
             if (getUserAnswer().isEmpty()) {
                 setUserAnswer(number);
                 answerField.setText(getUserAnswer());
