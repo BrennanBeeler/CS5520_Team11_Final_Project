@@ -96,7 +96,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         {
             actionBar.setTitle("Practice Math Facts");
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            //actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
         if (extras != null) {

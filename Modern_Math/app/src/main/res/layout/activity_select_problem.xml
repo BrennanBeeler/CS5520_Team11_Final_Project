@@ -114,14 +114,14 @@
     <Spinner
         android:id="@+id/levelSpinner"
         android:layout_width="262dp"
-        android:layout_height="35dp"
+        android:layout_height="48dp"
         android:background="@android:drawable/spinner_background"
         android:spinnerMode="dropdown"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/practiceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@id/division_switch"
-        app:layout_constraintBottom_toTopOf="@id/practiceButton" />
+        app:layout_constraintTop_toBottomOf="@id/division_switch" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

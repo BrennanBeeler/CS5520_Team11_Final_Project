@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ModernMath" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item> <!-- buttons -->
+        <item name="colorPrimary">@color/ic_home_background</item> <!-- buttons -->
         <item name="colorPrimaryVariant">@color/pv</item>
         <item name="colorOnPrimary">@color/black</item> <!-- text on buttons -->
         <!-- Secondary brand color. -->

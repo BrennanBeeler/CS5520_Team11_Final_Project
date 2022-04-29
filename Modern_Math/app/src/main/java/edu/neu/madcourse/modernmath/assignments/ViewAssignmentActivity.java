@@ -59,7 +59,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
         {
             actionBar.setTitle("View Assignment Details");
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            //actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
         Bundle extras = getIntent().getExtras();

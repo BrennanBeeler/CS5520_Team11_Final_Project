@@ -48,7 +48,7 @@ public class AddNewClass extends AppCompatActivity {
         {
             actionBar.setTitle("Add New Class");
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            //actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
         Bundle extras = getIntent().getExtras();

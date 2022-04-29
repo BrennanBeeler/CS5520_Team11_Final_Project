@@ -51,7 +51,7 @@ public class TeacherClassList extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            //actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
             actionBar.setTitle("Class List");
             actionBar.setDisplayShowTitleEnabled(true);
         }

@@ -88,7 +88,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
         {
             actionBar.setTitle("Class Assignments");
             actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
+            //actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
 
         Bundle extras = getIntent().getExtras();
