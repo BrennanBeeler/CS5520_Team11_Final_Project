@@ -131,7 +131,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 if(i == TextToSpeech.SUCCESS)
                     textToSpeech.setLanguage(Locale.US);
                 else {
-                    //To-DO: show error
+                    Toast.makeText(getBaseContext(), "Text to speech is not available", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -346,7 +346,8 @@ public class ProblemScreenActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() == null) {
-                    //TO-DO : show invalid user error
+                    Toast.makeText(getBaseContext(), "Invalid User", Toast.LENGTH_SHORT).show();
+                    finish();
                 } else if (dataSnapshot.child("time_spent").getValue() != null) {
                     try {
                         Integer correct = Math.toIntExact((Long) dataSnapshot.child("num_correct").getValue());
@@ -364,7 +365,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if ( numOfQuestions <= 0 && time <= 0) {
-                        //TO-DO: invalid assignment state
+                        Toast.makeText(getBaseContext(), "Invalid assignment", Toast.LENGTH_SHORT).show();
                         finish();
                     }else {
                         Dialog dialog = showStartDialog(getString(R.string.continue_challenge));
@@ -462,13 +463,13 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 setUserAnswer(number);
                 answerField.setText(getUserAnswer());
             } else if (getUserAnswer().length() >= 4) {
-                //To-DO: show error
+                Toast.makeText(getBaseContext(), "Answer cannot be more than 4 digits", Toast.LENGTH_SHORT).show();
             } else {
                 setUserAnswer(getUserAnswer() + number);
                 answerField.setText(getUserAnswer());
             }
         } else {
-            //TO-DO: show error
+            Toast.makeText(getBaseContext(), "Answer cannot be more than 4 digits", Toast.LENGTH_SHORT).show();
         }
     }
 
