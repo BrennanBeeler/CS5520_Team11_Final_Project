@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,12 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import edu.neu.madcourse.modernmath.MainActivity;
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
 import edu.neu.madcourse.modernmath.leadershipboard.LeadershipActivity;
-import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
-import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 
 public class TeacherClassList extends AppCompatActivity {
     private FloatingActionButton addClass;
@@ -83,7 +78,7 @@ public class TeacherClassList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (dataSnapshot.child("teacher_email").getValue().toString().equals(teacher.email)) {
+                    if (dataSnapshot.child("teacher_username").getValue().toString().equals(teacher.username)) {
                         String className = dataSnapshot.child("class_title").getValue().toString();
                         String classPeriod = dataSnapshot.child("class_period").getValue().toString();
                         String classCode = dataSnapshot.getKey();

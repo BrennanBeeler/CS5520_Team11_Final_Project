@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class StudentAssignmentCard extends AppCompatActivity {
 
     public String student_name;
-    public String student_email;
+    public String student_username;
     public int time_spent;
     public int num_correct;
     public int num_incorrect;
@@ -14,18 +14,18 @@ public class StudentAssignmentCard extends AppCompatActivity {
 
     public StudentAssignmentCard() {}
 
-    public StudentAssignmentCard(String student_email, int time_spent, int num_correct, int num_incorrect)
+    public StudentAssignmentCard(String student_username, int time_spent, int num_correct, int num_incorrect)
     {
-        this.student_email = student_email;
+        this.student_username = student_username;
         this.time_spent = time_spent;
         this.num_correct = num_correct;
         this.num_incorrect = num_incorrect;
         this.completion_status = false;
     }
 
-    public StudentAssignmentCard(String student_email, int time_spent, int num_correct, int num_incorrect, String student_name)
+    public StudentAssignmentCard(String student_username, int time_spent, int num_correct, int num_incorrect, String student_name)
     {
-        this.student_email = student_email;
+        this.student_username = student_username;
         this.time_spent = time_spent;
         this.num_correct = num_correct;
         this.num_incorrect = num_incorrect;
@@ -33,9 +33,9 @@ public class StudentAssignmentCard extends AppCompatActivity {
         this.completion_status = false;
     }
 
-    public String getEmail()
+    public String getUsername()
     {
-        return this.student_email;
+        return this.student_username;
     }
 
     public int getTimeSpent()

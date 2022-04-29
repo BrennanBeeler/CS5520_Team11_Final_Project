@@ -34,7 +34,7 @@ public class StudentListRVAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((StudentListHolder) holder).name.setText(studentListItems.get(position).getName());
-        ((StudentListHolder) holder).email.setText(studentListItems.get(position).getEmail());
+        ((StudentListHolder) holder).username.setText(studentListItems.get(position).getUsername());
     }
 
     @Override
@@ -44,13 +44,13 @@ public class StudentListRVAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class StudentListHolder extends RecyclerView.ViewHolder {
         public TextView name;
-        public TextView email;
+        public TextView username;
 
         public StudentListHolder(@NonNull View itemView, StudentClickListener clickListener) {
             super(itemView);
 
             name = itemView.findViewById(R.id.student_name_card);
-            email = itemView.findViewById(R.id.student_email_card);
+            username = itemView.findViewById(R.id.student_username_card);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

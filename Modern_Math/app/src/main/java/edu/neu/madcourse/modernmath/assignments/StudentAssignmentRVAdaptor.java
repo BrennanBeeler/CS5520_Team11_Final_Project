@@ -1,6 +1,5 @@
 package edu.neu.madcourse.modernmath.assignments;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.login.LoginClickListener;
-import edu.neu.madcourse.modernmath.login.UserLoginCard;
 
 
 public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssignmentRVHolder> {
@@ -42,14 +39,14 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
 
     @Override
     public void onBindViewHolder(@NonNull StudentAssignmentRVHolder viewHolder, int position) {
-        if (studentAssignmentList.size() == 1 && studentAssignmentList.get(position).student_email == null) {
-            viewHolder.student_email.setText("No Students");
+        if (studentAssignmentList.size() == 1 && studentAssignmentList.get(position).student_username == null) {
+            viewHolder.student_username.setText("No Students");
             viewHolder.student_time_spent.setText("");
             viewHolder.student_num_correct.setText("");
             viewHolder.student_num_incorrect.setText("");
             return;
         }
-        viewHolder.student_email.setText(studentAssignmentList.get(position).getEmail());
+        viewHolder.student_username.setText(studentAssignmentList.get(position).getUsername());
 
         int formatted_time_spent = studentAssignmentList.get(position).getTimeSpent() / 1000 / 60;
 
@@ -60,7 +57,7 @@ public class StudentAssignmentRVAdaptor extends RecyclerView.Adapter<StudentAssi
         if (studentAssignmentList.get(position).isComplete()) {
             viewHolder.itemView.setBackgroundColor(ActivityCompat.getColor(viewHolder.itemView.getContext(), R.color.teacher_complete));
             viewHolder.student_time_spent.setTextColor(Color.parseColor("black"));
-            viewHolder.student_email.setTextColor(Color.parseColor("black"));
+            viewHolder.student_username.setTextColor(Color.parseColor("black"));
             viewHolder.student_num_correct.setTextColor(Color.parseColor("black"));
             viewHolder.student_num_incorrect.setTextColor(Color.parseColor("black"));
         } else {

@@ -72,7 +72,7 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // Track users so that the student name can be used instead of email
+        // Track users so that the student name can be used instead of username
         this.myDatabase.child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -80,13 +80,13 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
-                    String email = (dataSnapshot.getKey());
-                    if (email != null)
+                    String username = (dataSnapshot.getKey());
+                    if (username != null)
                     {
                         String first_name = (String) dataSnapshot.child("first_name").getValue();
                         String last_name = (String) dataSnapshot.child("last_name").getValue();
 
-                        userArrayList.add(new User(email, first_name, last_name, 0 ,
+                        userArrayList.add(new User(username, first_name, last_name, 0 ,
                                 false, false));
                     }
                 }
@@ -171,22 +171,22 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
                     for (DataSnapshot student_assignment : snapshot.child("student_assignments").getChildren())
                     {
-                        String email = student_assignment.getKey();
+                        String username = student_assignment.getKey();
                         int time_spent = (int) (long) student_assignment.child("time_spent").getValue();
                         int num_correct = (int) (long) student_assignment.child("num_correct").getValue();
                         int num_incorrect = (int) (long) student_assignment.child("num_incorrect").getValue();
 
-                        Optional<User> tempUser = userArrayList.stream().filter(o -> o.email.equals(email)).findFirst();
+                        Optional<User> tempUser = userArrayList.stream().filter(o -> o.username.equals(username)).findFirst();
 
                         StudentAssignmentCard new_item ;
                         if (tempUser.isPresent())
                         {
-                            new_item = new StudentAssignmentCard(email, time_spent,
+                            new_item = new StudentAssignmentCard(username, time_spent,
                                     num_correct, num_incorrect, tempUser.get().firstName + " " + tempUser.get().lastName);
                         }
                         else
                         {
-                            new_item = new StudentAssignmentCard(email, time_spent, num_correct, num_incorrect);
+                            new_item = new StudentAssignmentCard(username, time_spent, num_correct, num_incorrect);
                         }
                         studentAssignmentList.add(new_item);
                         int num_attempted = num_correct + num_incorrect;

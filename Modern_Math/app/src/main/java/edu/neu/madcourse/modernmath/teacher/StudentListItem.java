@@ -2,18 +2,18 @@ package edu.neu.madcourse.modernmath.teacher;
 
 public class StudentListItem {
     private String name;
-    private String email;
+    private String username;
 
-    public StudentListItem(String name, String email) {
+    public StudentListItem(String name, String username) {
         this.name = name;
-        this.email = email;
+        this.username = username;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 }

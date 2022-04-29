@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:hint="Class Title"
         android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
+        android:inputType="textNoSuggestions"
         android:minWidth="200dp"
         android:minHeight="48dp"
         app:layout_constraintBottom_toTopOf="@+id/new_class_period"

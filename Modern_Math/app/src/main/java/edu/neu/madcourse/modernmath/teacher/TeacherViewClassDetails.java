@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -205,16 +204,16 @@ public class TeacherViewClassDetails extends AppCompatActivity {
                             dataSnapshot.child("class_code").getValue().toString().equals(class_code)) {
                         String name = dataSnapshot.child("first_name").getValue().toString()
                                 + " " + dataSnapshot.child("last_name").getValue().toString();
-                        String email = dataSnapshot.getKey().toString();
+                        String username = dataSnapshot.getKey().toString();
 
-                        studentList.add(new StudentListItem(name, email));
+                        studentList.add(new StudentListItem(name, username));
                     }
                 }
                 // Placeholder if no students
                 if (studentList.size() == 0) {
                     String name = "No students enrolled";
-                    String email = "";
-                    studentList.add(new StudentListItem(name, email));
+                    String username = "";
+                    studentList.add(new StudentListItem(name, username));
                 }
                 studentAdapter.notifyDataSetChanged();
             }
@@ -234,7 +233,7 @@ public class TeacherViewClassDetails extends AppCompatActivity {
             Intent intent = new Intent(TeacherViewClassDetails.this, TeacherViewStudentDetailsActivity.class );
             intent.putExtra("active_user", teacher);
             intent.putExtra("class_id", class_code);
-            intent.putExtra("student_email", studentList.get(position).getEmail());
+            intent.putExtra("student_username", studentList.get(position).getUsername());
             intent.putExtra("student_name", studentList.get(position).getName());
             startActivity(intent);
         };
