@@ -8,15 +8,15 @@ import androidx.annotation.NonNull;
 
 public class Student_Assignment implements Parcelable {
 
-    public String student_email;
+    public String username;
     public String time_spent;
     public int num_correct;
     public int num_incorrect;
 
-    public Student_Assignment(String student_email, String time_spent, int num_correct,
+    public Student_Assignment(String username, String time_spent, int num_correct,
                               int num_incorrect)
     {
-        this.student_email = student_email;
+        this.username = username;
         this.time_spent = time_spent;
         this.num_correct = num_correct;
         this.num_incorrect = num_incorrect;
@@ -34,7 +34,7 @@ public class Student_Assignment implements Parcelable {
     };
 
     private Student_Assignment(Parcel in) {
-        this.student_email = in.readString();
+        this.username = in.readString();
         this.time_spent = in.readString();
         this.num_correct = in.readInt();
         this.num_incorrect = in.readInt();
@@ -47,7 +47,7 @@ public class Student_Assignment implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(this.student_email);
+        out.writeString(this.username);
         out.writeString(this.time_spent);
         out.writeInt(this.num_correct);
         out.writeInt(this.num_incorrect);
@@ -57,7 +57,7 @@ public class Student_Assignment implements Parcelable {
     @Override
     public String toString()
     {
-        return "\nStudent Email: " + this.student_email +
+        return "\nStudent Username: " + this.username +
                 "\nTime Spent: " + this.time_spent +
                 "\nCorrect: " + this.num_correct +
                 "\nIncorrect: " + this.num_incorrect;

@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,10 +27,6 @@ import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.database.UserDao;
-import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
-import edu.neu.madcourse.modernmath.login.CreateNewUser;
-import edu.neu.madcourse.modernmath.login.RemoveActiveFromUser;
 
 public class AddNewClass extends AppCompatActivity {
     private User teacher;
@@ -76,13 +71,13 @@ public class AddNewClass extends AppCompatActivity {
         Map<String, Object> newClass = new HashMap<>();
         newClass.put("class_title", classTitle);
         newClass.put("class_period", period);
-        newClass.put("teacher_email", teacher.email);
+        newClass.put("teacher_username", teacher.username);
 
         myDatabase.child("classes").child(joinCode).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful()) {
-                    // If unsuccessful in retrieving this, the email is available
+                    // If unsuccessful in retrieving this, the username is available
                     if (task.getResult().getValue() == null) {
                         myDatabase.child("classes").child(joinCode).setValue(newClass, new DatabaseReference.CompletionListener() {
                             @Override

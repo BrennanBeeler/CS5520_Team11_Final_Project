@@ -66,20 +66,20 @@ public class AddExistingUserActivity extends AppCompatActivity {
 
     public void onProfileSubmit(View view)
     {
-        EditText emailEditText = (EditText) findViewById(R.id.email_edittext);
-        String email = emailEditText.getText().toString();
+        EditText usernameEditText = (EditText) findViewById(R.id.username_edittext);
+        String username = usernameEditText.getText().toString();
 
-        if (email.equals(""))
+        if (username.equals(""))
         {
             Toast.makeText(AddExistingUserActivity.this,
-                    "Please enter the email associated with your account!", Toast.LENGTH_SHORT)
+                    "Please enter the username associated with your account!", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
 
         if (this.prev_active_user != null)
         {
-            if (email.equals(this.prev_active_user.email))
+            if (username.equals(this.prev_active_user.username))
             {
                 Toast.makeText(AddExistingUserActivity.this, "That account is already " +
                         "logged in on this device.", Toast.LENGTH_SHORT).show();
@@ -89,7 +89,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
 
         if (this.inactive_users != null && !this.inactive_users.contains(null))
         {
-            if (this.inactive_users.stream().map(user -> user.email).anyMatch(user_email -> user_email.equals(email)))
+            if (this.inactive_users.stream().map(user -> user.username).anyMatch(user_username -> user_username.equals(username)))
             {
                 Toast.makeText(AddExistingUserActivity.this, "That account is already " +
                         "logged in on this device.", Toast.LENGTH_SHORT).show();
@@ -98,7 +98,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
         }
 
         // Check is user is in firebase db
-        myDatabase.child("users").child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        myDatabase.child("users").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful())
@@ -108,7 +108,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
                     {
                         Toast.makeText(AddExistingUserActivity.this,
                                 "There was a problem retrieving your account. " +
-                                        "Please make sure your email is entered correctly.",
+                                        "Please make sure your username is entered correctly.",
                                 Toast.LENGTH_SHORT).show();
                     }
                     else
@@ -119,7 +119,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
                         int age = (int) (long) task.getResult().child("age").getValue();
                         boolean is_instructor = (boolean) task.getResult().child("instructor").getValue();
 
-                        User existing_user = new User(email, first_name, last_name, age, true,
+                        User existing_user = new User(username, first_name, last_name, age, true,
                                 is_instructor);
 
                         UserDao userDao = local_user_db.userDao();

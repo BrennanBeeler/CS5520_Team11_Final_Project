@@ -69,18 +69,18 @@ public class AddNewUserActivity extends AppCompatActivity {
 
     public void onProfileSubmit(View view)
     {
-        EditText emailEditText = (EditText) findViewById(R.id.email_edittext);
+        EditText usernameEditText = (EditText) findViewById(R.id.username_edittext);
         EditText firstNameEditText = (EditText) findViewById(R.id.first_name_edittext);
         EditText lastNameEditText = (EditText) findViewById(R.id.last_name_edittext);
         EditText ageEditText = (EditText) findViewById(R.id.age_edittext);
         CheckBox instructor_checkbox = (CheckBox) findViewById(R.id.instructor_checkbox);
 
-        String email = emailEditText.getText().toString();
+        String uesrname = usernameEditText.getText().toString();
         String first_name = firstNameEditText.getText().toString();
         String last_name = lastNameEditText.getText().toString();
         boolean instructor_checked = instructor_checkbox.isChecked();
 
-        if (email.equals("") || first_name.equals("") || last_name.equals(""))
+        if (uesrname.equals("") || first_name.equals("") || last_name.equals(""))
         {
             Toast.makeText(AddNewUserActivity.this,
                     "Please make sure to complete all fields!", Toast.LENGTH_SHORT)
@@ -107,17 +107,17 @@ public class AddNewUserActivity extends AppCompatActivity {
         newUser.put("age", age);
         newUser.put("instructor", instructor_checked);
 
-        User new_user = new User(email, first_name, last_name, age, true, instructor_checked);
+        User new_user = new User(uesrname, first_name, last_name, age, true, instructor_checked);
 
-        myDatabase.child("users").child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        myDatabase.child("users").child(uesrname).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful())
                 {
-                    // If unsuccessful in retrieving this, the email is available
+                    // If unsuccessful in retrieving this, the uesrname is available
                     if (task.getResult().getValue() == null)
                     {
-                        myDatabase.child("users").child(email).setValue(newUser, new DatabaseReference.CompletionListener() {
+                        myDatabase.child("users").child(uesrname).setValue(newUser, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                 if (error == null)
@@ -156,7 +156,7 @@ public class AddNewUserActivity extends AppCompatActivity {
                     else
                     {
                         Toast.makeText(AddNewUserActivity.this,
-                                "That email is already in use!", Toast.LENGTH_SHORT)
+                                "That uesrname is already in use!", Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }

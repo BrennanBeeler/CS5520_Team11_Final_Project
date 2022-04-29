@@ -328,7 +328,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
 
     private void initUser() {
-        userRef = db.child("users").child(user.email).get();
+        userRef = db.child("users").child(user.username).get();
         userRef.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
@@ -341,7 +341,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private void initAssignment() {
         assignmentRef = db.child("classes").child(classId).child("assignments")
-                .child(assignmentCode).child("student_assignments").child(user.email).get();
+                .child(assignmentCode).child("student_assignments").child(user.username).get();
         assignmentRef.addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
@@ -514,14 +514,14 @@ public class ProblemScreenActivity extends AppCompatActivity {
             assignmentMap.put("num_incorrect", incorrectAnswer);
             assignmentMap.put("time_spent", Duration.between(start, stop).toMillis() + time_spent);
             db.child("classes").child(classId).child("assignments")
-                    .child(assignmentCode).child("student_assignments").child(user.email)
+                    .child(assignmentCode).child("student_assignments").child(user.username)
                     .updateChildren(assignmentMap);
             start = null;
             time = 0;
         }
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("answers", overallAnswers + correctAnswers - previousCorrect);
-        db.child("users").child(user.email).updateChildren(userMap);
+        db.child("users").child(user.username).updateChildren(userMap);
     }
 
     private void generateQuestion() {

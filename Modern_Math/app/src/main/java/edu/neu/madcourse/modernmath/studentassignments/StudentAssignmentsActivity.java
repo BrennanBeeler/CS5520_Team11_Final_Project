@@ -30,33 +30,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.Assignment;
-import edu.neu.madcourse.modernmath.assignments.CreateAssignmentActivity;
 import edu.neu.madcourse.modernmath.assignments.Difficulty;
 import edu.neu.madcourse.modernmath.assignments.Operator;
-import edu.neu.madcourse.modernmath.assignments.Student_Assignment;
-import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.leadershipboard.LeadershipScoreComparator;
 import edu.neu.madcourse.modernmath.problem_screen.ProblemScreenActivity;
 import edu.neu.madcourse.modernmath.problemselection.ProblemSelectionActivity;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListClickListener;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
 import edu.neu.madcourse.modernmath.teacher.AssignmentListRVAdapter;
-import edu.neu.madcourse.modernmath.teacher.ClassListItem;
-import edu.neu.madcourse.modernmath.teacher.StudentClickListener;
-import edu.neu.madcourse.modernmath.teacher.StudentListItem;
-import edu.neu.madcourse.modernmath.teacher.StudentListRVAdapter;
-import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
-import edu.neu.madcourse.modernmath.teacher.TeacherViewClassDetails;
-import edu.neu.madcourse.modernmath.teacher.studentassignments.StudentAssignmentCard_AssignmentName;
-import edu.neu.madcourse.modernmath.teacher.studentassignments.TeacherViewStudentDetailsActivity;
 
 public class StudentAssignmentsActivity extends AppCompatActivity {
 
@@ -100,7 +85,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (dataSnapshot.getKey().equals(active_user.email)) {
+                    if (dataSnapshot.getKey().equals(active_user.username)) {
 
                         class_code = dataSnapshot.getValue(User.class).class_code;
                         if (class_code != null) {
@@ -168,7 +153,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                         Map<String, Object> values = new HashMap<>();
                         values.put("class_code", class_code);
 
-                        myDatabase.child("users").child(this.active_user.email).updateChildren(values).addOnCompleteListener(task -> {
+                        myDatabase.child("users").child(this.active_user.username).updateChildren(values).addOnCompleteListener(task -> {
                             if (task.isSuccessful())
                             {
                                 myDatabase.child("classes").child(class_code).child("assignments").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -181,7 +166,7 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                                                 initial_assignment_details.put("num_incorrect", 0);
 
                                                 myDatabase.child("classes").child(class_code).child("assignments").child(dataSnapshot.getKey()).child("student_assignments")
-                                                        .child(active_user.email).setValue(initial_assignment_details);
+                                                        .child(active_user.username).setValue(initial_assignment_details);
                                             }
                                     }
                                 });
@@ -248,15 +233,15 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
 
                     boolean completion_status = false;
                     if (dataSnapshot.hasChild("student_assignments")) {
-                        if (dataSnapshot.child("student_assignments").hasChild(active_user.email))
+                        if (dataSnapshot.child("student_assignments").hasChild(active_user.username))
                         {
                             int time_spent = (int) (long)dataSnapshot.child("student_assignments")
-                                    .child(active_user.email)
+                                    .child(active_user.username)
                                     .child("time_spent").getValue();
                             int num_attempted = (int) (long)dataSnapshot.child("student_assignments")
-                                    .child(active_user.email).child("num_correct").getValue() +
+                                    .child(active_user.username).child("num_correct").getValue() +
                                     (int) (long)dataSnapshot.child("student_assignments")
-                                    .child(active_user.email).child("num_incorrect").getValue();
+                                    .child(active_user.username).child("num_incorrect").getValue();
                             if ( time_limit > 0 && time_spent >= time_limit
                                     || num_attempted >= num_questions) {
                                 completion_status = true;

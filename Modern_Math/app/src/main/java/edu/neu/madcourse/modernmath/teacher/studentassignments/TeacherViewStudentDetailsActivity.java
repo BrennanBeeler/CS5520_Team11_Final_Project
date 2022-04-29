@@ -24,19 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.neu.madcourse.modernmath.R;
-import edu.neu.madcourse.modernmath.assignments.Operator;
-import edu.neu.madcourse.modernmath.assignments.StudentAssignmentRVAdaptor;
-import edu.neu.madcourse.modernmath.assignments.ViewAssignmentActivity;
 import edu.neu.madcourse.modernmath.database.User;
-import edu.neu.madcourse.modernmath.teacher.AssignmentListItem;
-import edu.neu.madcourse.modernmath.teacher.StudentListItem;
 import edu.neu.madcourse.modernmath.teacher.TeacherClassList;
 
 public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
 
     private User active_user;
     private String class_id;
-    private String student_email;
+    private String student_username;
     private String student_name;
 
     private final ArrayList<StudentAssignmentCard_AssignmentName> studentAssignmentList = new ArrayList<>();
@@ -64,15 +59,15 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
         if (extras != null) {
             this.active_user = extras.getParcelable("active_user");
             this.class_id = extras.getString("class_id");
-            this.student_email = extras.getString("student_email");
+            this.student_username = extras.getString("student_username");
             this.student_name = extras.getString("student_name");
         }
 
         TextView student_name_textview = findViewById(R.id.student_name);
         student_name_textview.setText(this.student_name);
 
-        TextView student_email_textview = findViewById(R.id.student_email);
-        student_email_textview.setText(this.student_email);
+        TextView student_username_textview = findViewById(R.id.student_username);
+        student_username_textview.setText(this.student_username);
 
         this.myDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -87,15 +82,15 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                     int time = (int) (long) dataSnapshot.child("time").getValue();
                     int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
 
-                    if (dataSnapshot.child("student_assignments").hasChild(student_email))
+                    if (dataSnapshot.child("student_assignments").hasChild(student_username))
                     {
                         // The assignment already exists
                         int time_spent = (int) (long) dataSnapshot.child("student_assignments")
-                                .child(student_email).child("time_spent").getValue();
+                                .child(student_username).child("time_spent").getValue();
                         int num_correct = (int) (long) dataSnapshot.child("student_assignments")
-                                .child(student_email).child("num_correct").getValue();
+                                .child(student_username).child("num_correct").getValue();
                         int num_incorrect = (int) (long) dataSnapshot.child("student_assignments")
-                                .child(student_email).child("num_incorrect").getValue();
+                                .child(student_username).child("num_incorrect").getValue();
 
                         StudentAssignmentCard_AssignmentName new_item = new StudentAssignmentCard_AssignmentName(
                                 assignment_name, time_spent, num_correct, num_incorrect);

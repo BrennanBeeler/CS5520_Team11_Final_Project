@@ -15,7 +15,7 @@ import edu.neu.madcourse.modernmath.login.UserLoginCard;
 public class User implements Parcelable {
     @NonNull
     @PrimaryKey
-    public String email;
+    public String username;
 
     @ColumnInfo(name = "first_name")
     public String firstName;
@@ -37,10 +37,10 @@ public class User implements Parcelable {
     public int answers;
 
 
-    public User(@NonNull String email, String firstName, String lastName, int age, boolean active,
+    public User(@NonNull String username, String firstName, String lastName, int age, boolean active,
                 boolean is_teacher)
     {
-        this.email = email;
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -55,7 +55,7 @@ public class User implements Parcelable {
     @Ignore
     public User(UserLoginCard userLoginCard)
     {
-        this.email = userLoginCard.email;
+        this.username = userLoginCard.username;
         this.firstName = userLoginCard.firstName;
         this.lastName = userLoginCard.lastName;
         this.age = userLoginCard.age;
@@ -70,7 +70,7 @@ public class User implements Parcelable {
     }
 
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(this.email);
+        out.writeString(this.username);
         out.writeString(this.firstName);
         out.writeString(this.lastName);
         out.writeInt(this.age);
@@ -93,7 +93,7 @@ public class User implements Parcelable {
     };
 
     private User(Parcel in) {
-        this.email = in.readString();
+        this.username = in.readString();
         this.firstName = in.readString();
         this.lastName = in.readString();
         this.age = in.readInt();
@@ -107,7 +107,7 @@ public class User implements Parcelable {
     @Override
     public String toString()
     {
-        return "\nUserID: " + this.email +
+        return "\nUserID: " + this.username +
                 "\nFirst Name: " + this.firstName +
                 "\nLast Name: " + this.lastName +
                 "\nAge: " + this.age +

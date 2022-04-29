@@ -1,14 +1,12 @@
 package edu.neu.madcourse.modernmath.login;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.ColumnInfo;
 
-import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
 
 public class UserLoginCard extends AppCompatActivity {
 
-    public String email;
+    public String username;
 
     public String firstName;
 
@@ -28,7 +26,7 @@ public class UserLoginCard extends AppCompatActivity {
 
     public UserLoginCard(User user)
     {
-        this.email = user.email;
+        this.username = user.username;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.age = user.age;

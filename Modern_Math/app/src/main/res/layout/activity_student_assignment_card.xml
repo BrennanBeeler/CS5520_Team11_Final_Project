@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/student_email"
+            android:id="@+id/student_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/student_time_spent"
             android:textStyle="bold"
-            android:text="Student email?"
+            android:text="Student username"
             />
 
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/student_email"
+            app:layout_constraintTop_toBottomOf="@+id/student_username"
             app:layout_constraintBottom_toTopOf="@id/student_num_correct"
             android:text="@string/time_spent"
             />
