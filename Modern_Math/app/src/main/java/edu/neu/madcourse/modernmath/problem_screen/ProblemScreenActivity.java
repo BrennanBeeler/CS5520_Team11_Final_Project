@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -16,7 +17,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -117,7 +117,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         if (assignmentCode != null) {
             initAssignment();
         } else if (time > 0){
-            showStartDialog().show();
+            showStartDialog(getString(R.string.start_challenge)).show();
         } else {
             init();
         }
@@ -367,7 +367,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         //TO-DO: invalid assignment state
                         finish();
                     }else {
-                        Dialog dialog = showStartDialog();
+                        Dialog dialog = showStartDialog(getString(R.string.continue_challenge));
                         dialog.show();
                     }
                 }
@@ -402,15 +402,16 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     postScores();
+                    showEndDialog("").show();
                 }
             }.start();
         }
     }
 
-    private Dialog showStartDialog() {
+    private Dialog showStartDialog(String s) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        String message = getString(R.string.start_challenge) + '\n';
+        String message = s + '\n';
         if (numOfQuestions > 0) {
             message = message + '\n' + String.format(getString(R.string.number_of_Questions),
                     numOfQuestions);
@@ -483,12 +484,12 @@ public class ProblemScreenActivity extends AppCompatActivity {
             if (getUserAnswer().equals(String.valueOf(getAnswer()))) {
                 correctAnswers++;
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen), "Correct Answer", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(getResources().getColor(R.color.purple_200));
+                snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.primary));
                 snackbar.show();
             } else {
                 incorrectAnswer++;
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen), "Incorrect Answer", Snackbar.LENGTH_SHORT);
-                snackbar.setBackgroundTint(getResources().getColor(R.color.cardview_dark_background));
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen), "Incorrect!! Answer is: " + getAnswer(), Snackbar.LENGTH_SHORT);
+                snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.teacher_incomplete));
                 snackbar.show();
             }
             --numOfQuestions;
@@ -497,6 +498,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 numberOfQuestionsField.setText(text);
             } else if (numOfQuestions == 0) {
                 postScores();
+                showEndDialog("").show();
             }
             setUserAnswer("");
             answerField.setText("");
@@ -520,7 +522,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("answers", overallAnswers + correctAnswers - previousCorrect);
         db.child("users").child(user.email).updateChildren(userMap);
-        showEndDialog("").show();
     }
 
     private void generateQuestion() {

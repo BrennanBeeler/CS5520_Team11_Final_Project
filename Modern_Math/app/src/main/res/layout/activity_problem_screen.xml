@@ -147,12 +147,11 @@
       android:layout_marginStart="20dp"
       android:layout_marginTop="20dp"
       android:src="@drawable/timer_24px"
+      android:visibility="invisible"
       app:layout_constraintBottom_toTopOf="@id/number_icon"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/main_toolbar"
-      app:layout_constraintVertical_bias="0.056"
-      android:visibility="invisible"
-      />
+      app:layout_constraintVertical_bias="0.056" />
 
   <ImageView
       android:id="@+id/number_icon"
@@ -161,14 +160,14 @@
       android:layout_marginStart="20dp"
       android:layout_marginTop="10dp"
       android:layout_marginBottom="20dp"
-      tools:layout_editor_absoluteX="22dp"
-      tools:layout_editor_absoluteY="96dp"
-      app:layout_constraintTop_toBottomOf="@id/timer_icon"
-      app:layout_constraintStart_toStartOf="parent"
+      android:visibility="invisible"
+      android:src="@drawable/tag_24px"
       app:layout_constraintBottom_toTopOf="@id/cardView"
       app:layout_constraintEnd_toStartOf="@id/numberofQuestions"
-      android:visibility="invisible"
-      />
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/timer_icon"
+      tools:layout_editor_absoluteX="22dp"
+      tools:layout_editor_absoluteY="96dp" />
 
   <androidx.appcompat.widget.Toolbar
       android:id="@+id/main_toolbar"

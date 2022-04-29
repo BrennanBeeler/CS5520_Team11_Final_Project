@@ -95,4 +95,5 @@
     <string name="home">Home</string>
     <string name="error">Something went wrong. Please try again.</string>
     <string name="time_spent">Time Spent</string>
+    <string name="continue_challenge">Continue?</string>
 </resources>

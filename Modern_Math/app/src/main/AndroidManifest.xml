@@ -8,6 +8,13 @@
         <package android:name="com.google.android.googlequicksearchbox" />
     </queries>
 
+    <supports-screens android:requiresSmallestWidthDp="600"
+        android:smallScreens="false"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        />
+
 <!--    TODO: turn this back to true before submission-->
     <application
         android:allowBackup="false"

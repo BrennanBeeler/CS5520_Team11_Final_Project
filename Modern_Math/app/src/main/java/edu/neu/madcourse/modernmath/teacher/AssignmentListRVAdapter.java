@@ -1,6 +1,5 @@
 package edu.neu.madcourse.modernmath.teacher;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,16 @@ public class AssignmentListRVAdapter extends RecyclerView.Adapter<AssignmentList
         }
         else
         {
-            holder.time_limit.setText("Time Limit: " + assignmentListItems.get(position).getTime_limit() / 1000 / 60 + " min");
+            int min = (int) (assignmentListItems.get(position).getTime_limit() / 60000);
+            int seconds = (int) ((assignmentListItems.get(position).getTime_limit() % 60000) / 1000);
+            String time = "";
+            if (min > 0) {
+                time = String.valueOf(min) + " min ";
+            }
+            if (seconds > 0) {
+                time += String.valueOf(seconds) + " seconds";
+            }
+            holder.time_limit.setText("Time Limit: " + time);
         }
 
         if (assignmentListItems.get(position).getNum_questions() == 0)
