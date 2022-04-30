@@ -53,7 +53,7 @@ public class AddExistingUserActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
         {
-            actionBar.setTitle("Existing User Login");
+            actionBar.setTitle("Login");
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setIcon(R.mipmap.ic_launcher_mm_round);
         }
