@@ -189,8 +189,17 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                             new_item = new StudentAssignmentCard(username, time_spent, num_correct, num_incorrect);
                         }
                         studentAssignmentList.add(new_item);
-                        int num_attempted = num_correct + num_incorrect;
-                        if (time_spent >= time && num_attempted >= num_questions) {
+
+                        if (time > 0 && num_questions > 0 ) { // time challenge
+                            // successful completion just based on num correct
+                            if (num_correct >= num_questions) {
+                                new_item.setCompletion_status(true);
+                            }
+                        } else if (time > 0) { // just practice time
+                            if (time_spent >= time) {
+                                new_item.setCompletion_status(true);
+                            }
+                        } else if (num_correct >= num_questions) { // just num_correct
                             new_item.setCompletion_status(true);
                         }
                     }

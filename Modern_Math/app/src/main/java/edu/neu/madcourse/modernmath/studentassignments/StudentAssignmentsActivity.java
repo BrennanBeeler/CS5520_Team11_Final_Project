@@ -238,12 +238,19 @@ public class StudentAssignmentsActivity extends AppCompatActivity {
                             int time_spent = (int) (long)dataSnapshot.child("student_assignments")
                                     .child(active_user.username)
                                     .child("time_spent").getValue();
-                            int num_attempted = (int) (long)dataSnapshot.child("student_assignments")
-                                    .child(active_user.username).child("num_correct").getValue() +
-                                    (int) (long)dataSnapshot.child("student_assignments")
-                                    .child(active_user.username).child("num_incorrect").getValue();
-                            if ( time_limit > 0 && time_spent >= time_limit
-                                    || num_attempted >= num_questions) {
+                            int num_correct = (int) (long)dataSnapshot.child("student_assignments")
+                                    .child(active_user.username).child("num_correct").getValue();
+
+                            if (time_limit > 0 && num_questions > 0 ) { // time challenge
+                                // "completed" if enough correct or out of time
+                                if (time_spent >= time_limit || num_correct >= num_questions) {
+                                    completion_status = true;
+                                }
+                            } else if (time_limit > 0) { // just practice time
+                                if (time_spent >= time_limit) {
+                                    completion_status = true;
+                                }
+                            } else if (num_correct >= num_questions) { // just num_correct
                                 completion_status = true;
                             }
                         }
