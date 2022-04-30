@@ -27,6 +27,7 @@ import java.util.Map;
 
 import edu.neu.madcourse.modernmath.R;
 import edu.neu.madcourse.modernmath.database.User;
+import edu.neu.madcourse.modernmath.login.AddNewUserActivity;
 
 public class AddNewClass extends AppCompatActivity {
     private User teacher;
@@ -64,6 +65,16 @@ public class AddNewClass extends AppCompatActivity {
         {
             Toast.makeText(AddNewClass.this,
                     "Please make sure to complete all fields!", Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+
+        if (joinCode.contains(".") || joinCode.contains("#") || joinCode.contains("$") ||
+                joinCode.contains("[") || joinCode.contains("]"))
+        {
+            Toast.makeText(AddNewClass.this,
+                    "Class codes cannot contain the following symbols: . # $ [ ]",
+                    Toast.LENGTH_LONG)
                     .show();
             return;
         }

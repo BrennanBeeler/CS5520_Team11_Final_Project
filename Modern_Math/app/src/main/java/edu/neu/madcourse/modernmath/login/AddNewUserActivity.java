@@ -75,12 +75,12 @@ public class AddNewUserActivity extends AppCompatActivity {
         EditText ageEditText = (EditText) findViewById(R.id.age_edittext);
         CheckBox instructor_checkbox = (CheckBox) findViewById(R.id.instructor_checkbox);
 
-        String uesrname = usernameEditText.getText().toString();
+        String username = usernameEditText.getText().toString();
         String first_name = firstNameEditText.getText().toString();
         String last_name = lastNameEditText.getText().toString();
         boolean instructor_checked = instructor_checkbox.isChecked();
 
-        if (uesrname.equals("") || first_name.equals("") || last_name.equals(""))
+        if (username.equals("") || first_name.equals("") || last_name.equals(""))
         {
             Toast.makeText(AddNewUserActivity.this,
                     "Please make sure to complete all fields!", Toast.LENGTH_SHORT)
@@ -101,23 +101,33 @@ public class AddNewUserActivity extends AppCompatActivity {
             return;
         }
 
+        if (username.contains(".") || username.contains("#") || username.contains("$") ||
+                username.contains("[") || username.contains("]"))
+        {
+            Toast.makeText(AddNewUserActivity.this,
+                    "Usernames cannot contain the following symbols: . # $ [ ]",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         Map<String, Object> newUser = new HashMap<>();
         newUser.put("first_name", first_name);
         newUser.put("last_name", last_name);
         newUser.put("age", age);
         newUser.put("instructor", instructor_checked);
 
-        User new_user = new User(uesrname, first_name, last_name, age, true, instructor_checked);
+        User new_user = new User(username, first_name, last_name, age, true, instructor_checked);
 
-        myDatabase.child("users").child(uesrname).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        myDatabase.child("users").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (task.isSuccessful())
                 {
-                    // If unsuccessful in retrieving this, the uesrname is available
+                    // If unsuccessful in retrieving this, the username is available
                     if (task.getResult().getValue() == null)
                     {
-                        myDatabase.child("users").child(uesrname).setValue(newUser, new DatabaseReference.CompletionListener() {
+                        myDatabase.child("users").child(username).setValue(newUser, new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                 if (error == null)
@@ -156,7 +166,7 @@ public class AddNewUserActivity extends AppCompatActivity {
                     else
                     {
                         Toast.makeText(AddNewUserActivity.this,
-                                "That uesrname is already in use!", Toast.LENGTH_SHORT)
+                                "That username is already in use!", Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }

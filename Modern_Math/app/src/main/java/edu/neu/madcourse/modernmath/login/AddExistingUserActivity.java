@@ -97,6 +97,16 @@ public class AddExistingUserActivity extends AppCompatActivity {
             }
         }
 
+        if (username.contains(".") || username.contains("#") || username.contains("$") ||
+                username.contains("[") || username.contains("]"))
+        {
+            Toast.makeText(AddExistingUserActivity.this,
+                    "Usernames cannot contain the following symbols: . # $ [ ]",
+                    Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
         // Check is user is in firebase db
         myDatabase.child("users").child(username).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
