@@ -52,7 +52,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private String userAnswer = "";
     private Difficulty difficulty;
-    private int numOfQuestions;
+    private int numOfQuestions = -1;
     private long time = 0;
     private int operand1;
     private int operand2;
@@ -79,6 +79,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
     TextToSpeech textToSpeech;
     private Intent speechIntent;
     private boolean is_listening = false;
+    CountDownTimer countDownTimer;
 
 
     @Override
@@ -107,6 +108,9 @@ public class ProblemScreenActivity extends AppCompatActivity {
             user = (User) extras.get("active_user");
             operators = ((List<Operator>) extras.getSerializable("play_mode")).toArray(new Operator[0]);
             classId = extras.getString("classKey");
+        }
+        if (numOfQuestions == 0) {
+            numOfQuestions = -1;
         }
         if (operators.length == 0 || user == null) {
             Toast.makeText(getBaseContext(), getString(R.string.error),
@@ -285,6 +289,9 @@ public class ProblemScreenActivity extends AppCompatActivity {
     public void onDestroy()
     {
         speechRecognizer.destroy();
+        if(countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         super.onDestroy();
     }
 
@@ -315,6 +322,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
             postScores();
         }
         previousCorrect = correctAnswers;
+        numOfQuestions += correctAnswers;
     }
 
     @Override
@@ -392,7 +400,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         generateQuestion();
         if (time > 0) {
             findViewById(R.id.timer_icon).setVisibility(View.VISIBLE);
-            new CountDownTimer(time, 1000) {
+            countDownTimer = new CountDownTimer(time, 1000) {
                 @Override
                 public void onTick(long l) {
                     String timeString = String.valueOf(l / 1000);
