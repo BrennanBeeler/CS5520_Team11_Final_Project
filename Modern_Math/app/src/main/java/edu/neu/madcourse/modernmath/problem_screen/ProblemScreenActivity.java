@@ -352,7 +352,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
                     try {
                         Integer correct = Math.toIntExact((Long) dataSnapshot.child("num_correct").getValue());
                         Integer incorrect = Math.toIntExact((Long) dataSnapshot.child("num_incorrect").getValue());
-                        numOfQuestions -= correct + incorrect;
+                        numOfQuestions -= correct;
                         correctAnswers = correct;
                         previousCorrect = correct;
                         incorrectAnswer = incorrect;
@@ -484,6 +484,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         if (!getUserAnswer().isEmpty()) {
             if (getUserAnswer().equals(String.valueOf(getAnswer()))) {
                 correctAnswers++;
+                --numOfQuestions;
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen), "Correct Answer", Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.primary));
                 snackbar.show();
@@ -493,7 +494,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
                 snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.teacher_incomplete));
                 snackbar.show();
             }
-            --numOfQuestions;
             if (numOfQuestions > 0) {
                 String text = String.valueOf(numOfQuestions);
                 numberOfQuestionsField.setText(text);
