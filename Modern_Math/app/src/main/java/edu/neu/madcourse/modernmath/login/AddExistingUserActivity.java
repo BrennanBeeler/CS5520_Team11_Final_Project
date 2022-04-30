@@ -98,10 +98,10 @@ public class AddExistingUserActivity extends AppCompatActivity {
         }
 
         if (username.contains(".") || username.contains("#") || username.contains("$") ||
-                username.contains("[") || username.contains("]"))
+                username.contains("[") || username.contains("]") || username.contains("_"))
         {
             Toast.makeText(AddExistingUserActivity.this,
-                    "Usernames cannot contain the following symbols: . # $ [ ]",
+                    "Usernames cannot contain the following symbols: . # $ [ ] _",
                     Toast.LENGTH_LONG)
                     .show();
             return;

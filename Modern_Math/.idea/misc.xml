@@ -3,14 +3,38 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
+        <entry key="..\:/Northeastern/CS5520/Android_sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/drawable-anydpi/ic_addition_symbol.xml" value="0.3828125" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/drawable/mic_48px.xml" value="0.3828125" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout-land/activity_select_problem.xml" value="0.5572916666666666" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_add_new_class.xml" value="0.1" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_add_new_user.xml" value="0.24537037037037038" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_create_assignment.xml" value="0.35260416666666666" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_leadership_user.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_problem_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_select_problem.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_student_assignment.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_student_assignment_card.xml" value="0.35543766578249336" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_student_assignment_card_assignment_name.xml" value="0.35543766578249336" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_student_assignments_list.xml" value="0.33" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_class_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_list_students.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_view_class_details.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_view_student_details.xml" value="0.3526315789473684" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_test.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_view_assignment.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/fragment_num_pad.xml" value="0.20520833333333333" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/teacher_assignment_card.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/teacher_class_card.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/teacher_student_card.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/menu/leader_menu_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Northeastern/CS5520/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/menu/mainmenu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
         <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_class_list.xml" value="0.1796875" />
         <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_classes.xml" value="0.1796875" />
         <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_teacher_list_students.xml" value="0.165625" />
         <entry key="..\:/Users/Arshad Khan/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/teacher_class_card.xml" value="0.21875" />
-        <entry key="..\:/Users/nandi/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/activity_problem_screen.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/nandi/AndroidStudioProjects/CS5520_Team11_Final_Project/Modern_Math/app/src/main/res/layout/fragment_num_pad.xml" value="0.33" />
       </map>
     </option>
   </component>

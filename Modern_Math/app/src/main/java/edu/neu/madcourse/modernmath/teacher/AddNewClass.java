@@ -70,10 +70,10 @@ public class AddNewClass extends AppCompatActivity {
         }
 
         if (joinCode.contains(".") || joinCode.contains("#") || joinCode.contains("$") ||
-                joinCode.contains("[") || joinCode.contains("]"))
+                joinCode.contains("[") || joinCode.contains("]") || joinCode.contains("_"))
         {
             Toast.makeText(AddNewClass.this,
-                    "Class codes cannot contain the following symbols: . # $ [ ]",
+                    "Class codes cannot contain the following symbols: . # $ [ ] _",
                     Toast.LENGTH_LONG)
                     .show();
             return;
@@ -112,7 +112,7 @@ public class AddNewClass extends AppCompatActivity {
                     }
                     else {
                         Toast.makeText(AddNewClass.this,
-                                "That Join Code is already in use!", Toast.LENGTH_SHORT)
+                                "That class code is already in use!", Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }
