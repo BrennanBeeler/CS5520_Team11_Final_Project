@@ -318,11 +318,14 @@ public class ProblemScreenActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(numOfQuestions > 0 || time > 0) {
-            postScores();
+        if (this.start != null)
+        {
+            if(numOfQuestions > 0 || time > 0) {
+                postScores();
+            }
+            previousCorrect = correctAnswers;
+            numOfQuestions += correctAnswers;
         }
-        previousCorrect = correctAnswers;
-        numOfQuestions += correctAnswers;
     }
 
     @Override
@@ -437,7 +440,13 @@ public class ProblemScreenActivity extends AppCompatActivity {
                         init();
                         start = Instant.now();
                     }
-                });
+                })
+        .setNegativeButton(R.string.stop_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
         builder.setCancelable(false);
         return builder.create();
     }
