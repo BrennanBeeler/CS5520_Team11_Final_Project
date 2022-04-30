@@ -47,11 +47,12 @@ public class LeadershipActivity extends AppCompatActivity {
         Task<DataSnapshot> snapshot = this.myDatabase.child("users").get();
         snapshot.addOnSuccessListener(result -> {
             for (DataSnapshot dataSnapshot : snapshot.getResult().getChildren()) {
-                if (!dataSnapshot.getValue(User.class).is_teacher) {
-                    HashMap<String, Object> user = (HashMap<String, Object>) dataSnapshot.getValue();
+                String username = dataSnapshot.getKey();
+                HashMap<String, Object> user = (HashMap<String, Object>) dataSnapshot.getValue();
+                if (String.valueOf(user.get("instructor")).equals("false")) {
+
                     User u = dataSnapshot.getValue(User.class);
-                    u.setFirstName(String.valueOf(user.get("first_name")));
-                    u.setLastName(String.valueOf(user.get("last_name")));
+                    u.setFirstName(username);
                     userList.add(u);
 
                     Collections.sort(userList,
