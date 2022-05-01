@@ -52,7 +52,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
 
     private String userAnswer = "";
     private Difficulty difficulty;
-    private int numOfQuestions = -1;
+    private int numOfQuestions;
     private long time = 0;
     private int operand1;
     private int operand2;
@@ -81,6 +81,8 @@ public class ProblemScreenActivity extends AppCompatActivity {
     private boolean is_listening = false;
     CountDownTimer countDownTimer;
 
+    boolean cancel_clicked = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,9 +110,6 @@ public class ProblemScreenActivity extends AppCompatActivity {
             user = (User) extras.get("active_user");
             operators = ((List<Operator>) extras.getSerializable("play_mode")).toArray(new Operator[0]);
             classId = extras.getString("classKey");
-        }
-        if (numOfQuestions == 0) {
-            numOfQuestions = -1;
         }
         if (operators.length == 0 || user == null) {
             Toast.makeText(getBaseContext(), getString(R.string.error),
@@ -318,9 +317,13 @@ public class ProblemScreenActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (this.start != null)
+        if (!this.cancel_clicked)
         {
-            if(numOfQuestions > 0 || time > 0) {
+            if(assignmentCode != null) {
+                if (numOfQuestions > 0 || time > 0) {
+                    postScores();
+                }
+            } else {
                 postScores();
             }
             previousCorrect = correctAnswers;
@@ -444,6 +447,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
         .setNegativeButton(R.string.stop_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                cancel_clicked = true;
                 finish();
             }
         });
@@ -501,7 +505,9 @@ public class ProblemScreenActivity extends AppCompatActivity {
         if (!getUserAnswer().isEmpty()) {
             if (getUserAnswer().equals(String.valueOf(getAnswer()))) {
                 correctAnswers++;
-                --numOfQuestions;
+                if(assignmentCode!= null) {
+                    --numOfQuestions;
+                }
                 Snackbar snackbar = Snackbar.make(findViewById(R.id.problem_screen), "Correct Answer", Snackbar.LENGTH_SHORT);
                 snackbar.setBackgroundTint(ContextCompat.getColor(this, R.color.primary));
                 snackbar.show();
@@ -514,7 +520,7 @@ public class ProblemScreenActivity extends AppCompatActivity {
             if (numOfQuestions > 0) {
                 String text = String.valueOf(numOfQuestions);
                 numberOfQuestionsField.setText(text);
-            } else if (numOfQuestions == 0) {
+            } else if (assignmentCode != null && numOfQuestions == 0) {
                 postScores();
                 showEndDialog("").show();
             }
