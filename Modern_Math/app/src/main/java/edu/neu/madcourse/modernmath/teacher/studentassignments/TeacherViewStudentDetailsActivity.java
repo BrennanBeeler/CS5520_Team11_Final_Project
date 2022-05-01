@@ -77,7 +77,6 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 studentAssignmentList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    // TODO: maybe include assignment info in card so teacher can compare easier
                     String assignment_name = (String) dataSnapshot.child("assignment_title").getValue();
                     int time = (int) (long) dataSnapshot.child("time").getValue();
                     int num_questions = (int) (long) dataSnapshot.child("num_questions").getValue();
@@ -129,8 +128,6 @@ public class TeacherViewStudentDetailsActivity extends AppCompatActivity {
                 Log.d("Firebase Error", "Failed to get access during assignment access.");
             }
         });
-
-        // TODO: placeholder for if there are no assignments
 
         this.recyclerView = findViewById(R.id.student_assignments_rv);
         this.recyclerView.setHasFixedSize(true);

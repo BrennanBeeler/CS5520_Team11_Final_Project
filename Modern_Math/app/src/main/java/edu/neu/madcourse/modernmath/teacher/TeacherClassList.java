@@ -82,7 +82,7 @@ public class TeacherClassList extends AppCompatActivity {
                         String className = dataSnapshot.child("class_title").getValue().toString();
                         String classPeriod = dataSnapshot.child("class_period").getValue().toString();
                         String classCode = dataSnapshot.getKey();
-                        int logoID = 1; // TODO: Either remove or make the option to select icons
+                        int logoID = 1;
 
                         classList.add(new ClassListItem(className, classPeriod, classCode, logoID));
                     }

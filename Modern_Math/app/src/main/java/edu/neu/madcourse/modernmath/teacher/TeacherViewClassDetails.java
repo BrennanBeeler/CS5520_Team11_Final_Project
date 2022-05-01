@@ -83,7 +83,6 @@ public class TeacherViewClassDetails extends AppCompatActivity {
         addAssignment.setOnClickListener(view -> {
             Intent intent = new Intent(TeacherViewClassDetails.this, CreateAssignmentActivity.class);
 
-            // TODO: null protection?
             intent.putExtra("active_user", this.teacher);
             intent.putExtra("active_class_id", this.class_code);
 

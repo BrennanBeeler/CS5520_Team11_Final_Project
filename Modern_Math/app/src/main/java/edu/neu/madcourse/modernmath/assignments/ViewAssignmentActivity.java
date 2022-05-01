@@ -33,7 +33,6 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
     private DatabaseReference myDatabase;
 
-    // TODO: decide if we need the whole class
     private String current_class_id;
     private String current_assignment_id;
     private User active_user;
@@ -107,7 +106,6 @@ public class ViewAssignmentActivity extends AppCompatActivity {
 
                 if (snapshot.getKey() != null)
                 {
-                    // TODO: populate fields for assignment
                     String assignment_name = (String) snapshot.child("assignment_title").getValue();
                     boolean addition = (boolean) snapshot.child("addition").getValue();
                     boolean subtraction = (boolean) snapshot.child("subtraction").getValue();
@@ -205,7 +203,6 @@ public class ViewAssignmentActivity extends AppCompatActivity {
                     }
                 }
 
-                // TODO: will need to check if no students are there/have started assignment
                 if (studentAssignmentList.isEmpty())
                 {
                     studentAssignmentList.add(new StudentAssignmentCard(null, 0, 0, 0));

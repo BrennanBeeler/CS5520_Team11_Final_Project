@@ -15,9 +15,8 @@
         android:xlargeScreens="true"
         />
 
-<!--    TODO: turn this back to true before submission-->
     <application
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_mm"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_mm_round"
